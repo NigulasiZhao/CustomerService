@@ -1,0 +1,137 @@
+
+客服端发起连接 
+{
+	command:"servicerConnection",
+	time:"",
+	data:{
+		nickName:"",
+		faceimg:"",
+		servicerId:"",
+		deviceId:""
+	}
+}
+return
+{
+	code:0,
+	msg:"",
+	data:{
+		terminalId:""
+	}
+}
+
+
+客户端发起连接 
+{
+	command:"userConnection",
+	time:"",
+	data:{
+		nickName:"",
+		faceImg:"",
+		deviceId:"",
+		userId:""
+	}
+}
+return
+{
+	code:0,
+	msg:"",
+	data:{
+		terminalId:""
+	}
+}
+
+消息
+{
+	command:"servicerDistributeMessage",
+	time:"",
+	data:{
+		servicerTerminalId:"",
+		userTerminalId:"",
+		content:{
+			servicerId:"",
+			deviceId:"",
+			nickName:"",
+			faceImg:""
+		}
+	}
+}
+
+{
+	command:"userDistributeMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		content:{
+			nickName:"",
+			faceImg:"",
+			deviceId:""
+			userId:""
+		}
+	}
+}
+
+{
+	command:"textMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		fromTerminal:"user|servicer",
+		content:""
+	}
+}
+
+{
+	command:"imageMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		fromTerminal:"user|servicer",
+		content:""
+	}
+}
+
+{
+	command:"goodsCardMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		fromTerminal:"user|servicer",
+		content:{
+			title:"",
+			description:"",
+			image:"",
+			price:""
+		}
+	}
+}
+return
+{
+	code:0,
+	msg:""
+}
+
+客服端断开连接
+{
+	command:"disConnectionMessage",
+	time:"",
+	data:{
+		servicerTerminalId:"",
+		fromTerminal:"servicer"
+	}
+}
+
+
+客户端断开连接
+{
+	command:"disConnectionMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		fromTerminal:"user"
+	}
+}
