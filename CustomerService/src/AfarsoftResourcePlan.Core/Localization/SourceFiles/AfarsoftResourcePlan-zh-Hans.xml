@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-Hans">
+  <texts>
+    <text name="HomePage" value="主页" />
+    <text name="About" value="关于我们" />
+    <text name="WelcomeMessage" value="欢迎使用 AfarErpRecycling!" />
+    <text name="FormIsNotValidMessage" value="部分输入信息不符合要求，请检查并改正.." />
+    <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
+    <text name="InvalidUserNameOrPassword" value="用户名或密码无效" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="租户 {0}不存在" />
+    <text name="TenantIsNotActive" value="租户 {0} 未激活." />
+    <text name="UserIsNotActiveAndCanNotLogin" value="用户 {0} 未激活，不能登录." />
+    <text name="PleaseEnterLoginInformation" value="请输入登录信息" />
+    <text name="TenancyName" value="租户标识" />
+    <text name="UserNameOrEmail" value="用户名或邮箱地址" />
+    <text name="Password" value="密码" />
+    <text name="RememberMe" value="记住我" />
+    <text name="ForgetPassword" value="忘记密码"/>
+    <text name="NotSelected" value="未选"/>
+    <text name="ChangeTenant" value="更改租户"/>
+    <text name="LeaveEmptyToSwitchToHost" value="留空以切换到Host"/>
+    <text name="LogIn" value="登录" />
+    <text name="LoginFailed" value="登录失败!" />
+    <text name="AppName" >AfarErpRecycling</text>
+    <text name="UserNamePlaceholder" >请输入账户</text>
+    <text name="PasswordPlaceholder" >请输入密码</text>
+    <text name="CopyRight" >© 2018 AfarErpRecycling</text>
+    <text name="LoginPrompt" >正在登陆，请稍候！</text>
+    <text name="UserProfile" >用户资料</text>
+    <text name="Users" >用户</text>
+    <text name="Roles" >角色</text>
+    <text name="Tenants" >租户</text>
+    <text name="Logout" >注销</text>
+    <text name="ManageMenu" >菜单</text>
+    <text name="LabelOptions" >页签操作</text>
+    <text name="ClearAll" >关闭所有</text>
+    <text name="ClearOthers" >关闭其他</text>
+    <text name="Create" >创建</text>
+    <text name="Add" >添加</text>
+    <text name="Edit" >编辑</text>
+    <text name="Delete">删除</text>
+    <text name="Find" >查找</text>
+    <text name="CreationTime">创建时间</text>
+    <text name="Actions">操作</text>
+    <text name="Keyword">关键字</text>
+    <text name="NoDatas">没有结果</text>
+    <text name="Select">请选择</text>
+    <text name="SelectDate">请选择</text>
+    <text name="Tips">提示</text>
+    <text name="DeleteConfirm">确定删除？</text>
+    <text name="Title" >标题</text>
+    <text name="Content" >内容</text>
+    <text name="ChangePassword" >修改密码</text>
+    <text name="PasswordComplexityNotSatisfied">密码复杂度要求不符.</text>
+    <text name="PasswordRequireDigit">密码至少需要一位是0到9的数字.</text>
+    <text name="PasswordRequireLowercase">密码至少需要一位是a到z的小写字母.</text>
+    <text name="PasswordRequireNonAlphanumeric">密码至少需要包含一个特殊字符（非字母或数字的字符）.</text>
+    <text name="PasswordRequireUppercase">密码至少需要一位是A到Z的大写字母.</text>
+    <text name="PasswordTooShort">密码长度太短</text>
+    <text name="UserName">用户名</text>
+    <text name="Name">名称</text>
+    <text name="IsActive">是否启用</text>
+    <text name="LastLoginTime">最近登陆时间</text>
+    <text name="RoleName">角色名</text>
+    <text name="DisplayName">显示名</text>
+    <text name="Description">描述</text>
+    <text name="IsStatic">是否内置</text>
+
+    <text name="All">全部</text>
+    <text name="Actived">启用</text>
+    <text name="NoActive">未启用</text>
+
+    <text name="Yes">是</text>
+    <text name="No">否</text>
+
+    <text name="Cancel">取消</text>
+    <text name="OK">确定</text>
+    <text name="CreateNewRole">创建新角色</text>
+    <text name="RoleDetails">角色详情</text>
+    <text name="RolePermission">角色权限</text>
+    <text name="EditRole">编辑角色</text>
+    <text name="DeleteRolesConfirm">确认删除该角色？</text>
+
+    <text name="CreateNewUser">创建新用户</text>
+    <text name="UserDetails">用户详情</text>
+    <text name="UserRoles">用户角色</text>
+    <text name="ConfirmPassword">确认密码</text>
+    <text name="EmailAddress">邮箱地址</text>
+    <text name="Surname">姓</text>
+    <text name="DeleteUserConfirm">确认删除该用户？</text>
+    <text name="EditUser">编辑用户</text>
+
+    <text name="CreateNewTenant">创建新租户</text>
+    <text name="DatabaseConnectionString">数据库连接</text>
+    <text name="AdminEmailAddress">管理员邮箱地址</text>
+    <text name="DefaultPasswordIs">默认密码为：{0}</text>
+    <text name="DeleteTenantConfirm">确认删除该租户？</text>
+    <text name="EditTenant">编辑租户</text>
+
+    <!--<text name="permission.base">资料</text>
+    <text name="permission.base.recovery">回收</text>
+    <text name="permission.base.recovery.car">车辆管理</text>
+    <text name="permission.base.recovery.car.list">车辆查看</text>
+    <text name="permission.base.recovery.car.edit">车辆编辑</text>
+    <text name="Permission_recovery_serviceArea">服务站管理</text>-->
+
+
+    <text name="nav_base">资料</text>
+    <text name="nav_base_recovery">回收</text>
+    <text name="nav_base_recovery_car">车辆管理</text>
+    <text name="nav_base_recovery_car_edit">车辆编辑</text>
+    <text name="nav_base_recovery_car_list">车辆查看</text>
+    <text name="nav_base_recovery_serviceArea">服务站管理</text>
+    <text name="nav_recovery">回收</text>
+    <text name="nav_recovery_serviceArea">服务站</text>
+    <text name="nav_recovery_recoveryLog">回收历史</text>
+    <text name="nav_recovery_goodspackLog">打包历史</text>
+    <text name="nav_recovery_scoreLog">积分变动历史</text>
+    <text name="nav_recovery_scoreConsume">积分兑换历史</text>
+    <text name="nav_recovery_driver">司机</text>
+    <text name="nav_recovery_entruckLog">装车历史</text>
+    <text name="nav_recovery_detruckLog">卸车历史</text>
+    <text name="nav_recovery_member">顾客</text>
+    <text name="nav_recovery_memberList">顾客列表</text>
+
+    <text name="nav_base_ErpBasicInfo">基础资料</text>
+    <text name="nav_base_Erp_AreaInfo">区域管理</text>
+    <text name="nav_base_Erp_Customer">客户管理</text>
+    <text name="nav_base_Erp_Organization">机构管理</text>
+    <text name="nav_base_Erp_UserInfo">员工管理</text>
+    <text name="nav_base_Erp_Warehouse">仓库管理</text>
+    <text name="nav_base_Erp_Supplier">供应商管理</text>
+    <text name="nav_base_Erp_Roles">角色管理</text>
+    <text name="nav_base_Erp_Enterprise">企业管理</text>
+    <text name="nav_base_ErpGoodsInfo">分类信息</text>
+    <text name="nav_base_Erp_GoodsInfo">分类管理</text>
+    <text name="nav_base_Erp_GoodsPrice">分类价格管理</text>
+
+    <text name="nav_report">报表</text>
+    <text name="nav_report_inventory">库存报表</text>
+    <text name="nav_report_inventory_warehouseinventory">库存汇总报表</text>
+
+    <text name="nav_sale">销售</text>
+    <text name="nav_sale_saleOrder">销售订单</text>
+    <text name="nav_sale_saleOrder_newsaleOrder">销售订单</text>
+    <text name="nav_sale_saleOrder_saleOrderList">销售订单跟踪</text>
+    <text name="nav_sale_saleOutOrder">销售出库单</text>
+    <text name="nav_sale_saleOutOrder_newsaleOutOrder">销售出库单</text>
+    <text name="nav_sale_saleOutOrder_saleOutOrderList">销售出库单跟踪</text>
+    <text name="nav_sale_saleOutOrder_saleOutOrderTally">销售出库单记账</text>
+
+    <text name="nav_financial">财务</text>
+    <text name="nav_financial_collection">收款</text>
+    <text name="nav_financial_collection_newreceivedorder">收款单</text>
+    <text name="nav_financial_collection_receivedorderList">收款单跟踪</text>
+    <text name="nav_financial_receivables">应收</text>
+    <text name="nav_financial_receivables_receivablesList">应收汇总单</text>
+
+    <text name="nav_app">APP</text>
+    <text name="nav_app_recycling">面对面回收</text>
+    <text name="nav_app_entruck">装车</text>
+    <text name="nav_app_detruck">卸车</text>
+    <text name="nav_app_goodsshow">分类查询</text>
+    <text name="nav_app_scoreoption">积分兑换</text>
+    <text name="nav_app_scoresearch">积分查询</text>
+    <text name="nav_app_qrcode">二维码查询</text>
+    <text name="nav_app_pack">打包</text>
+    <text name="nav_app_packsearch">打包查询</text>
+    <text name="nav_app_packmanagement">打包管理</text>
+
+
+    <text name="nav_test">资料</text>
+    <text name="nav_test_0">示例</text>
+    <text name="nav_test_1">查询类</text>
+    <text name="nav_test_2">跟踪类</text>
+    <text name="nav_test_3">报表类</text>
+    <text name="nav_test_4">带选项卡的编辑页</text>
+    <text name="nav_test_5">资料（弹窗带选项卡）</text>
+    <text name="nav_test_6">资料（弹窗不带选项卡）</text>
+    <text name="nav_test_7">商品（左树右表格）</text>
+    <text name="nav_test_8">制单页</text>
+    <text name="nav_test_9">设置页</text>
+    <text name="nav_test_10">权限页</text>
+    <text name="nav_test_11">调价单</text>
+    <text name="nav_test_12">树表格</text>
+  </texts>
+</localizationDictionary>
+
+

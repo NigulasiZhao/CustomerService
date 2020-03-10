@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<items>
+  <menu name="base" displayName="nav_test" icon="iconziliao" url="" requiredPermissionName="Permission_base">
+    <subTitle>
+      <menu name="base_ErpBasicInfo" displayName="nav_test_0" icon="" url="" requiredPermissionName="Permission_ErpBasicInfo">
+        <subItems>
+          <menu name="base_Erp_Customer1" displayName="nav_test_1" icon="" url="/test/Query" requiredPermissionName="Permission_Erp_Customer">
+          </menu>
+          <menu name="base_Erp_Customer" displayName="nav_test_2" icon="" url="/test/Track" requiredPermissionName="Permission_Erp_Customer">
+          </menu>
+          <menu name="base_Erp_Organization" displayName="nav_test_3" icon="" url="/test/Report" requiredPermissionName="Permission_Erp_Organization">
+          </menu>
+          <menu name="base_Erp_UserInfo" displayName="nav_test_4" icon="" url="/test/EditWithTab" requiredPermissionName="Permission_Erp_UserInfo">
+          </menu>
+          <menu name="base_Erp_Warehouse" displayName="nav_test_5" icon="" url="/test/InfoManagerWithDialogAndTab" requiredPermissionName="Permission_Erp_Warehouse">
+          </menu>
+          <menu name="base_Erp_Supplier" displayName="nav_test_6" icon="" url="/test/InfoManagerWithDialogWithoutTab" requiredPermissionName="Permission_Erp_Supplier">
+          </menu>
+          <menu name="base_Erp_Roles" displayName="nav_test_7" icon="" url="/test/GoodsList" requiredPermissionName="Permission_Erp_Roles">
+          </menu>
+          <menu name="base_Erp_TreeGrid" displayName="nav_test_12" icon="" url="/test/TreeGrid" requiredPermissionName="Permission_Erp_Roles">
+          </menu>
+          <menu name="sale_saleOrder_newsaleOrder" displayName="nav_test_8" icon="" url="/test/Order" requiredPermissionName="Permission_Sale_NewSaleOrder">
+          </menu>
+          <menu name="sale_saleOrder_saleOrderList" displayName="nav_test_9" icon="" url="/test/Setting" requiredPermissionName="Permission_Sale_SaleOrderList">
+          </menu>
+          <menu name="sale_saleOrder_saleOrderList2" displayName="nav_test_10" icon="" url="/test/Permission" requiredPermissionName="Permission_Sale_SaleOrderList">
+          </menu>
+          <menu name="sale_saleOrder_saleOrderList4" displayName="nav_test_11" icon="" url="/test/ChangePrice" requiredPermissionName="Permission_Sale_SaleOrderList">
+          </menu>
+        </subItems>
+      </menu>
+    </subTitle>
+  </menu>
+</items>

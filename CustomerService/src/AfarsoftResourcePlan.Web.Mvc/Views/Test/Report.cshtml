@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+    Layout = null;
+}
+
+@*报表类*@
+
+<script src="~/view-resources/Views/Test/Report.js"></script>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                </div>
+                <div class="TopTitle">库存汇总报表</div>
+                <div class="RightBtn">
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm">
+                    <form name="searchFormList" onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>开始时间起</label>
+                            <input type="text" name="StartDate" value="" class="easyui-datebox StartDate" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>止</label>
+                            <input type="text" name="EndDate" value="" class="easyui-datebox EndDate" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>机构</label>
+                            <input type="text" value="" class="easyui-textbox-org" />
+                            <input type="hidden" name="OrganizationId" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>分类</label>
+                            <input class="easyui-textbox-goods" type="text" value="" />
+                            <input type="hidden" name="GoodsInfoId" value="" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>仓库</label>
+                            <input class="easyui-textbox-warehouse " type="text" value="" />
+                            <input type="hidden" name="WarehouseId" value="" />
+                        </div>
+                        <button class="btn btn-success querySearch">查询</button>
+                    </form>
+                </div>
+                <div class="TableAdaptation">
+                    <table id="WarehouseInventoryTableList" class="easyui-datagrid" data-options=""></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+@*树表格*@
+<script src="~/view-resources/Views/Test/TreeGrid.js"></script>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                    <button class="btn btn-success addGoodsInfoBtn">添加</button>
+                </div>
+                <div class="TopTitle">树表格</div>
+                <div class="RightBtn">
+
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm" id="GoodsInfoForm">
+                    <form name="searchFormList" onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>商品信息</label>
+                            <input type="text" name="SearchCode" value="" class="easyui-textbox" />
+                        </div>
+                        <button class="btn btn-success querySearch">查询</button>
+                    </form>
+                </div>
+
+                <div class="TableAdaptation">
+                    <table id="TreeTableList" class="easyui-datagrid" data-options=""></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,352 @@
+﻿@using System.Globalization
+@using Abp.Configuration
+@using Abp.Configuration.Startup
+@using Abp.Web.Mvc.Alerts
+@using Abp.Web.Security.AntiForgery
+@using AfarsoftResourcePlan
+@using AfarsoftResourcePlan.Configuration
+@using AfarsoftResourcePlan.Web.Resources
+@using AfarsoftResourcePlan.Web.Views.Shared.Components.SideBarNav
+@using AfarsoftResourcePlan.Web.Views.Shared.Components.SideBarUserArea
+@using AfarsoftResourcePlan.Web.Views.Shared.Components.TopBarLanguageSwitch
+@using AfarsoftResourcePlan.Web.Views.Shared.Components.RightSideBar
+@inject AfarsoftResourcePlan.Timing.AppTimes AppTimes
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@inject IMultiTenancyConfig MultiTenancyConfig
+@inject IWebResourceManager WebResourceManager
+@inject ISettingManager SettingManager
+@inject IAlertManager AlertManager
+@{
+    Layout = null;
+    AbpAntiForgeryManager.SetCookie(Context);
+    var uiTheme = await SettingManager.GetSettingValueAsync(AppSettingNames.UiTheme);
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="shortcut icon" href="~/favicon.ico">
+
+        <title>AfarsoftResourcePlan</title>
+
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <environment names="Development">
+            <link href="~/fonts/roboto/roboto.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/fonts/material-icons/materialicons.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
+            @*<link href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />*@
+            <link href="~/lib/easyui/themes/bootstrap/easyui.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/toastr/toastr.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/famfamfam-flags/dist/sprite/famfamfam-flags.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/Waves/dist/waves.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/animate.css/animate.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/css/materialize.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/css/style.css" rel="stylesheet" asp-append-version="true">
+            <link href="~/css/public.css" rel="stylesheet" asp-append-version="true">
+            <link href="~/css/themes/all-themes.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/view-resources/Views/Shared/_Layout.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/css/iconfont/iconfont.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/css/icon.css" rel="stylesheet" asp-append-version="true" />
+            <link href="~/lib/zTree/zTreeCSS/zTreeStyle/zTreeStyle.css" rel="stylesheet" asp-append-version="true" />
+        </environment>
+
+        <environment names="Staging,Production">
+            <link href="~/view-resources/Views/_Bundles/shared-layout.min.css" rel="stylesheet" asp-append-version="true" />
+        </environment>
+
+        <!-- View specific styles -->
+        @RenderSection("styles", required: false)
+
+        <script type="text/javascript">
+            // This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+            var abp = abp || {};
+            abp.appPath = '@ApplicationPath';
+        </script>
+
+    </head>
+    <body class="@("theme-" + uiTheme)">
+        <div id="app" style="height:100%;">
+            <!-- Page Loader -->
+            <div class="page-loader-wrapper">
+                <div class="loader">
+                    <div class="preloader">
+                        <div class="spinner-layer pl-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>@L("PleaseWait")</p>
+                </div>
+            </div>
+            <!-- #END# Page Loader -->
+            <!-- Overlay For Sidebars -->
+            <div class="overlay"></div>
+            <!-- #END# Overlay For Sidebars -->
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-icon">
+                    <i class="material-icons">search</i>
+                </div>
+                <input type="text" placeholder="@L("StartTyping")...">
+                <div class="close-search">
+                    <i class="material-icons">close</i>
+                </div>
+            </div>
+            <!-- #END# Search Bar -->
+            <!-- Top Bar -->
+            @*<nav class="navbar">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                            <a href="javascript:void(0);" class="bars"></a>
+                            <a class="navbar-brand" asp-controller="Home" asp-action="Index"><i class="fa fa-cubes"></i> AfarsoftResourcePlan</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <!-- Call Search -->
+                                <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
+                                <!-- #END# Call Search -->
+
+                                @await Component.InvokeAsync(typeof(TopBarLanguageSwitchViewComponent))
+
+                                <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>*@
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <div class="dropdown-button topmenuitem" data-toggle="dropdown">
+                                    <i class="icon iconfont icon-jianpan"></i>
+                                    <div class="con-ret" style="display:none;left:25px;"></div>
+                                    <div class="dropdown-menu popupmenu" style="display: none;padding:0;width:380px;margin-top:2px;left:-150px;">
+                                        <img src="~/images/keyboardMsg.jpg" />
+                                    </div>
+                                </div>
+                            </li>
+                            @*<li class="dropdown">
+                                    <div class="dropdown-button topmenuitem" data-toggle="dropdown">
+                                        <i class="icon iconfont icon-xiazai46"></i>
+                                        <div class="con-ret" style="display:none;"></div>
+                                        <div class="dropdown-menu popupmenu" style="display: none;padding-left: 20px;padding-right: 20px;margin-top:2px;left:-104px;">
+                                            <ul class="bwl ywl">
+                                                <li class="lijd">
+                                                    <span class="f iconfont icon-dianhua"></span>
+                                                    <div class="dockitem docuText">
+                                                        服务热线 <span>400-609-6980</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>*@
+
+                            <li class="dropdown m-r-20">
+                                <div class="dropdown-button" data-toggle="dropdown">
+                                    <div style="padding-top:8px;">
+                                        <span class="username" data-user="@Model?.UserId">新远方商翼公司 @Model?.UserName</span>
+                                        <i class="caret"></i>
+                                        <b></b>
+                                    </div>
+                                </div>
+                                <div class="dropdown-menu grmes">
+                                    <ul class="bwl ywl">
+                                        <li class="limes">
+                                            <span class="left">
+                                                <span>个人设置</span>
+                                            </span>
+                                        </li>
+                                        <li class="limes">
+                                            <span class="left">
+                                                <a href="@Url.Action("Logout", "Account", new { area= string.Empty })">
+                                                    注销
+                                                </a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- #Top Bar -->
+            <section>
+                <aside id="leftsidebar" class="sidebar">
+                    <div class="leftsidebar-header">
+                        @*                    <img src="~/images/logo.png" style="width:150px;" />*@
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index"><i class="fa fa-cubes"></i> AfarErpRecycling</a>
+                    </div>
+                    @*@await Component.InvokeAsync(typeof(SideBarUserAreaViewComponent))*@
+                    @await Component.InvokeAsync(typeof(SideBarNavViewComponent), new { activeMenu = ViewBag.CurrentPageName })
+
+                    <!-- Footer -->
+                    @*<div class="legal">
+                            <div class="copyright">
+                                &copy; @DateTime.Now.Year <a href="javascript:void(0);">AfarsoftResourcePlan</a>.
+                            </div>
+                            <div class="version">
+                                <b>@L("Version") </b> @AppVersionHelper.Version [@AppVersionHelper.ReleaseDate.ToString("yyyyMMdd")]
+                            </div>
+                        </div>*@
+                    <!-- #Footer -->
+                </aside>
+
+                @await Component.InvokeAsync(typeof(RightSideBarViewComponent))
+
+            </section>
+
+            @*<section class="content">
+                    <div class="container-fluid">
+                        @if (AlertManager.Alerts.Any())
+                        {
+                            <div id="AbpPageAlerts">
+                                @foreach (var alertMessage in AlertManager.Alerts)
+                                {
+                                    <div class="alert alert-@alertMessage.Type.ToString().ToLower() @(alertMessage.Dismissible ? "alert-dismisable" : "")" role="alert">
+                                        <h4 class="alert-heading">
+                                            @alertMessage.Title
+                                            @if (alertMessage.Dismissible)
+                                            {
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            }
+                                        </h4>
+                                        <p>@alertMessage.Text</p>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @RenderBody()
+                    </div>
+                </section>*@
+
+            <section class="content_nav">
+                <div class="row" style="height:100%;">
+                    <!-- 此处是相关代码 -->
+                    <ul class="nav nav-tabs" id="nav-tabs-tabitem" role="tablist">
+                        <li role="presentation" id="HomeLi" class="active"><a href="#Home" role="tab" data-toggle="tab" style="position: relative;padding:6px 20px 6px 15px;border-radius:3px;">首页</a></li>
+                    </ul>
+                    <div class="tab-content" id="tab-content-tabitem" style="width:100%;height:calc(100% - 33px);">
+                        <div role="tabpanel" class="tab-pane active" id="Home" style="width: 100%;">
+                            <div id="tab_frame_Home" style="overflow-x: hidden; overflow-y: hidden;width:100%;height: 100%">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 相关代码结束 -->
+
+                </div>
+                <div id="context-menu">
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a tabindex="-1">关闭当前</a></li>
+                        <li><a tabindex="-1">全部关闭</a></li>
+                        <li><a tabindex="-1">关闭其他</a></li>
+                    </ul>
+                </div>
+                <div class="page-loader-wrapper" id="navContent-loading" style="top:88px;left:199px;width:auto;height:calc(100% - 133px);display:none;">
+                    <div class="loader">
+                        <div class="preloader">
+                            <div class="spinner-layer pl-red">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>@L("PleaseWait")</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <environment names="Development">
+            <script src="~/lib/json2/json2.js" asp-append-version="true"></script>
+            @*<script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>*@
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+            <script src="~/lib/easyui/jquery.easyui.all.js" asp-append-version="true"></script>
+            <script src="~/lib/moment/min/moment-with-locales.js" asp-append-version="true"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+            <script src="~/lib/blockUI/jquery.blockUI.js" asp-append-version="true"></script>
+            <script src="~/lib/toastr/toastr.js" asp-append-version="true"></script>
+            <script src="~/lib/sweetalert/dist/sweetalert.min.js" asp-append-version="true"></script>
+            <script src="~/lib/spin.js/spin.js" asp-append-version="true"></script>
+            <script src="~/lib/spin.js/jquery.spin.js" asp-append-version="true"></script>
+            @*<script src="~/lib/bootstrap-select/dist/js/bootstrap-select.js" asp-append-version="true"></script>*@
+            <script src="~/lib/jquery-slimscroll/jquery.slimscroll.js" asp-append-version="true"></script>
+            <script src="~/lib/Waves/dist/waves.js" asp-append-version="true"></script>
+            <script src="~/lib/push.js/push.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/abp.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js" asp-append-version="true"></script>
+            <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js" asp-append-version="true"></script>
+            <script src="~/lib/vue/vue.js" charset="utf-8" asp-append-version="true"></script>
+            <script src="~/js/admin.js" asp-append-version="true"></script>
+            <script src="~/js/main.js" asp-append-version="true"></script>
+            <script src="~/js/script.js" asp-append-version="true"></script>
+            <script src="~/js/datagrid.js" asp-append-version="true"></script>
+            <script src="~/js/ExpandMothod.js" asp-append-version="true"></script>
+            <script src="~/lib/bootstrap-closable-tab/bootstrap-closable-tab.js" asp-append-version="true"></script>
+            <script src="~/lib/bootstrap-contextmenu//bootstrap-contextmenu.js" asp-append-version="true"></script>
+            <script src="~/view-resources/Views/Shared/_Layout.js" asp-append-version="true"></script>
+            <script src="~/lib/zTree/zTreeJS/jquery.ztree.core.min.js" asp-append-version="true"></script>
+            <script src="~/lib/zTree/zTreeJS/jquery.ztree.excheck.min.js" asp-append-version="true"></script>
+
+            @if (CultureInfo.CurrentUICulture.Name != "en")
+            {
+                <script src="~/lib/jquery-validation/src/localization/messages_@Html.Raw(CultureInfo.CurrentUICulture.Name.Replace("-", "_") + ".js")" asp-append-version="true"></script>
+            }
+        </environment>
+
+        <environment names="Staging,Production">
+            <script src="~/view-resources/Views/_Bundles/shared-layout.min.js" asp-append-version="true"></script>
+        </environment>
+
+        <script>
+        // Localizing momentjs
+        moment.locale('@CultureInfo.CurrentUICulture.Name');
+        </script>
+
+        <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
+        <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+        <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+
+        <script src="~/lib/signalr-client/signalr.min.js" asp-append-version="true"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr-client.js" asp-append-version="true"></script>
+
+        @WebResourceManager.RenderScripts()
+
+        <!-- View specific scripts -->
+        @RenderSection("scripts", required: false)
+
+        <partial name="VueComponents/GoodsDialog" />
+        <partial name="VueComponents/UserDialog" />
+        <partial name="VueComponents/OrganizationDialog" />
+        <partial name="VueComponents/WareHouseDialog" />
+        <partial name="VueComponents/MemberDialog" />
+        <partial name="VueComponents/ServiceAreaDialog" />
+        <partial name="VueComponents/MapDialog" />
+        <partial name="VueComponents/CustomerDialog" />
+    </body>
+</html>

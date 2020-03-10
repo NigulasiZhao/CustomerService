@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "InfoManagerWithDialogWithoutTab";
+    Layout = null;
+}
+
+@*基础资料管理（弹窗不带选项卡）*@
+
+
+<script src="~/view-resources/Views/Test/InfoManagerWithDialogWithoutTab.js"></script>
+
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                    <button class="btn btn-success addCustomerBtn">添加</button>
+                </div>
+                <div class="TopTitle">客户管理</div>
+                <div class="RightBtn">
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm">
+                    <form onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>客户名称</label>
+                            <input type="text" name="UnionInfoFilterText" value="" class="easyui-textbox" />
+                        </div>
+                        <button class="btn btn-success querySearch">查询</button>
+                    </form>
+                </div>
+                <div class="TableAdaptation">
+                    <table id="CustomerTableList" class="easyui-datagrid" data-options=""></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade tabsChangeModal addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择客户</h4>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="return false;" name="createCustomerForm">
+                    <div class="SearchForm">
+                        <div class="show">
+                            <input type="hidden" name="id" />
+                            <input type="hidden" name="supplierId" />
+                            <input type="hidden" name="customerId" />
+                            <div class="publicIpts">
+                                <label>名称<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="unionName" value="" required="required" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>编码<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="unionCode" value="" required="required" readonly />
+                            </div>
+                            <div class="publicIpts">
+                                <label>联系人<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="contactName" value="" required="required" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>联系电话<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="contactNumber" value="" required="required" />
+                            </div>
+                            <div class="publicIpts">
+                                <label>助记码</label>
+                                <input type="text" class="easyui-textbox" name="helpCode" value="" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>地址</label>
+                                <input type="text" class="easyui-textbox" name="address" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

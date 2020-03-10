@@ -1,0 +1,102 @@
+﻿<div class="modal fade" id="memberDialog" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" style="visibility:hidden;display:block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择顾客</h4>
+            </div>
+            <div class="modal-body" style="width:1170px;">
+                <div class="SearchForm">
+                    <div class="publicIpts">
+                        <label>顾客</label>
+                        <input type="text" name="" value="" class="easyui-textbox searchCode" required="required" />
+                    </div>
+                    <button class="btn btn-success tc-search" v-on:click="search">查询</button>
+                </div>
+                <div style="height:500px">
+                    <table class="easyui-datagrid grid" data-options="pagination:true,url:'/api/services/app/Member/GetAllMember',fit:true,fitColumns:true,singleSelect: true">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'nickName',width:80">顾客名称</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" v-on:click="sure">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var memberComponent = new Vue({
+        el: "#memberDialog",
+        mounted: function () {
+            var instance = this;
+            $(this.$el).find(".grid").datagrid({
+                onSelect: function (rowIndex, rowData) {
+                    instance.selected = rowData;
+                }
+            });
+        },
+        data: {
+            callback: null,
+            selected: null
+        },
+        methods: {
+            show: function (_callback) {
+                $(this.$el).find(".grid").datagrid('options').queryParams = {};
+                $(this.$el).find(".searchCode").textbox("setValue", "");
+                 var that = this;
+                setTimeout(function () {
+                    $(that.$el).find(".grid").datagrid("load");
+                }, 100);
+
+                this.callback = _callback;
+                $(this.$el).modal({
+                    backdrop: "static"
+                })
+                $(this.$el).modal("show").css("visibility", "visible");
+            },
+            sure: function () {
+                this.callback(this.selected);
+                $(this.$el).modal("hide");
+            },
+            search:function(){
+                var query = $(this.$el).find(".grid").datagrid('options').queryParams;
+                var searchCode = $(this.$el).find(".searchCode").textbox("getValue");
+                $(this.$el).find(".grid").datagrid('options').queryParams=$.extend({},query,{searchKey:searchCode});
+                $(this.$el).find(".grid").datagrid("load");
+            }
+        }
+    });
+</script>
+<script>
+    var __memberOption = {
+        editable: false,
+        width: 100,
+        icons: [{
+            iconCls: 'icon-man',
+            handler: function (e) {
+                var textbox = $(e.data.target);
+                memberComponent.show(function (data) {
+                    textbox.textbox("setValue", data.nickName);
+                    textbox.siblings("input[type='hidden']").val(data.id);
+                });
+            }
+        },
+        {
+            iconCls: 'icon-clear',
+            handler: function (e) {
+                var textbox = $(e.data.target);
+                textbox.textbox("clear");
+                textbox.siblings("input[type='hidden']").val("");
+            }
+        }
+        ]
+    }
+
+</script>

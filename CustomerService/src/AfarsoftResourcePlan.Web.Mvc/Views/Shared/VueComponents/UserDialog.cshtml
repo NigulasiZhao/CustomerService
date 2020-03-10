@@ -1,0 +1,110 @@
+﻿
+<div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" style="visibility:hidden;display:block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择员工</h4>
+            </div>
+            <div class="modal-body" style="width:1170px;">
+                <div class="SearchForm">
+                    <div class="publicIpts">
+                        <label>员工</label>
+                        <input type="text" name="" value="" class="easyui-textbox searchCode" required="required" />
+                    </div>
+                    <button class="btn btn-success tc-search" v-on:click="search">查询</button>
+                </div>
+                <div class="djInput" style="display:none">
+                    <div data-options="region:'center'">
+                        <div id="" class="easyui-datagrid grid"></div>
+                    </div>
+                </div>
+                <div style="height:500px">
+                    <table class="easyui-datagrid grid" data-options="fit:true,fitColumns: true,pagination:true,url:'/api/services/app/User/GetAllUserInfoList',singleSelect: true">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'userInfoCode',width:80">职员编码</th>
+                                <th data-options="field:'userName',width:80">员工名称</th>
+                                <th data-options="field:'cellPhone',width:80">联系电话</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" v-on:click="sure">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var userComponent = new Vue({
+        el: "#userDialog",
+        mounted: function () {
+            var instance = this;
+            $(this.$el).find(".grid").datagrid({
+                onSelect: function (rowIndex, rowData) {
+                    instance.selected = rowData;
+                }
+            });
+        },
+        data: {
+            callback: null,
+            selected: null
+        },
+        methods: {
+            show: function (_callback) {
+                $(this.$el).find(".grid").datagrid('options').queryParams = {};
+                var that = this;
+                setTimeout(function () {
+                    $(that.$el).find(".grid").datagrid("load");
+                }, 100);
+                $(this.$el).find(".searchCode").textbox("setValue", "");
+                this.callback = _callback;
+                $(this.$el).modal({
+                    backdrop: "static"
+                })
+                $(this.$el).modal("show").css("visibility", "visible");
+            },
+            sure: function () {
+                this.callback(this.selected);
+                $(this.$el).modal("hide");
+            },
+            search:function(){
+                var query = $(this.$el).find(".grid").datagrid('options').queryParams;
+                var searchCode = $(this.$el).find(".searchCode").textbox("getValue");
+                $(this.$el).find(".grid").datagrid('options').queryParams=$.extend({},query,{searchCode:searchCode});
+                $(this.$el).find(".grid").datagrid("load");
+            }
+        }
+    });
+</script>
+<script>
+var __userOption = {
+    editable: false,
+    width: 100,
+    icons: [{
+        iconCls: 'icon-man',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+            userComponent.show(function (data) {
+                textbox.textbox("setValue", data.userName);
+                textbox.siblings("input[type='hidden']").val(data.id);
+            });
+        }
+    },
+    {
+        iconCls: 'icon-clear',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+                textbox.textbox("clear");
+                textbox.siblings("input[type='hidden']").val("");
+        }
+    }
+    ]
+};
+
+
+</script>
