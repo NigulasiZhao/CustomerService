@@ -82,8 +82,8 @@ module.exports = new Promise((resolve, reject) => {
                         messages: [
                             `
 Your application is running here:
-    im-server:  http://localhost:${port}/#/imServer
-    im-client:  http://localhost:${port}/#/imclient
+    im-server:  http://localhost:${port}/#/signalServer
+    im-client:  http://localhost:${port}/#/signalClient
                         `
                         ]
                     },
@@ -152,7 +152,7 @@ app.get('/getIMServerList', function(req, res) {
         }) // 只需要serverChatDic.values内的serverChatEn
     });
 });
-app.listen(3002);
+//app.listen(3002);
 
 // socket
 var server = require('http').createServer();
@@ -221,4 +221,4 @@ io.on('connection', function(socket) {
         });
     });
 });
-server.listen(3001);
+//server.listen(3001);
