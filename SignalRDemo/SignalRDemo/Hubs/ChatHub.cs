@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net;
 using SignalRDemo.CommandModel;
 using SignalRDemo.Person;
+using System.Diagnostics;
 
 namespace SignalRDemo.Hubs
 {
@@ -98,10 +99,12 @@ namespace SignalRDemo.Hubs
         public async Task<CommandResult> UserConnection(string paras)
         {
             var Model = JsonConvert.DeserializeObject<Command<CommandUserConnection>>(paras);
+
+            string terminalId = Model.data.deviceId;
             //查找当前负责客户最少的客服
             var CustomerServiceModel = CustomerServiceList.OrderBy(e => e.ConnectionCount).FirstOrDefault() ?? new CustomerService();
 
-            var SameModel = CustomerList.Where(e => e.userId == Model.data.userId).FirstOrDefault();
+            var SameModel = CustomerList.Where(e => e.deviceId == terminalId).FirstOrDefault();
             if (SameModel == null)
             {
                 CustomerList.Add(new Customer
@@ -118,6 +121,7 @@ namespace SignalRDemo.Hubs
             {
                 CustomerList.Remove(SameModel);
                 SameModel.servicerTerminalId = CustomerServiceModel.servicerId;
+                SameModel.ConnectionId = Context.ConnectionId;
                 CustomerList.Add(SameModel);
             }
             //处理客服链接数量
@@ -167,7 +171,7 @@ namespace SignalRDemo.Hubs
             CommandResultModel.msg = "";
             CommandResultModel.data = new
             {
-                terminalId = Model.data.deviceId,
+                terminalId = terminalId,
             };
             return CommandResultModel;
         }
@@ -268,16 +272,19 @@ namespace SignalRDemo.Hubs
         }
         public override Task OnConnectedAsync()
         {
+            Debug.WriteLine(Context.ConnectionId + "上线");
             return base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            Debug.WriteLine(Context.ConnectionId+"离线");
             //根据ConnectionId匹配
             var CustomerLogoutModel = CustomerList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
             var CustomerServiceLogoutModel = CustomerServiceList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
             //客户断连
             if (CustomerLogoutModel != null)
             {
+                Debug.WriteLine(Context.ConnectionId + "离线，通知客服");
                 await Clients.Client(CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("command", new
                 {
                     command = "disConnectionMessage",
@@ -296,6 +303,7 @@ namespace SignalRDemo.Hubs
                 List<Customer> list = CustomerList.Where(e => e.servicerTerminalId == CustomerServiceLogoutModel.servicerId).ToList();
                 foreach (var item in list)
                 {
+                    Debug.WriteLine(Context.ConnectionId + "离线，通知用户");
                     await Clients.Client(item.ConnectionId).SendAsync("command", new
                     {
                         command = "disConnectionMessage",

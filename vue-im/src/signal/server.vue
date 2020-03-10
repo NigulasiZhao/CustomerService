@@ -18,12 +18,12 @@
             <div style="float:left"></div>
             {{item.nickName}}
             <span style="color:green" v-if="item.online">[在线]</span>
-            <span style="color:#a9a7a7" v-if="!item.online">[在线]</span>
+            <span style="color:#a9a7a7" v-if="!item.online">[离线]</span>
             <span v-if="item.unreadcount>0" style="color:red;margin-left:20px">{{item.unreadcount}}</span>
           </div>
           <div style="margin-top:10px">
             <span v-if="item.lastmsg.command=='userDistributeMessage'">客户已上线</span>
-            <span v-if="item.lastmsg.command=='disConnectionMessage'">客户已上线</span>
+            <span v-if="item.lastmsg.command=='disConnectionMessage'">客户已离线</span>
             <span v-if="item.lastmsg.command=='textMessage'">{{item.lastmsg.data.content}}</span>
           </div>
         </div>
@@ -37,7 +37,10 @@
             v-if="item.command=='textMessage'"
             :class="{usertxtmsg:item.data.fromTerminal=='user',servicertxtmsg:item.data.fromTerminal=='servicer'}"
           >{{item.data.content}}</div>
-          <div v-if="item.command=='disConnectionMessage' && item.data.fromTerminal=='user'" style="text-align:center">客户已下线</div>
+          <div
+            v-if="item.command=='disConnectionMessage' && item.data.fromTerminal=='user'"
+            style="text-align:center"
+          >客户已离线</div>
         </li>
       </ul>
       <div style="height:20%">
@@ -62,19 +65,10 @@
 <script>
 import * as signalR from "@microsoft/signalr";
 let hubUrl = "https://localhost:44307/chatHub"; //服务器Hub的Url地址
-const connection = new signalR.HubConnectionBuilder()
-  .withAutomaticReconnect()
+const signalrServicerConnection = new signalR.HubConnectionBuilder()
   .withUrl(hubUrl)
   .build();
-try {
-  connection.start().catch(err => {
-    if (err.message) {
-      alert(err.message);
-    }
-  });
-} catch (err) {
-  console.error("连接客服服务器错误：" + err);
-}
+
 export default {
   name: "signalServer",
   data() {
@@ -83,32 +77,35 @@ export default {
       txtMsg: "",
       msgs: [],
       servicer: {},
-      currentUser: null,
+      currentUser: null
     };
   },
   mounted() {
     var _this = this;
-    connection.on("command", function(commandJson) {
-      switch (commandJson.command) {
-        case "userDistributeMessage":
-          _this.userDistribute(commandJson);
-          break;
-        case "disConnectionMessage":
-          _this.userDisConnection(commandJson);
-          break;
-        case "textMessage":
-        case "imageMessage":
-        case "goodsCardMessage":
-          _this.sessionMessage(commandJson);
-          break;
-      }
-    });
-    this.initServicer();
-    var that=this;
-    setTimeout(function(){
-         that.serverConnection();
-    },2000)
-    //this.serverConnection();
+    _this.initServicer();
+    try {
+      console.log("准备start");
+      signalrServicerConnection.start().then(e => {
+        signalrServicerConnection.on("command", function(commandJson) {
+          switch (commandJson.command) {
+            case "userDistributeMessage":
+              _this.userDistribute(commandJson);
+              break;
+            case "disConnectionMessage":
+              _this.userDisConnection(commandJson);
+              break;
+            case "textMessage":
+            case "imageMessage":
+            case "goodsCardMessage":
+              _this.sessionMessage(commandJson);
+              break;
+          }
+        });
+        _this.serverConnection();
+      });
+    } catch (err) {
+      console.error("连接客服服务器错误：" + err);
+    }
   },
   methods: {
     guid() {
@@ -132,15 +129,12 @@ export default {
         data: this.servicer
       };
       try {
-        var resp =connection.invoke(
-          "command",
-          commandJson.command,
-          JSON.stringify(commandJson)
-        ).then(e=>{
-        var json = eval("("+e+")");
-        this.servicer.terminalId =json.data.terminalId;
-
-        });
+        var resp = signalrServicerConnection
+          .invoke("command", commandJson.command, JSON.stringify(commandJson))
+          .then(e => {
+            var json = eval("(" + e + ")");
+            this.servicer.terminalId = json.data.terminalId;
+          });
       } catch (err) {
         console.error("发送上线消息错误：" + err);
       }
@@ -151,15 +145,14 @@ export default {
       );
       user.msgs.push(command);
       user.lastmsg = command;
-      if(user.terminalId!=this.currentUser.terminalId)
-      {
-        user.unreadcount+=1;
+      if (user.terminalId != (this.currentUser||{}).terminalId) {
+        user.unreadcount += 1;
       }
     },
     //有新的用户上线，分配给本人
     userDistribute(command) {
       var content = command.data.content;
-      content.unreadcount = 1;
+      content.unreadcount = 0;
       content.lastmsg = {};
       content.online = true;
       content.msgs = [];
@@ -167,8 +160,10 @@ export default {
       var userExist = this.users.find(
         e => e.terminalId == command.data.userTerminalId
       );
-      if(!userExist){
+      if (!userExist) {
         this.users.push(content);
+      }else{
+        userExist.online=true;
       }
       this.sessionMessage(command);
     },
@@ -192,7 +187,11 @@ export default {
       this.currentUser.msgs.push(json);
       this.txtMsg = "";
       try {
-        connection.invoke("command",json.command, JSON.stringify(json));
+        signalrServicerConnection.invoke(
+          "command",
+          json.command,
+          JSON.stringify(json)
+        );
       } catch (err) {
         console.error("发送文本消息错误：" + err);
       }

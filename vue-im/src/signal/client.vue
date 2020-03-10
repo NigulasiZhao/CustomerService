@@ -39,19 +39,11 @@
 <script>
 import * as signalR from "@microsoft/signalr";
 let hubUrl = "https://localhost:44307/chatHub"; //服务器Hub的Url地址
-const connection = new signalR.HubConnectionBuilder()
+const signalrUserConnection = new signalR.HubConnectionBuilder()
   .withAutomaticReconnect()
   .withUrl(hubUrl)
   .build();
-try {
-  connection.start().catch(err => {
-    if (err.message) {
-      alert(err.message);
-    }
-  });
-} catch (err) {
-  console.error("连接客服服务器错误：" + err);
-}
+
 export default {
   name: "signalClient",
   data() {
@@ -63,28 +55,37 @@ export default {
     };
   },
   mounted() {
-    var _this = this;
-    connection.on("command", function(commandJson) {
-      switch (commandJson.command) {
-        case "servicerDistributeMessage":
-          _this.servicerDistribute(commandJson);
-          break;
-        case "disConnectionMessage":
-          _this.servicerDisConnection(commandJson);
-          break;
-        case "textMessage":
-        case "imageMessage":
-        case "goodsCardMessage":
-          _this.sessionMessage(commandJson);
-          break;
-      }
-    });
     this.initUser();
-    var that = this;
-    setTimeout(function() {
-      that.serverConnection();
-    }, 2000);
-    //this.serverConnection();
+    var _this = this;
+    try {
+      signalrUserConnection
+        .start()
+        .catch(err => {
+          if (err.message) {
+            alert(err.message);
+          }
+        })
+        .then(e => {
+          signalrUserConnection.on("command", function(commandJson) {
+            switch (commandJson.command) {
+              case "servicerDistributeMessage":
+                _this.servicerDistribute(commandJson);
+                break;
+              case "disConnectionMessage":
+                _this.servicerDisConnection(commandJson);
+                break;
+              case "textMessage":
+              case "imageMessage":
+              case "goodsCardMessage":
+                _this.sessionMessage(commandJson);
+                break;
+            }
+          });
+          _this.serverConnection();
+        });
+    } catch (err) {
+      console.error("连接客服服务器错误：" + err);
+    }
   },
   methods: {
     guid() {
@@ -103,7 +104,7 @@ export default {
         data: this.user
       };
       try {
-        connection
+        signalrUserConnection
           .invoke("command", commandJson.command, JSON.stringify(commandJson))
           .then(e => {
             var json = eval("(" + e + ")");
@@ -131,7 +132,7 @@ export default {
         command: "textMessage",
         data: {
           servicerTerminalId: this.servicer.terminalId,
-          userTerminalId:this.user.terminalId,
+          userTerminalId: this.user.terminalId,
           fromTerminal: "user",
           content: this.txtMsg
         }
@@ -139,7 +140,7 @@ export default {
       this.msgs.push(json);
       this.txtMsg = "";
       try {
-        connection.invoke("command", json.command, JSON.stringify(json));
+        signalrUserConnection.invoke("command", json.command, JSON.stringify(json));
       } catch (err) {
         console.error("发送文本消息错误：" + err);
       }

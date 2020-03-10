@@ -140,3 +140,6 @@
 /SignalRDemo/.vs/SignalRDemo/v16/.suo
 /SignalRDemo/.vs/SignalRDemo/v16/Server/sqlite3/db.lock
 /SignalRDemo/.vs/SignalRDemo/v16/Server/sqlite3/storage.ide
+/SignalRDemo/SignalRDemo/obj
+/SignalRDemo/SignalRDemo/bin
+/vue-im/package-lock.json
