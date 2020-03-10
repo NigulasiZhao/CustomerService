@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Track";
+    Layout = null;
+}
+
+@*跟踪类*@
+
+<script src="~/view-resources/Views/Test/Track.js"></script>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                    <ul class="searchli-group datePicker">
+                        <li data-index="1">昨日</li>
+                        <li data-index="2">今日</li>
+                        <li data-index="3">本周</li>
+                        <li data-index="4">上周</li>
+                        <li data-index="5">本月</li>
+                        <li data-index="6">上月</li>
+                        <li data-index="7">最近三月</li>
+                        <li data-index="8">本季度</li>
+                        <li data-index="9">本年</li>
+                    </ul>
+                    <div class="containerNode" data-id="1">
+                        <div class="zhankai" style="display:none"><span class="iconfont icon-up"></span> 展开</div>
+                        <div class="shouqi"><span class="iconfont icon-shangla"></span> 收起</div>
+                    </div>
+                </div>
+                <div class="TopTitle">销售订单</div>
+                <div class="RightBtn">
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm">
+                    <form name="form1" onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>开始时间起</label>
+                            <input type="text" name="StartDate" value="" class="easyui-datebox StartDate" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>止</label>
+                            <input type="text" name="EndDate" value="" class="easyui-datebox EndDate" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>客户</label>
+                            <input type="text" name="customerName" value="" class="easyui-textbox-customer" data-info="" required="required" />
+                            <input type="hidden" name="unionId" value="" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>销售员</label>
+                            <input type="text" class="easyui-textbox-user" name="SalerName" value="" required="required" />
+                            <input type="hidden" name="SalerId" value="" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>机构</label>
+                            <input type="text" class="easyui-textbox-org" name="organizationName" value="" required="required" />
+                            <input type="hidden" name="organizationId" value="" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>仓库</label>
+                            <input type="text" class="easyui-textbox-warehouse" name="warehouseName" value="" required="required" />
+                            <input type="hidden" name="warehouseId" value="" required="required" />
+                        </div>
+                        <button class="btn btn-success querySearch">查询</button>
+                    </form>
+                </div>
+                <div class="TableAdaptation">
+                    <table id="SaleOrderTableList" class="easyui-datagrid" data-options=""></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

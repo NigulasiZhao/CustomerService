@@ -1,0 +1,205 @@
+﻿<div class="modal fade" id="goodsDialog" tabindex="-1" role="dialog" aria-labelledby="goodsModalLabel" style="visibility:hidden;display:block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择商品</h4>
+            </div>
+            <div class="modal-body" style="width:1200px;overflow:hidden;">
+                <div class="SearchForm">
+                    <div class="publicIpts">
+                        <label>商品</label>
+                        <input type="text" name="" value="" class="easyui-textbox searchCode" required="required" />
+                    </div>
+                    <button class="btn btn-success tc-search" v-on:click="search">查询</button>
+                </div>
+                <div id="TreePanel" data-options="region:'west',split:true,hideCollapsedContent:true" title='' style="width:220px;overflow:auto;float:left;">
+                    <div id="content">
+                        <ul id="GoodsClassifyzTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <div style="height:500px;width:930px;float:left;">
+                    <table class="easyui-datagrid grid" data-options="fit:true,fitColumns: true,pagination:true,url:'/FrontEndTest/GetIndex',singleSelect: false,onDblClickRow: function (index, row){$(this).datagrid('selectRow', index);goodsComponent.sure()}">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'goodsName',width:80">分类名称</th>
+                                <th data-options="field:'goodsCode',width:80">分类编码</th>
+                                <th data-options="field:'classification',width:80">分类类型</th>
+                                <th data-options="field:'goodsArticleNumber',width:80">分类货号</th>
+                                <th data-options="field:'goodsSpecification',width:80">分类规格</th>
+                                <th data-options="field:'goodsUnit',width:80">分类单位</th>
+                                <th data-options="field:'auxiliaryUnit',width:80">辅助单位</th>
+                                <th data-options="field:'goodsPrice',width:80">分类单价</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" v-on:click="sure">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var goodsComponent = new Vue({
+        el: "#goodsDialog",
+        mounted: function () {
+            var instance = this;
+        },
+        data: {
+            callback: null,
+            searchCode: null,
+        },
+        methods: {
+            show: function (options, _callback) {
+                $(this.$el).find(".searchCode").textbox("setValue", "");
+                $(this.$el).find(".grid").datagrid('options').queryParams = options || {};
+                var that = this;
+                setTimeout(function () {
+                    $(that.$el).find(".grid").datagrid("load");
+                }, 100);
+                this.callback = _callback;
+                $(this.$el).modal({
+                    backdrop: "static"
+                })
+                $(this.$el).modal("show").css("visibility", "visible");
+            },
+            sure: function () {
+                var selectArr = $(this.$el).find(".grid").datagrid("getSelections");
+                this.callback(selectArr);
+                $(this.$el).modal("hide");
+            },
+            search: function () {
+                var query = $(this.$el).find(".grid").datagrid('options').queryParams;
+                var searchCode = $(this.$el).find(".searchCode").textbox("getValue");
+                $(this.$el).find(".grid").datagrid('options').queryParams = $.extend({}, query, { searchCode: searchCode, GoodsClassifyId:ZtreeGoodsClassifyId});
+                $(this.$el).find(".grid").datagrid("load");
+            }
+        }
+    });
+</script>
+<script>
+    var ZtreeGoodsClassifyId = "";
+    var setting = {
+        view: {
+            showIcon: true //是否显示节点前图标
+        },
+        data: {
+            simpleData: {
+                enable: true,//是否之用简单数据
+                idKey: 'id', //对应json数据中的ID
+                pIdKey: 'fid', //对应json数据中的父ID
+                nameKey: 'goodsName'
+            },
+        },
+        async: {
+            enable: true,//是否为异步加载
+            url: '/FrontEndTest/GetTreeIndex',//相关的请求网址
+        },
+        check: {
+            enable: false //是否打开复选框
+        },
+        callback: {//请求成功后回调
+            onClick: onclickTree,//点击事件
+            onAsyncSuccess: ztreeOnAsyncSuccess,//异步加载成功后执行的方法
+            onCheck: zTreeOnCheck,//选中事件
+        },
+    };
+    //点击树触发的事件
+    function onclickTree(event, treeId, treeNode) {
+        ZtreeGoodsClassifyId = treeNode.id;
+        //var ids = [];
+        //ids = getChildren(ids, treeNode);
+        //ZtreeGoodsClassifyId = ids;
+        goodsComponent.search();
+    }
+    //获取树成功后进行的回调操作
+    function ztreeOnAsyncSuccess(event, treeId, treeNode) {
+        var newNode = { id: "",name: "全部" };
+        newNode = treeObj.addNodes(null,0, newNode);
+        treeObj.getNodes();
+        treeObj.expandAll(true);  //节点全部展开
+    }
+    //复选框选中事件
+    function zTreeOnCheck(event, treeId, treeNode) {
+    };
+    function getChildren(ids, treeNode) {
+        ids.push(treeNode.id);
+        if (treeNode.isParent) {
+            for (var obj in treeNode.children) {
+                getChildren(ids, treeNode.children[obj]);
+            }
+        }
+        return ids;
+    }
+
+    //初始化树结构
+    $.fn.zTree.init($("#GoodsClassifyzTree"), setting, null);
+    var treeObj = $.fn.zTree.getZTreeObj("GoodsClassifyzTree");
+
+    var ___manIcon = {
+        iconCls: 'icon-man',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+            var options = textbox.textbox("options");
+            var Parmas;
+            if (options.getGoodsQueryParam) {
+                Parmas = options.getGoodsQueryParam();
+                if (Parmas == false) {
+                    return;
+                }
+            }
+            goodsComponent.show(Parmas, function (data) {
+                textbox.textbox("setValue", data[0].goodsName);
+
+                if (options.OnSelectedGoods)
+                    options.OnSelectedGoods(data);
+                textbox.siblings("input[type='hidden']").val(data[0].id);
+            });
+        }
+    };
+    var ___clearIcon = {
+        iconCls: 'icon-clear',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+            textbox.textbox("clear");
+            textbox.siblings("input[type='hidden']").val("");
+        }
+    };
+    var __goodsGeneralOption = {
+        editable: false,
+        width: 100,
+        icons: [___manIcon, ___clearIcon]
+    };
+    var __goodsGridOption = {
+        editable: false,
+        width: 100,
+        icons: [___manIcon]
+    }
+    $.extend($.fn.datagrid.defaults.editors, {
+        goods: {
+            init: function (container, options) {
+                var input = $('<input type="text" class="datagrid-editable-input"/>').appendTo(container);
+                input.textbox($.extend({}, __goodsGridOption, options, $.fn.textbox.parseOptions(input[0])));
+                return input;
+            },
+            destroy: function (target) {
+                $(target).remove();
+            },
+            getValue: function (target) {
+                return $(target).textbox("getValue");
+            },
+            setValue: function (target, value) {
+                $(target).textbox("setValue", value);
+            },
+            resize: function (target, width) {
+                $(target).textbox("resize", width);
+            }
+        }
+    });
+
+</script>

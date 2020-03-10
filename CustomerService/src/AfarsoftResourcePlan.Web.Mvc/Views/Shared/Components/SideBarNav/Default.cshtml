@@ -1,0 +1,59 @@
+﻿@using Abp.Collections.Extensions
+@using AfarsoftResourcePlan.Web.Views
+@using AfarsoftResourcePlan.Web.Views.Shared.Components.SideBarNav
+@model SideBarNavViewModel
+@{
+    var calculateMenuUrl = new Func<string, string>((url) =>
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return ApplicationPath;
+        }
+
+        if (UrlChecker.IsRooted(url))
+        {
+            return url;
+        }
+
+        return ApplicationPath + url;
+    });
+}
+<div class="menu">
+    <div class="submenu">
+        <div id="js-menu" class="submenulist">
+            <ul>
+                @foreach (var menuItem in Model.MainMenu)
+                {
+                    <li>
+                        <a href="#"><i class="iconfont @menuItem.Icon"></i>@menuItem.DisplayName</a>
+                        <div class="listbox hide">
+                            @foreach (var item in menuItem.Items)
+                            {
+                                <dl class="hotbrand">
+                                    <dt><span class="group-title"></span>@item.DisplayName</dt>
+                                    @foreach (var subItem in item.Items)
+                                    {
+                                    <dd>
+                                        <a href="#" onclick="clickLeftNav('@subItem.Name','@subItem.DisplayName','@subItem.Url','',false,this)">@subItem.DisplayName</a>
+                                        @{
+                                            List<Abp.Application.Navigation.MenuItemDefinition> rightMenuItemDefinitions =
+                                                subItem.CustomData as List<Abp.Application.Navigation.MenuItemDefinition>;
+                                        }
+                                        @foreach (var rightItem in rightMenuItemDefinitions)
+                                        {
+                                            @*<span class="subtext" onclick="clickLeftNav('@rightItem.Name','@L(rightItem.CustomData.ToString())','@rightItem.Url','',false,this)">@L(rightItem.CustomData.ToString())</span>*@
+                                            <span class="subtext" onclick="clickLeftNav('@rightItem.Name','@L(rightItem.CustomData.ToString())','@rightItem.Url','',false,this)">跟踪</span>
+                                        }
+                                    </dd>
+
+                                    }
+                                </dl>
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>

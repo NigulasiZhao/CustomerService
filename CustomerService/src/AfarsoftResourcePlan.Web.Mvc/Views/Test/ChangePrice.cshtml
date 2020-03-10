@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewData["Title"] = "ChangePrice";
+    Layout = null;
+}
+
+@*调价单*@
+
+<script src="~/view-resources/Views/Test/ChangePrice.js"></script>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                    <div class="NoNumber">No.<a class="NewSaleOrderCode"></a></div>
+                </div>
+                <div class="TopTitle">调价单</div>
+                <div class="RightBtn">
+                    <button class="btn btn-default NewSaleOrderSaveButton"><span class="iconfont icon-baocun"> </span><span>保存</span></button>
+                    <button class="btn btn-default NewSaleOrderSaveContinueButton"><span class="iconfont icon-baocun"> </span><span>保存并继续</span></button>
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm">
+                    <form name="form1" onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>仓库</label>
+                            <input type="text" class="easyui-textbox-warehouse" data-options="getWareHouseQueryParam:function(){}" name="warehouseName" required="required" />
+                            <input type="hidden" name="warehouseId" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>单据日期</label>
+                            <input name="orderDate" type="text" class="easyui-datebox" required="required" />
+                        </div>
+                    </form>
+                    <div class="fullWidth">
+                        <label style="font-weight:normal;">价格级别：</label>
+                        <div class="LabRadAll">
+                            <label style="font-size:12px;font-weight: normal;margin-bottom: 0;">全部
+                                <input type="checkbox" class="AllPrice" name="AllPrice" style="vertical-align: top;"/>
+                            </label>
+                        </div>
+                        <div class="LabRad">
+                            <label style="font-size:12px;">基础售价
+                                <input type="checkbox" class="NewBasicSale" name="NewBasicSale" />
+                            </label>
+                            
+                        </div>
+                        <div class="LabRad">
+                            <label style="font-size:12px;">一级价
+                                <input type="checkbox" class="NewLevel1" name="NewLevel1" />
+                            </label>
+                            
+                        </div>
+                        <div class="LabRad">
+                            <label style="font-size:12px;">二级价
+                                <input type="checkbox" class="NewLevel2" name="NewLevel2" />
+                            </label>
+                        </div>
+                        <div class="LabRad">
+                            <label style="font-size:12px;">三级价
+                                <input type="checkbox" class="NewLevel3" name="NewLevel3" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="TableAdaptation">
+                    <table id="ChanePriceList" class="easyui-datagrid" data-options=""></table>
+                </div>
+                <div class="input-group input-note">
+                    <span class="input-group-addon">单据备注</span>
+                    <input type="text" class="form-control" name="MakerRemark" aria-describedby="basic-addon3">
+                </div>
+                <div class="flexTable">
+                    <div class="dockleft dockitema">
+                        <div>制单人&nbsp;&nbsp;<span name=""></span>    </div>
+                        <div>制单时间&nbsp;&nbsp;<span name=""></span> </div>
+                    </div>
+                    <div class="dockleft dockitema">
+                        <div>审核人&nbsp;&nbsp;<span name=""></span></div>
+                        <div>审核时间&nbsp;&nbsp;<span name=""></span> </div>
+                    </div>
+                    <div class="dockleft dockitema">
+                        <div>审核人备注&nbsp;&nbsp;<span style="color:red"></span> </div>
+                    </div>
+                    <div class="priCe">本单金额 <i>￥</i> <span class="spanAmount">0</span></div>
+                    @*<div class="ctrlTj" onclick="AddProcess()">保存订单<br>Ctrl+Enter</div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+﻿<div class="modal fade" id="organizationDialog" tabindex="-1" role="dialog" aria-labelledby="organizationModalLabel" style="visibility:hidden;display:block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">选择机构</h4>
+            </div>
+            <div class="modal-body" style="width:1170px;">
+                <div class="SearchForm">
+                    <div class="publicIpts">
+                        <label>机构</label>
+                        <input type="text" name="" value="" class="easyui-textbox searchCode" required="required" />
+                    </div>
+                    <button class="btn btn-success tc-search" v-on:click="search">查询</button>
+                </div>
+                <div style="height:500px">
+                    <table class="easyui-datagrid grid" data-options="fit:true,fitColumns: true,pagination:true,url:'/api/services/app/Organization/GetPagedOrganizationForDialog',singleSelect: true">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'organizationName',width:80">机构名称</th>
+                                <th data-options="field:'organizationCode',width:80">机构编码</th>
+                                <th data-options="field:'address',width:80">地址</th>
+                                <th data-options="field:'contact',width:80">联系人</th>
+                                <th data-options="field:'cellPhone',width:80">联系电话</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" v-on:click="sure">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var organizationComponent = new Vue({
+        el: "#organizationDialog",
+        mounted: function () {
+            var instance = this;
+            $(this.$el).find(".grid").datagrid({
+                onSelect: function (rowIndex, rowData) {
+                    instance.selected = rowData;
+                }
+            });
+        },
+        data: {
+            callback: null,
+            selected: null
+        },
+        methods: {
+            show: function (_callback) {
+                $(this.$el).find(".grid").datagrid('options').queryParams = {};
+                $(this.$el).find(".searchCode").textbox("setValue", "");
+                 var that = this;
+                setTimeout(function () {
+                    $(that.$el).find(".grid").datagrid("load");
+                }, 100);
+
+                this.callback = _callback;
+                $(this.$el).modal({
+                    backdrop: "static"
+                })
+                $(this.$el).modal("show").css("visibility", "visible");
+            },
+            sure: function () {
+                this.callback(this.selected);
+                $(this.$el).modal("hide");
+            },
+            search:function(){
+                var query = $(this.$el).find(".grid").datagrid('options').queryParams;
+                var searchCode = $(this.$el).find(".searchCode").textbox("getValue");
+                $(this.$el).find(".grid").datagrid('options').queryParams=$.extend({},query,{searchCode:searchCode});
+                $(this.$el).find(".grid").datagrid("load");
+            }
+        }
+    });
+</script>
+<script>
+    var __organizationOption = {
+    editable: false,
+    width: 100,
+    icons: [{
+        iconCls: 'icon-man',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+            organizationComponent.show(function (data) {
+                var options = textbox.textbox("options");
+                textbox.textbox("setValue", data.organizationName);
+                textbox.siblings("input[type='hidden']").val(data.id);
+                if (options.OnSelectedOrg) {
+                    options.OnSelectedOrg(data);
+                }
+            });
+        }
+    },
+    {
+        iconCls: 'icon-clear',
+        handler: function (e) {
+            var textbox = $(e.data.target);
+                textbox.textbox("clear");
+                textbox.siblings("input[type='hidden']").val("");
+        }
+    }
+    ]
+};
+
+
+</script>

@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+<script src="~/view-resources/Views/FrontEndTest/SupplierIndex.js"></script>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                    <div class="NoNumber">No.<a class="NewSaleOrderCode"></a></div>
+                </div>
+                <div class="TopTitle">销售订单</div>
+                <div class="RightBtn">
+                    <button class="btn btn-default NewSaleOrderSaveButton"><span class="iconfont icon-baocun"> </span><span>保存</span></button>
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll">
+                <div class="SearchForm">
+                    <form name="form1" onsubmit="return false;">
+                        <div class="publicIpts">
+                            <label>客户</label>
+                            <input type="text" name="customerName" class="selectCustomer" required />
+                            <input type="hidden" name="customerId" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>销售员</label>
+                            <input type="text" class="easyui-textbox-user" name="SalerName" required="required" />
+                            <input type="hidden" name="SalerId" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>单据日期</label>
+                            <input name="orderDate" type="text" class="easyui-datebox" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>预计出货日期</label>
+                            <input name="orderDeliveryDate" type="text" class="easyui-datebox" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>结账方式</label>
+                            <input name="payWay" type="text" class="easyui-textbox" data-options="editable:false" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>账期</label>
+                            <input name="accountDate" type="text" class="easyui-textbox" data-options="editable:false" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>机构</label>
+                            <input type="text" class="easyui-textbox-org" name="organizationName" required="required" />
+                            <input type="hidden" name="organizationId" required="required" />
+                        </div>
+                        <div class="publicIpts">
+                            <label>仓库</label>
+                            <input type="text" class="easyui-textbox-warehouse" data-options="getWareHouseQueryParam:function(){
+                                   if($tabs(input[name=organizationId]).val() == ''){
+                                    abp.message.error('请先选择机构', '提示');
+                                        return false;
+                                   }
+                                   return { organizationId: $(input[name=organizationId]).val() };
+                                   }" name="warehouseName" required="required" />
+                            <input type="hidden" name="warehouseId" required="required" />
+                        </div>
+                        @*<div class="publicIpts fullWidth">
+                                <label>单据备注</label>
+                                <input class="easyui-textbox" type="text" name="MakerRemark" />
+                            </div>*@
+                    </form>
+                </div>
+                <div class="TableAdaptation">
+                    <table id="NewSaleOrderList" class="easyui-datagrid" data-options=""></table>
+                </div>
+                <div class="input-group input-note">
+                    <span class="input-group-addon">单据备注</span>
+                    <input type="text" class="form-control" name="MakerRemark" aria-describedby="basic-addon3">
+                </div>
+                <div class="flexTable">
+                    <div class="dockleft dockitema">
+                        <div>制单人&nbsp;&nbsp;<span name=""></span>    </div>
+                        <div>制单时间&nbsp;&nbsp;<span name=""></span> </div>
+                    </div>
+                    <div class="dockleft dockitema">
+                        <div>审核人&nbsp;&nbsp;<span name=""></span></div>
+                        <div>审核时间&nbsp;&nbsp;<span name=""></span> </div>
+                    </div>
+                    <div class="dockleft dockitema">
+                        <div>审核人备注&nbsp;&nbsp;<span style="color:red"></span> </div>
+                    </div>
+                    <div class="priCe">本单金额 <i>￥</i> <span class="spanAmount">0</span></div>
+                    @*<div class="ctrlTj" onclick="AddProcess()">保存订单<br>Ctrl+Enter</div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

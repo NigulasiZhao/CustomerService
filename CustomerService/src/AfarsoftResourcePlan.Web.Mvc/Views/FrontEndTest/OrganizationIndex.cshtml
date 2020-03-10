@@ -1,0 +1,171 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/view-resources/Views/FrontEndTest/OrganizationIndex.js"></script>
+<div class="row clearfix" style="height: 100%;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height:100%">
+        <div class="card">
+            <div class="header">
+                <div class="LeftBtn">
+                </div>
+                <div class="TopTitle">客户管理</div>
+                <div class="RightBtn">
+                </div>
+            </div>
+            <div class="body table-responsive panel-noscroll tabsChangeModal ">
+                <div class="tab-head">
+                    <span class="selected">基础资料</span>
+                    <span>供应商资料</span>
+                    <span>客户资料</span>
+                </div>
+                <form onsubmit="return false;" name="form1">
+                    <div class="tab-content SearchForm">
+                        <div class="show">
+                            <input type="hidden" name="id" />
+                            <input type="hidden" name="supplierId" />
+                            <input type="hidden" name="customerId" />
+                            <div class="publicIpts">
+                                <label>名称<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="unionName" value="" required="required" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>编码<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="unionCode" value="" required="required" readonly />
+                            </div>
+                            <div class="publicIpts">
+                                <label>联系人<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="contactName" value="" required="required" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>联系电话<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="contactNumber" value="" required="required" />
+                            </div>
+                            <div class="publicIpts">
+                                <label>助记码</label>
+                                <input type="text" class="easyui-textbox" name="helpCode" value="" />
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>地址</label>
+                                <input type="text" class="easyui-textbox" name="address" value="" />
+                            </div>
+                            <div class="checkbox pull-left" style="margin-left:25px;margin-right:25px;">
+                                <label>
+                                    <input type="checkbox" name="isSupplierAndCustomer" value="1"> 既是供应商又是客户
+                                </label>
+                            </div>
+                            <div class="checkbox pull-left" style="margin-top:10px;">
+                                <label>
+                                    <input type="checkbox" name="nature" value="1">加盟商户
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="publicIpts fullWidth">
+                                <label>开户行</label>
+                                <input type="text" class="easyui-textbox" name="supplierBank" value="" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>银行账号</label>
+                                <input type="text" class="easyui-textbox" name="supplierAccount" value="" />
+                            </div>
+                            <div class="publicIpts">
+                                <label>结账方式<span style="color:red">*</span></label>
+                                <select class="easyui-combobox" data-options="editable:false,value:0" panelheight="auto" name="supplierPayWay" required="required">
+                                    <option value="0">月结</option>
+                                    <option value="1">到付</option>
+                                </select>
+                            </div>
+                            <div class="publicIpts pull-right">
+                                <label>供应商状态<span style="color:red">*</span></label>
+                                <select class="easyui-combobox" data-options="editable:false,value:0" panelheight="auto" name="supplierUseStateType" required="required">
+                                    <option value="0">正常</option>
+                                    <option value="1">停用</option>
+                                </select>
+                            </div>
+                            <div class="publicIpts">
+                                <label>备注</label>
+                                <input type="text" class="easyui-textbox" name="supplierRemark" />
+                            </div>
+                            <div class="fullWidth">
+                                <span>是否提供税票<span style="color:red">*</span></span>
+                                <label class="radio-inline" style="margin-left:10px;margin-right:30px;">
+                                    <input type="radio" name="supplierTaxBill" value="0" checked> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="supplierTaxBill" value="1"> 否
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="publicIpts fullWidth">
+                                <label>客户级别<span style="color:red">*</span></label>
+                                <select class="easyui-combobox" data-options="editable:false,value:1" panelheight="auto" name="customerLevel" required="required">
+                                    <option value="0">无</option>
+                                    <option value="1">一级价</option>
+                                    <option value="2">二级价</option>
+                                    <option value="3">三级价</option>
+                                    <option value="4">四级价</option>
+                                    <option value="5">五级价</option>
+                                    <option value="6">六级价</option>
+                                    <option value="7">七级价</option>
+                                    <option value="8">八级价</option>
+                                </select>
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>销售员<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox-user" name="salerName" required="required" />
+                                <input type="hidden" name="saleUserInfoId" required="required" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>开户行</label>
+                                <input type="text" class="easyui-textbox" name="customerBank" value="" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>银行账号</label>
+                                <input type="text" class="easyui-textbox" name="customerAccount" value="" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>发票抬头</label>
+                                <input type="text" class="easyui-textbox" name="customerInvoiceHead" value="" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>结账方式<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-textbox" name="customerPayWay" value="" required="required" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>账期<span style="color:red">*</span></label>
+                                <input type="text" class="easyui-numberbox" name="customerAccountDate" required="required" />
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>客户状态<span style="color:red">*</span></label>
+                                <select class="easyui-combobox" data-options="editable:false,value:0" panelheight="auto" name="customerUseStateType" required="required">
+                                    <option value="0">正常</option>
+                                    <option value="1">停用</option>
+                                </select>
+                            </div>
+                            <div class="fullWidth">
+                                <span>是否提供税票<span style="color:red">*</span></span>
+                                <label class="radio-inline" style="margin-left:10px;margin-right:30px;">
+                                    <input type="radio" name="isBilling" value="0" checked> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="isBilling" value="1"> 否
+                                </label>
+                            </div>
+                            <div class="publicIpts fullWidth">
+                                <label>备注</label>
+                                <input type="text" class="easyui-textbox" name="customerRemark" />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+

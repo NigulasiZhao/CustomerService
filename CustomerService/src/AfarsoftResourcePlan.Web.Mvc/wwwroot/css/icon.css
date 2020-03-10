@@ -1,0 +1,15 @@
+﻿.icon-add {
+    background: url('../images/jiahao.png') no-repeat center center;
+}
+.icon-remove {
+    background: url('../images/shanchu.png') no-repeat center center;
+}
+.icon-ok {
+    background: url('../images/ok.png') no-repeat center center;
+}
+.icon-man {
+    background: url('../images/sousuo.png') no-repeat center center;
+}
+.icon-clear {
+    background: url('../images/clear.png') no-repeat center center;
+}
