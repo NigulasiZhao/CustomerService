@@ -207,7 +207,7 @@ namespace SignalRDemo.Hubs
                     }
                 });
             }
-            
+
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;
             CommandResultModel.msg = "";
@@ -251,12 +251,12 @@ namespace SignalRDemo.Hubs
         public CommandResult DisConnectionMessage(string paras)
         {
             var Model = JsonConvert.DeserializeObject<Command<CommandDisConnectionMessage>>(paras);
-            if (Model.data.fromTerminal== TerminalRefer.servicer)
+            if (Model.data.fromTerminal == TerminalRefer.servicer)
             {
                 var LogoutModel = CustomerServiceList.Where(e => e.servicerId == Model.data.servicerTerminalId).FirstOrDefault();
                 CustomerServiceList.Remove(LogoutModel);
             }
-            if (Model.data.fromTerminal== TerminalRefer.user)
+            if (Model.data.fromTerminal == TerminalRefer.user)
             {
                 var LogoutModel = CustomerList.Where(e => e.deviceId == Model.data.userTerminalId).FirstOrDefault();
                 CustomerList.Remove(LogoutModel);
@@ -266,7 +266,49 @@ namespace SignalRDemo.Hubs
             CommandResultModel.msg = "";
             return CommandResultModel;
         }
-
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
+        }
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            //根据ConnectionId匹配
+            var CustomerLogoutModel = CustomerList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
+            var CustomerServiceLogoutModel = CustomerServiceList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
+            //客户断连
+            if (CustomerLogoutModel != null)
+            {
+                await Clients.Client(CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("command", new
+                {
+                    command = "disConnectionMessage",
+                    data = new
+                    {
+                        userTerminalId = CustomerLogoutModel.deviceId,
+                        servicerTerminalId = CustomerLogoutModel.servicerTerminalId,
+                        fromTerminal = "user",
+                    }
+                });
+                CustomerList.Remove(CustomerLogoutModel);
+            }
+            //客服断连
+            if (CustomerServiceLogoutModel != null)
+            {
+                List<Customer> list = CustomerList.Where(e => e.servicerTerminalId == CustomerServiceLogoutModel.servicerId).ToList();
+                foreach (var item in list)
+                {
+                    await Clients.Client(item.ConnectionId).SendAsync("command", new
+                    {
+                        command = "disConnectionMessage",
+                        data = new
+                        {
+                            servicerTerminalId = CustomerServiceLogoutModel.servicerId,
+                            fromTerminal = "servicer",
+                        }
+                    });
+                }
+                CustomerServiceList.RemoveAll(e => e.servicerId == CustomerServiceLogoutModel.servicerId);
+            }
+        }
         #region 暂时弃用Demo代码
         public static Dictionary<string, string> OnlineClients = new Dictionary<string, string>();
         public class OnlineClient
@@ -304,14 +346,6 @@ namespace SignalRDemo.Hubs
         {
             await Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             await Clients.Client(Context.ConnectionId).SendAsync("ReceiveMessage", message);
-        }
-        public override Task OnConnectedAsync()
-        {
-            return base.OnConnectedAsync();
-        }
-        public override Task OnDisconnectedAsync(Exception exception)
-        {
-            return base.OnDisconnectedAsync(exception);
         }
         #endregion
     }
