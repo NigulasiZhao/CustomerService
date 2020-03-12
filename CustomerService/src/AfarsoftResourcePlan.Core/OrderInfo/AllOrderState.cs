@@ -47,4 +47,19 @@ namespace AfarsoftResourcePlan.OrderInfo
         [Description("交易完成")]
         Done = 6,
     }
+
+    public enum LoginState
+    {
+        /// <summary>
+        /// 在线
+        /// </summary>
+        [Description("在线")]
+        Online = 0,
+        /// <summary>
+        /// 离线
+        /// </summary>
+        [Description("离线")]
+        OffLine = 1,
+
+    }
 }
