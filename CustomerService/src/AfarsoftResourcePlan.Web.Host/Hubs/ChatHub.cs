@@ -5,6 +5,7 @@ using Abp.MultiTenancy;
 using Abp.Notifications;
 using AfarsoftResourcePlan.Authorization;
 using AfarsoftResourcePlan.Authorization.Users;
+using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords;
 using AfarsoftResourcePlan.Identity;
 using AfarsoftResourcePlan.MultiTenancy;
 using AfarsoftResourcePlan.Sessions;
@@ -19,42 +20,13 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly UserManager _userManager;
-        private readonly TenantManager _tenantManager;
-        private readonly IMultiTenancyConfig _multiTenancyConfig;
-        private readonly IUnitOfWorkManager _unitOfWorkManager;
-        private readonly AbpLoginResultTypeHelper _abpLoginResultTypeHelper;
-        private readonly LogInManager _logInManager;
-        private readonly SignInManager _signInManager;
-        private readonly UserRegistrationManager _userRegistrationManager;
-        private readonly ISessionAppService _sessionAppService;
-        private readonly ITenantCache _tenantCache;
-        private readonly INotificationPublisher _notificationPublisher;
+        private readonly IChatRecordsService _ChatRecordsService;
+
 
         public ChatHub(
-           UserManager userManager,
-           IMultiTenancyConfig multiTenancyConfig,
-           TenantManager tenantManager,
-           IUnitOfWorkManager unitOfWorkManager,
-           AbpLoginResultTypeHelper abpLoginResultTypeHelper,
-           LogInManager logInManager,
-           SignInManager signInManager,
-           UserRegistrationManager userRegistrationManager,
-           ISessionAppService sessionAppService,
-           ITenantCache tenantCache,
-           INotificationPublisher notificationPublisher)
+           ChatRecordsService ChatRecordsService)
         {
-            _userManager = userManager;
-            _multiTenancyConfig = multiTenancyConfig;
-            _tenantManager = tenantManager;
-            _unitOfWorkManager = unitOfWorkManager;
-            _abpLoginResultTypeHelper = abpLoginResultTypeHelper;
-            _logInManager = logInManager;
-            _signInManager = signInManager;
-            _userRegistrationManager = userRegistrationManager;
-            _sessionAppService = sessionAppService;
-            _tenantCache = tenantCache;
-            _notificationPublisher = notificationPublisher;
+            _ChatRecordsService = ChatRecordsService;
         }
         ////客户列表
         //public static List<Customer> CustomerList = new List<Customer>();
@@ -341,7 +313,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         }
         public override Task OnConnectedAsync()
         {
-            bool Enable = _multiTenancyConfig.IsEnabled;
             return base.OnConnectedAsync();
         }
         public override Task OnDisconnectedAsync(Exception exception)
