@@ -11,6 +11,9 @@ namespace AfarsoftResourcePlan.EntityFrameworkCore
     {
         /* Define a DbSet for each entity of the application */
         public DbSet<ServiceConnectRecords> ServiceConnectRecords { get; set; }
+        public DbSet<ChatRecords> ChatRecords { get; set; }
+        public DbSet<CustomerConnectRecords> CustomerConnectRecords { get; set; }
+        public DbSet<ServiceRecords> ServiceRecords { get; set; }
         public AfarsoftResourcePlanDbContext(DbContextOptions<AfarsoftResourcePlanDbContext> options)
             : base(options)
         {

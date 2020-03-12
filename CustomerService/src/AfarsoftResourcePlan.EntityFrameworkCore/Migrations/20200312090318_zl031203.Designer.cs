@@ -3,14 +3,16 @@ using System;
 using AfarsoftResourcePlan.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AfarsoftResourcePlan.Migrations
 {
     [DbContext(typeof(AfarsoftResourcePlanDbContext))]
-    partial class AfarsoftResourcePlanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200312090318_zl031203")]
+    partial class zl031203
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
