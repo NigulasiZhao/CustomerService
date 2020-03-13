@@ -122,4 +122,8 @@ namespace AfarsoftResourcePlan.OrderInfo
         [Description("已接收")]
         Received = 1,
     }
+    public enum TerminalRefer
+    {
+        user, servicer
+    }
 }
