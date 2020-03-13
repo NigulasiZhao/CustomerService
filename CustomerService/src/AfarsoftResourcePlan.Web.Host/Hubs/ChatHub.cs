@@ -106,6 +106,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 terminalId = Model.data.servicerId,
             };
+            //入库操作
             _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
             {
                 DeviceId = Model.data.deviceId,
@@ -123,11 +124,9 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         public async Task<CommandResult> UserConnection(string paras)
         {
             var Model = JsonConvert.DeserializeObject<Command<CommandUserConnection>>(paras);
-
             string terminalId = Model.data.deviceId;
             //查找当前负责客户最少的客服
             var CustomerServiceModel = CustomerServiceList.OrderBy(e => e.ConnectionCount).FirstOrDefault() ?? new OnlineCustomerService();
-
             var SameModel = CustomerList.Where(e => e.deviceId == terminalId).FirstOrDefault();
             if (SameModel == null)
             {
