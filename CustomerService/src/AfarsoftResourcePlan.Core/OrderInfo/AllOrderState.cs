@@ -47,4 +47,79 @@ namespace AfarsoftResourcePlan.OrderInfo
         [Description("交易完成")]
         Done = 6,
     }
+    /// <summary>
+    /// 在线状态
+    /// </summary>
+    public enum LoginState
+    {
+        /// <summary>
+        /// 在线
+        /// </summary>
+        [Description("在线")]
+        Online = 0,
+        /// <summary>
+        /// 离线
+        /// </summary>
+        [Description("离线")]
+        OffLine = 1,
+
+    }
+    /// <summary>
+    /// 消息类型
+    /// </summary>
+    public enum SendInfoType
+    {
+        /// <summary>
+        /// 文本
+        /// </summary>
+        [Description("文本")]
+        TextInfo = 0,
+        /// <summary>
+        /// 图片
+        /// </summary>
+        [Description("图片")]
+        PictureInfo = 1,
+        /// <summary>
+        /// 卡片
+        /// </summary>
+        [Description("卡片")]
+        CardInfo = 2,
+    }
+    /// <summary>
+    /// 消息来源
+    /// </summary>
+    public enum InfoSource
+    {
+        /// <summary>
+        /// 系统
+        /// </summary>
+        [Description("系统")]
+        System = 0,
+        /// <summary>
+        /// 客服
+        /// </summary>
+        [Description("客服")]
+        CustomerService = 1,
+        /// <summary>
+        /// 客户
+        /// </summary>
+        [Description("客户")]
+        Customer = 2,
+    }
+    /// <summary>
+    /// 接收状态
+    /// </summary>
+    public enum ReceiveState
+    {
+        /// <summary>
+        /// 未接收
+        /// </summary>
+        [Description("未接收")]
+        UnReceive = 0,
+        /// <summary>
+        /// 已接收
+        /// </summary>
+        [Description("已接收")]
+        Received = 1,
+    }
 }

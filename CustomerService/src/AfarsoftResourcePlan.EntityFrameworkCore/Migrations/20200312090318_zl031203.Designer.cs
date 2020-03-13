@@ -3,29 +3,26 @@ using System;
 using AfarsoftResourcePlan.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AfarsoftResourcePlan.Migrations
 {
     [DbContext(typeof(AfarsoftResourcePlanDbContext))]
-    [Migration("20190208051931_Upgrade_ABP_4_2_0")]
-    partial class Upgrade_ABP_4_2_0
+    [Migration("20200312090318_zl031203")]
+    partial class zl031203
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Abp.Application.Editions.Edition", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -57,8 +54,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Application.Features.FeatureSetting", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -87,8 +83,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Auditing.AuditLog", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("BrowserInfo")
                         .HasMaxLength(512);
@@ -142,8 +137,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.PermissionSetting", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -172,8 +166,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
                         .HasMaxLength(256);
@@ -200,8 +193,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserAccount", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -247,8 +239,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
                         .HasMaxLength(256);
@@ -275,8 +266,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("LoginProvider")
                         .IsRequired()
@@ -304,8 +294,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserLoginAttempt", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("BrowserInfo")
                         .HasMaxLength(512);
@@ -342,8 +331,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -369,8 +357,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -396,8 +383,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("ExpireDate");
 
@@ -426,8 +412,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.BackgroundJobs.BackgroundJobInfo", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -461,8 +446,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -495,8 +479,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ChangeTime");
 
@@ -524,8 +507,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("BrowserInfo")
                         .HasMaxLength(512);
@@ -565,8 +547,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<long>("EntityChangeId");
 
@@ -594,8 +575,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Localization.ApplicationLanguage", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -636,8 +616,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Localization.ApplicationLanguageText", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -814,8 +793,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -855,8 +833,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("Abp.Organizations.OrganizationUnitRole", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
 
@@ -882,8 +859,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Roles.Role", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -940,8 +916,7 @@ namespace AfarsoftResourcePlan.Migrations
             modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Users.User", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -1035,11 +1010,144 @@ namespace AfarsoftResourcePlan.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ChatRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CustomerCode");
+
+                    b.Property<string>("CustomerDeviceId");
+
+                    b.Property<string>("CustomerFaceImg");
+
+                    b.Property<Guid>("CustomerId");
+
+                    b.Property<string>("CustomerNickName");
+
+                    b.Property<int>("ReceiveState");
+
+                    b.Property<string>("SendContent");
+
+                    b.Property<DateTime>("SendDateTime");
+
+                    b.Property<int>("SendInfoType");
+
+                    b.Property<int>("SendSource");
+
+                    b.Property<string>("ServiceCode");
+
+                    b.Property<string>("ServiceFaceImg");
+
+                    b.Property<Guid>("ServiceId");
+
+                    b.Property<string>("ServiceNickName");
+
+                    b.Property<int>("ServiceRecordsId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatRecords");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.CustomerConnectRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CustomerCode");
+
+                    b.Property<string>("CustomerFaceImg");
+
+                    b.Property<Guid>("CustomerId");
+
+                    b.Property<string>("CustomerNickName");
+
+                    b.Property<int>("CustomerState");
+
+                    b.Property<string>("DeviceId");
+
+                    b.Property<string>("OpenId");
+
+                    b.Property<Guid?>("ServiceId");
+
+                    b.Property<string>("UnionId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerConnectRecords");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ServiceConnectRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DeviceId");
+
+                    b.Property<string>("ServiceCode");
+
+                    b.Property<int>("ServiceCount");
+
+                    b.Property<Guid>("ServiceId");
+
+                    b.Property<string>("ServiceNickName");
+
+                    b.Property<int>("ServiceState");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceConnectRecords");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ServiceRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CustomerCode");
+
+                    b.Property<int>("CustomerConnectRecordsId");
+
+                    b.Property<DateTime?>("CustomerContentDate");
+
+                    b.Property<string>("CustomerDeviceId");
+
+                    b.Property<string>("CustomerFaceImg");
+
+                    b.Property<Guid>("CustomerId");
+
+                    b.Property<string>("CustomerNickName");
+
+                    b.Property<int>("CustomerState");
+
+                    b.Property<DateTime?>("CustomerUnContentDate");
+
+                    b.Property<string>("ServiceCode");
+
+                    b.Property<int?>("ServiceConnectRecordsId");
+
+                    b.Property<DateTime?>("ServiceContentDate");
+
+                    b.Property<string>("ServiceFaceImg");
+
+                    b.Property<Guid>("ServiceId");
+
+                    b.Property<string>("ServiceNickName");
+
+                    b.Property<int>("ServiceState");
+
+                    b.Property<DateTime?>("ServiceUnContentDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceRecords");
+                });
+
             modelBuilder.Entity("AfarsoftResourcePlan.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConnectionString")
                         .HasMaxLength(1024);

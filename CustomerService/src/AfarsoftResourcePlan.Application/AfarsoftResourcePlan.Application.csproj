@@ -27,4 +27,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CRMCustomerService\CRMChatRecords\Dto\" />
+    <Folder Include="CRMCustomerService\CRMCustomerConnect\Dto\" />
+    <Folder Include="CRMCustomerService\CRMServiceConnect\Dto\" />
+  </ItemGroup>
 </Project>

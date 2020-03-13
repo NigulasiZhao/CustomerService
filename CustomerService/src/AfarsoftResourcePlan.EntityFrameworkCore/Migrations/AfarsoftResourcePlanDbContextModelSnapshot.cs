@@ -3,7 +3,6 @@ using System;
 using AfarsoftResourcePlan.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AfarsoftResourcePlan.Migrations
@@ -19,4113 +18,1371 @@ namespace AfarsoftResourcePlan.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Abp.Application.Editions.Edition", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("DisplayName")
-                    .IsRequired()
-                    .HasMaxLength(64);
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(32);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.ToTable("tb_Editions");
-            });
+                    b.ToTable("AbpEditions");
+                });
 
             modelBuilder.Entity("Abp.Application.Features.FeatureSetting", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("Discriminator")
-                    .IsRequired();
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<string>("Value")
-                    .IsRequired()
-                    .HasMaxLength(2000);
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(2000);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.ToTable("tb_Features");
+                    b.ToTable("AbpFeatures");
 
-                b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
-            });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
+                });
 
             modelBuilder.Entity("Abp.Auditing.AuditLog", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("BrowserInfo")
-                    .HasMaxLength(512);
+                    b.Property<string>("BrowserInfo")
+                        .HasMaxLength(512);
 
-                b.Property<string>("ClientIpAddress")
-                    .HasMaxLength(64);
+                    b.Property<string>("ClientIpAddress")
+                        .HasMaxLength(64);
 
-                b.Property<string>("ClientName")
-                    .HasMaxLength(128);
+                    b.Property<string>("ClientName")
+                        .HasMaxLength(128);
 
-                b.Property<string>("CustomData")
-                    .HasMaxLength(2000);
+                    b.Property<string>("CustomData")
+                        .HasMaxLength(2000);
 
-                b.Property<string>("Exception")
-                    .HasMaxLength(2000);
+                    b.Property<string>("Exception")
+                        .HasMaxLength(2000);
 
-                b.Property<int>("ExecutionDuration");
+                    b.Property<int>("ExecutionDuration");
 
-                b.Property<DateTime>("ExecutionTime");
+                    b.Property<DateTime>("ExecutionTime");
 
-                b.Property<int?>("ImpersonatorTenantId");
+                    b.Property<int?>("ImpersonatorTenantId");
 
-                b.Property<long?>("ImpersonatorUserId");
+                    b.Property<long?>("ImpersonatorUserId");
 
-                b.Property<string>("MethodName")
-                    .HasMaxLength(256);
+                    b.Property<string>("MethodName")
+                        .HasMaxLength(256);
 
-                b.Property<string>("Parameters")
-                    .HasMaxLength(1024);
+                    b.Property<string>("Parameters")
+                        .HasMaxLength(1024);
 
-                b.Property<string>("ReturnValue");
+                    b.Property<string>("ReturnValue");
 
-                b.Property<string>("ServiceName")
-                    .HasMaxLength(256);
+                    b.Property<string>("ServiceName")
+                        .HasMaxLength(256);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long?>("UserId");
+                    b.Property<long?>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "ExecutionDuration");
+                    b.HasIndex("TenantId", "ExecutionDuration");
 
-                b.HasIndex("TenantId", "ExecutionTime");
+                    b.HasIndex("TenantId", "ExecutionTime");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.ToTable("tb_AuditLogs");
-            });
+                    b.ToTable("AbpAuditLogs");
+                });
 
             modelBuilder.Entity("Abp.Authorization.PermissionSetting", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("Discriminator")
-                    .IsRequired();
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                b.Property<bool>("IsGranted");
+                    b.Property<bool>("IsGranted");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "Name");
+                    b.HasIndex("TenantId", "Name");
 
-                b.ToTable("tb_Permissions");
+                    b.ToTable("AbpPermissions");
 
-                b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
-            });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("ClaimType")
-                    .HasMaxLength(256);
+                    b.Property<string>("ClaimType")
+                        .HasMaxLength(256);
 
-                b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue");
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<int>("RoleId");
+                    b.Property<int>("RoleId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("RoleId");
+                    b.HasIndex("RoleId");
 
-                b.HasIndex("TenantId", "ClaimType");
+                    b.HasIndex("TenantId", "ClaimType");
 
-                b.ToTable("tb_RoleClaims");
-            });
+                    b.ToTable("AbpRoleClaims");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserAccount", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("EmailAddress")
-                    .HasMaxLength(256);
+                    b.Property<string>("EmailAddress")
+                        .HasMaxLength(256);
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.Property<long?>("UserLinkId");
+                    b.Property<long?>("UserLinkId");
 
-                b.Property<string>("UserName")
-                    .HasMaxLength(256);
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("EmailAddress");
+                    b.HasIndex("EmailAddress");
 
-                b.HasIndex("UserName");
+                    b.HasIndex("UserName");
 
-                b.HasIndex("TenantId", "EmailAddress");
+                    b.HasIndex("TenantId", "EmailAddress");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.HasIndex("TenantId", "UserName");
+                    b.HasIndex("TenantId", "UserName");
 
-                b.ToTable("tb_UserAccounts");
-            });
+                    b.ToTable("AbpUserAccounts");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("ClaimType")
-                    .HasMaxLength(256);
+                    b.Property<string>("ClaimType")
+                        .HasMaxLength(256);
 
-                b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue");
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.HasIndex("TenantId", "ClaimType");
+                    b.HasIndex("TenantId", "ClaimType");
 
-                b.ToTable("tb_UserClaims");
-            });
+                    b.ToTable("AbpUserClaims");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("LoginProvider")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<string>("ProviderKey")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.HasIndex("TenantId", "LoginProvider", "ProviderKey");
+                    b.HasIndex("TenantId", "LoginProvider", "ProviderKey");
 
-                b.ToTable("tb_UserLogins");
-            });
+                    b.ToTable("AbpUserLogins");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLoginAttempt", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("BrowserInfo")
-                    .HasMaxLength(512);
+                    b.Property<string>("BrowserInfo")
+                        .HasMaxLength(512);
 
-                b.Property<string>("ClientIpAddress")
-                    .HasMaxLength(64);
+                    b.Property<string>("ClientIpAddress")
+                        .HasMaxLength(64);
 
-                b.Property<string>("ClientName")
-                    .HasMaxLength(128);
+                    b.Property<string>("ClientName")
+                        .HasMaxLength(128);
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<byte>("Result");
+                    b.Property<byte>("Result");
 
-                b.Property<string>("TenancyName")
-                    .HasMaxLength(64);
+                    b.Property<string>("TenancyName")
+                        .HasMaxLength(64);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long?>("UserId");
+                    b.Property<long?>("UserId");
 
-                b.Property<string>("UserNameOrEmailAddress")
-                    .HasMaxLength(255);
+                    b.Property<string>("UserNameOrEmailAddress")
+                        .HasMaxLength(255);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId", "TenantId");
+                    b.HasIndex("UserId", "TenantId");
 
-                b.HasIndex("TenancyName", "UserNameOrEmailAddress", "Result");
+                    b.HasIndex("TenancyName", "UserNameOrEmailAddress", "Result");
 
-                b.ToTable("tb_UserLoginAttempts");
-            });
+                    b.ToTable("AbpUserLoginAttempts");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserOrganizationUnit", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<long>("OrganizationUnitId");
+                    b.Property<long>("OrganizationUnitId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "OrganizationUnitId");
+                    b.HasIndex("TenantId", "OrganizationUnitId");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.ToTable("tb_UserOrganizationUnits");
-            });
+                    b.ToTable("AbpUserOrganizationUnits");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<int>("RoleId");
+                    b.Property<int>("RoleId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.HasIndex("TenantId", "RoleId");
+                    b.HasIndex("TenantId", "RoleId");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.ToTable("tb_UserRoles");
-            });
+                    b.ToTable("AbpUserRoles");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime?>("ExpireDate");
+                    b.Property<DateTime?>("ExpireDate");
 
-                b.Property<string>("LoginProvider")
-                    .HasMaxLength(128);
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                b.Property<string>("Name")
-                    .HasMaxLength(128);
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.Property<string>("Value")
-                    .HasMaxLength(512);
+                    b.Property<string>("Value")
+                        .HasMaxLength(512);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.ToTable("tb_UserTokens");
-            });
+                    b.ToTable("AbpUserTokens");
+                });
 
             modelBuilder.Entity("Abp.BackgroundJobs.BackgroundJobInfo", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<bool>("IsAbandoned");
+                    b.Property<bool>("IsAbandoned");
 
-                b.Property<string>("JobArgs")
-                    .IsRequired()
-                    .HasMaxLength(1048576);
+                    b.Property<string>("JobArgs")
+                        .IsRequired()
+                        .HasMaxLength(1048576);
 
-                b.Property<string>("JobType")
-                    .IsRequired()
-                    .HasMaxLength(512);
+                    b.Property<string>("JobType")
+                        .IsRequired()
+                        .HasMaxLength(512);
 
-                b.Property<DateTime?>("LastTryTime");
+                    b.Property<DateTime?>("LastTryTime");
 
-                b.Property<DateTime>("NextTryTime");
+                    b.Property<DateTime>("NextTryTime");
 
-                b.Property<byte>("Priority");
+                    b.Property<byte>("Priority");
 
-                b.Property<short>("TryCount");
+                    b.Property<short>("TryCount");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("IsAbandoned", "NextTryTime");
+                    b.HasIndex("IsAbandoned", "NextTryTime");
 
-                b.ToTable("tb_BackgroundJobs");
-            });
+                    b.ToTable("AbpBackgroundJobs");
+                });
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long?>("UserId");
+                    b.Property<long?>("UserId");
 
-                b.Property<string>("Value")
-                    .HasMaxLength(2000);
+                    b.Property<string>("Value")
+                        .HasMaxLength(2000);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.HasIndex("TenantId", "Name");
+                    b.HasIndex("TenantId", "Name");
 
-                b.ToTable("tb_Settings");
-            });
+                    b.ToTable("AbpSettings");
+                });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("ChangeTime");
+                    b.Property<DateTime>("ChangeTime");
 
-                b.Property<byte>("ChangeType");
+                    b.Property<byte>("ChangeType");
 
-                b.Property<long>("EntityChangeSetId");
+                    b.Property<long>("EntityChangeSetId");
 
-                b.Property<string>("EntityId")
-                    .HasMaxLength(48);
+                    b.Property<string>("EntityId")
+                        .HasMaxLength(48);
 
-                b.Property<string>("EntityTypeFullName")
-                    .HasMaxLength(192);
+                    b.Property<string>("EntityTypeFullName")
+                        .HasMaxLength(192);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("EntityChangeSetId");
+                    b.HasIndex("EntityChangeSetId");
 
-                b.HasIndex("EntityTypeFullName", "EntityId");
+                    b.HasIndex("EntityTypeFullName", "EntityId");
 
-                b.ToTable("tb_EntityChanges");
-            });
+                    b.ToTable("AbpEntityChanges");
+                });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChangeSet", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("BrowserInfo")
-                    .HasMaxLength(512);
+                    b.Property<string>("BrowserInfo")
+                        .HasMaxLength(512);
 
-                b.Property<string>("ClientIpAddress")
-                    .HasMaxLength(64);
+                    b.Property<string>("ClientIpAddress")
+                        .HasMaxLength(64);
 
-                b.Property<string>("ClientName")
-                    .HasMaxLength(128);
+                    b.Property<string>("ClientName")
+                        .HasMaxLength(128);
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<string>("ExtensionData");
+                    b.Property<string>("ExtensionData");
 
-                b.Property<int?>("ImpersonatorTenantId");
+                    b.Property<int?>("ImpersonatorTenantId");
 
-                b.Property<long?>("ImpersonatorUserId");
+                    b.Property<long?>("ImpersonatorUserId");
 
-                b.Property<string>("Reason")
-                    .HasMaxLength(256);
+                    b.Property<string>("Reason")
+                        .HasMaxLength(256);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long?>("UserId");
+                    b.Property<long?>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "CreationTime");
+                    b.HasIndex("TenantId", "CreationTime");
 
-                b.HasIndex("TenantId", "Reason");
+                    b.HasIndex("TenantId", "Reason");
 
-                b.HasIndex("TenantId", "UserId");
+                    b.HasIndex("TenantId", "UserId");
 
-                b.ToTable("tb_EntityChangeSets");
-            });
+                    b.ToTable("AbpEntityChangeSets");
+                });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<long>("EntityChangeId");
+                    b.Property<long>("EntityChangeId");
 
-                b.Property<string>("NewValue")
-                    .HasMaxLength(512);
+                    b.Property<string>("NewValue")
+                        .HasMaxLength(512);
 
-                b.Property<string>("OriginalValue")
-                    .HasMaxLength(512);
+                    b.Property<string>("OriginalValue")
+                        .HasMaxLength(512);
 
-                b.Property<string>("PropertyName")
-                    .HasMaxLength(96);
+                    b.Property<string>("PropertyName")
+                        .HasMaxLength(96);
 
-                b.Property<string>("PropertyTypeFullName")
-                    .HasMaxLength(192);
+                    b.Property<string>("PropertyTypeFullName")
+                        .HasMaxLength(192);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("EntityChangeId");
+                    b.HasIndex("EntityChangeId");
 
-                b.ToTable("tb_EntityPropertyChanges");
-            });
+                    b.ToTable("AbpEntityPropertyChanges");
+                });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguage", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("DisplayName")
-                    .IsRequired()
-                    .HasMaxLength(64);
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<string>("Icon")
-                    .HasMaxLength(128);
+                    b.Property<string>("Icon")
+                        .HasMaxLength(128);
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<bool>("IsDisabled");
+                    b.Property<bool>("IsDisabled");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(10);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "Name");
+                    b.HasIndex("TenantId", "Name");
 
-                b.ToTable("tb_Languages");
-            });
+                    b.ToTable("AbpLanguages");
+                });
 
             modelBuilder.Entity("Abp.Localization.ApplicationLanguageText", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("Key")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<string>("LanguageName")
-                    .IsRequired()
-                    .HasMaxLength(10);
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("Source")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<string>("Value")
-                    .IsRequired()
-                    .HasMaxLength(67108864);
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(67108864);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "Source", "LanguageName", "Key");
+                    b.HasIndex("TenantId", "Source", "LanguageName", "Key");
 
-                b.ToTable("tb_LanguageTexts");
-            });
+                    b.ToTable("AbpLanguageTexts");
+                });
 
             modelBuilder.Entity("Abp.Notifications.NotificationInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("Data")
-                    .HasMaxLength(1048576);
+                    b.Property<string>("Data")
+                        .HasMaxLength(1048576);
 
-                b.Property<string>("DataTypeName")
-                    .HasMaxLength(512);
+                    b.Property<string>("DataTypeName")
+                        .HasMaxLength(512);
 
-                b.Property<string>("EntityId")
-                    .HasMaxLength(96);
+                    b.Property<string>("EntityId")
+                        .HasMaxLength(96);
 
-                b.Property<string>("EntityTypeAssemblyQualifiedName")
-                    .HasMaxLength(512);
+                    b.Property<string>("EntityTypeAssemblyQualifiedName")
+                        .HasMaxLength(512);
 
-                b.Property<string>("EntityTypeName")
-                    .HasMaxLength(250);
+                    b.Property<string>("EntityTypeName")
+                        .HasMaxLength(250);
 
-                b.Property<string>("ExcludedUserIds")
-                    .HasMaxLength(131072);
+                    b.Property<string>("ExcludedUserIds")
+                        .HasMaxLength(131072);
 
-                b.Property<string>("NotificationName")
-                    .IsRequired()
-                    .HasMaxLength(96);
+                    b.Property<string>("NotificationName")
+                        .IsRequired()
+                        .HasMaxLength(96);
 
-                b.Property<byte>("Severity");
+                    b.Property<byte>("Severity");
 
-                b.Property<string>("TenantIds")
-                    .HasMaxLength(131072);
+                    b.Property<string>("TenantIds")
+                        .HasMaxLength(131072);
 
-                b.Property<string>("UserIds")
-                    .HasMaxLength(131072);
+                    b.Property<string>("UserIds")
+                        .HasMaxLength(131072);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.ToTable("tb_Notifications");
-            });
+                    b.ToTable("AbpNotifications");
+                });
 
             modelBuilder.Entity("Abp.Notifications.NotificationSubscriptionInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("EntityId")
-                    .HasMaxLength(96);
+                    b.Property<string>("EntityId")
+                        .HasMaxLength(96);
 
-                b.Property<string>("EntityTypeAssemblyQualifiedName")
-                    .HasMaxLength(512);
+                    b.Property<string>("EntityTypeAssemblyQualifiedName")
+                        .HasMaxLength(512);
 
-                b.Property<string>("EntityTypeName")
-                    .HasMaxLength(250);
+                    b.Property<string>("EntityTypeName")
+                        .HasMaxLength(250);
 
-                b.Property<string>("NotificationName")
-                    .HasMaxLength(96);
+                    b.Property<string>("NotificationName")
+                        .HasMaxLength(96);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("NotificationName", "EntityTypeName", "EntityId", "UserId");
+                    b.HasIndex("NotificationName", "EntityTypeName", "EntityId", "UserId");
 
-                b.HasIndex("TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId");
+                    b.HasIndex("TenantId", "NotificationName", "EntityTypeName", "EntityId", "UserId");
 
-                b.ToTable("tb_NotificationSubscriptions");
-            });
+                    b.ToTable("AbpNotificationSubscriptions");
+                });
 
             modelBuilder.Entity("Abp.Notifications.TenantNotificationInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<string>("Data")
-                    .HasMaxLength(1048576);
+                    b.Property<string>("Data")
+                        .HasMaxLength(1048576);
 
-                b.Property<string>("DataTypeName")
-                    .HasMaxLength(512);
+                    b.Property<string>("DataTypeName")
+                        .HasMaxLength(512);
 
-                b.Property<string>("EntityId")
-                    .HasMaxLength(96);
+                    b.Property<string>("EntityId")
+                        .HasMaxLength(96);
 
-                b.Property<string>("EntityTypeAssemblyQualifiedName")
-                    .HasMaxLength(512);
+                    b.Property<string>("EntityTypeAssemblyQualifiedName")
+                        .HasMaxLength(512);
 
-                b.Property<string>("EntityTypeName")
-                    .HasMaxLength(250);
+                    b.Property<string>("EntityTypeName")
+                        .HasMaxLength(250);
 
-                b.Property<string>("NotificationName")
-                    .IsRequired()
-                    .HasMaxLength(96);
+                    b.Property<string>("NotificationName")
+                        .IsRequired()
+                        .HasMaxLength(96);
 
-                b.Property<byte>("Severity");
+                    b.Property<byte>("Severity");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId");
+                    b.HasIndex("TenantId");
 
-                b.ToTable("tb_TenantNotifications");
-            });
+                    b.ToTable("AbpTenantNotifications");
+                });
 
             modelBuilder.Entity("Abp.Notifications.UserNotificationInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<int>("State");
+                    b.Property<int>("State");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<Guid>("TenantNotificationId");
+                    b.Property<Guid>("TenantNotificationId");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("UserId", "State", "CreationTime");
+                    b.HasIndex("UserId", "State", "CreationTime");
 
-                b.ToTable("tb_UserNotifications");
-            });
+                    b.ToTable("AbpUserNotifications");
+                });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("Code")
-                    .IsRequired()
-                    .HasMaxLength(95);
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(95);
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("DisplayName")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<long?>("ParentId");
+                    b.Property<long?>("ParentId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("ParentId");
+                    b.HasIndex("ParentId");
 
-                b.HasIndex("TenantId", "Code");
+                    b.HasIndex("TenantId", "Code");
 
-                b.ToTable("tb_OrganizationUnits");
-            });
+                    b.ToTable("AbpOrganizationUnits");
+                });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnitRole", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<long>("OrganizationUnitId");
+                    b.Property<long>("OrganizationUnitId");
 
-                b.Property<int>("RoleId");
+                    b.Property<int>("RoleId");
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("TenantId", "OrganizationUnitId");
+                    b.HasIndex("TenantId", "OrganizationUnitId");
 
-                b.HasIndex("TenantId", "RoleId");
+                    b.HasIndex("TenantId", "RoleId");
 
-                b.ToTable("tb_OrganizationUnitRoles");
-            });
+                    b.ToTable("AbpOrganizationUnitRoles");
+                });
 
-            modelBuilder.Entity("AfarErpRecycling.Authorization.Roles.Role", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+            modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Roles.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<string>("ConcurrencyStamp")
-                    .IsConcurrencyToken()
-                    .HasMaxLength(128);
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(128);
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("Description")
-                    .HasMaxLength(5000);
+                    b.Property<string>("Description")
+                        .HasMaxLength(5000);
 
-                b.Property<string>("DisplayName")
-                    .IsRequired()
-                    .HasMaxLength(64);
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<bool>("IsDefault");
+                    b.Property<bool>("IsDefault");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<bool>("IsStatic");
+                    b.Property<bool>("IsStatic");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(32);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
-                b.Property<string>("NormalizedName")
-                    .IsRequired()
-                    .HasMaxLength(32);
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("CreatorUserId");
+                    b.HasIndex("CreatorUserId");
 
-                b.HasIndex("DeleterUserId");
+                    b.HasIndex("DeleterUserId");
 
-                b.HasIndex("LastModifierUserId");
+                    b.HasIndex("LastModifierUserId");
 
-                b.HasIndex("TenantId", "NormalizedName");
+                    b.HasIndex("TenantId", "NormalizedName");
 
-                b.ToTable("tb_Roles");
-            });
+                    b.ToTable("AbpRoles");
+                });
 
-            modelBuilder.Entity("AfarErpRecycling.Authorization.Users.User", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd();
+            modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Users.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount");
 
-                b.Property<string>("AuthenticationSource")
-                    .HasMaxLength(64);
+                    b.Property<string>("AuthenticationSource")
+                        .HasMaxLength(64);
 
-                b.Property<string>("ConcurrencyStamp")
-                    .IsConcurrencyToken()
-                    .HasMaxLength(128);
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(128);
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<string>("EmailAddress")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<string>("EmailConfirmationCode")
-                    .HasMaxLength(328);
+                    b.Property<string>("EmailConfirmationCode")
+                        .HasMaxLength(328);
 
-                b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<bool>("IsEmailConfirmed");
+                    b.Property<bool>("IsEmailConfirmed");
 
-                b.Property<bool>("IsLockoutEnabled");
+                    b.Property<bool>("IsLockoutEnabled");
 
-                b.Property<bool>("IsPhoneNumberConfirmed");
+                    b.Property<bool>("IsPhoneNumberConfirmed");
 
-                b.Property<bool>("IsTwoFactorEnabled");
+                    b.Property<bool>("IsTwoFactorEnabled");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<DateTime?>("LockoutEndDateUtc");
+                    b.Property<DateTime?>("LockoutEndDateUtc");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(64);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<string>("NormalizedEmailAddress")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("NormalizedEmailAddress")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<string>("NormalizedUserName")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("NormalizedUserName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.Property<string>("Password")
-                    .IsRequired()
-                    .HasMaxLength(128);
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<string>("PasswordResetCode")
-                    .HasMaxLength(328);
+                    b.Property<string>("PasswordResetCode")
+                        .HasMaxLength(328);
 
-                b.Property<string>("PhoneNumber")
-                    .HasMaxLength(32);
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(32);
 
-                b.Property<string>("SecurityStamp")
-                    .HasMaxLength(128);
+                    b.Property<string>("SecurityStamp")
+                        .HasMaxLength(128);
 
-                b.Property<string>("Surname")
-                    .IsRequired()
-                    .HasMaxLength(64);
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<int?>("TenantId");
+                    b.Property<int?>("TenantId");
 
-                b.Property<string>("UserName")
-                    .IsRequired()
-                    .HasMaxLength(256);
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("CreatorUserId");
+                    b.HasIndex("CreatorUserId");
 
-                b.HasIndex("DeleterUserId");
+                    b.HasIndex("DeleterUserId");
 
-                b.HasIndex("LastModifierUserId");
+                    b.HasIndex("LastModifierUserId");
 
-                b.HasIndex("TenantId", "NormalizedEmailAddress");
+                    b.HasIndex("TenantId", "NormalizedEmailAddress");
 
-                b.HasIndex("TenantId", "NormalizedUserName");
+                    b.HasIndex("TenantId", "NormalizedUserName");
 
-                b.ToTable("tb_Users");
-            });
+                    b.ToTable("AbpUsers");
+                });
 
-            modelBuilder.Entity("AfarErpRecycling.Domain.Common.BatchRecord", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ChatRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<int>("BatchRecordType");
+                    b.Property<string>("CustomerCode");
 
-                b.Property<DateTime>("BatchTime");
+                    b.Property<string>("CustomerDeviceId");
 
-                b.HasKey("Id");
+                    b.Property<string>("CustomerFaceImg");
 
-                b.ToTable("BatchRecords");
-            });
+                    b.Property<Guid>("CustomerId");
 
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.AreaInfo", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
+                    b.Property<string>("CustomerNickName");
 
-                b.Property<string>("AreaCode");
+                    b.Property<int>("ReceiveState");
 
-                b.Property<string>("AreaName")
-                    .IsRequired();
+                    b.Property<string>("SendContent");
 
-                b.Property<int>("AreaType");
+                    b.Property<DateTime>("SendDateTime");
 
-                b.Property<string>("Contact");
+                    b.Property<int>("SendInfoType");
 
-                b.Property<string>("ContactNumber");
+                    b.Property<int>("SendSource");
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<string>("ServiceCode");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<string>("ServiceFaceImg");
 
-                b.Property<long?>("DeleterUserId");
+                    b.Property<Guid>("ServiceId");
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<string>("ServiceNickName");
 
-                b.Property<int>("FatherId");
+                    b.Property<int>("ServiceRecordsId");
 
-                b.Property<string>("IdRealation");
+                    b.HasKey("Id");
 
-                b.Property<bool>("IsDeleted");
+                    b.ToTable("ChatRecords");
+                });
 
-                b.Property<DateTime?>("LastModificationTime");
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.CustomerConnectRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<string>("CustomerCode");
 
-                b.Property<string>("NameRealation");
+                    b.Property<string>("CustomerFaceImg");
 
-                b.HasKey("Id");
+                    b.Property<Guid>("CustomerId");
 
-                b.ToTable("AreaInfos");
-            });
+                    b.Property<string>("CustomerNickName");
 
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                    b.Property<int>("CustomerState");
 
-                b.Property<string>("AreaIdRealation");
+                    b.Property<string>("DeviceId");
 
-                b.Property<string>("AreaNameRealation");
+                    b.Property<string>("OpenId");
 
-                b.Property<string>("CellPhone");
+                    b.Property<Guid?>("ServiceId");
 
-                b.Property<int?>("CityId");
+                    b.Property<string>("UnionId");
 
-                b.Property<DateTime>("CreationTime");
+                    b.HasKey("Id");
 
-                b.Property<long?>("CreatorUserId");
+                    b.ToTable("CustomerConnectRecords");
+                });
 
-                b.Property<long?>("DeleterUserId");
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ServiceConnectRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<string>("DeviceId");
 
-                b.Property<string>("IdentificationNumber");
+                    b.Property<string>("ServiceCode");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<int>("ServiceCount");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<Guid>("ServiceId");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<string>("ServiceNickName");
 
-                b.Property<Guid>("OrganizationId");
+                    b.Property<int>("ServiceState");
 
-                b.Property<string>("OrganizationPermission");
+                    b.HasKey("Id");
 
-                b.Property<int?>("ProvinceId");
+                    b.ToTable("ServiceConnectRecords");
+                });
 
-                b.Property<int?>("RegionId");
+            modelBuilder.Entity("AfarsoftResourcePlan.CustomerService.ServiceRecords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<int>("Sex");
+                    b.Property<string>("CustomerCode");
 
-                b.Property<long>("UserId");
+                    b.Property<int>("CustomerConnectRecordsId");
 
-                b.Property<string>("UserInfoCode")
-                    .IsRequired();
+                    b.Property<DateTime?>("CustomerContentDate");
 
-                b.Property<string>("UserName")
-                    .IsRequired();
+                    b.Property<string>("CustomerDeviceId");
 
-                b.HasKey("Id");
+                    b.Property<string>("CustomerFaceImg");
 
-                b.HasIndex("OrganizationId");
+                    b.Property<Guid>("CustomerId");
 
-                b.HasIndex("UserId");
+                    b.Property<string>("CustomerNickName");
 
-                b.ToTable("UserInfos");
-            });
+                    b.Property<int>("CustomerState");
 
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Customer", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                    b.Property<DateTime?>("CustomerUnContentDate");
 
-                b.Property<string>("Account");
+                    b.Property<string>("ServiceCode");
 
-                b.Property<int?>("AccountDate");
+                    b.Property<int?>("ServiceConnectRecordsId");
 
-                b.Property<string>("Address");
+                    b.Property<DateTime?>("ServiceContentDate");
 
-                b.Property<string>("Bank");
+                    b.Property<string>("ServiceFaceImg");
 
-                b.Property<string>("Contact");
+                    b.Property<Guid>("ServiceId");
 
-                b.Property<string>("ContactNumber");
+                    b.Property<string>("ServiceNickName");
 
-                b.Property<DateTime>("CreationTime");
+                    b.Property<int>("ServiceState");
 
-                b.Property<long?>("CreatorUserId");
+                    b.Property<DateTime?>("ServiceUnContentDate");
 
-                b.Property<string>("CustomerCode")
-                    .IsRequired();
+                    b.HasKey("Id");
 
-                b.Property<string>("CustomerName")
-                    .IsRequired();
+                    b.ToTable("ServiceRecords");
+                });
 
-                b.Property<long?>("DeleterUserId");
+            modelBuilder.Entity("AfarsoftResourcePlan.MultiTenancy.Tenant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                b.Property<DateTime?>("DeletionTime");
+                    b.Property<string>("ConnectionString")
+                        .HasMaxLength(1024);
 
-                b.Property<string>("InvoiceHead");
+                    b.Property<DateTime>("CreationTime");
 
-                b.Property<int>("IsBilling");
+                    b.Property<long?>("CreatorUserId");
 
-                b.Property<bool>("IsDeleted");
+                    b.Property<long?>("DeleterUserId");
 
-                b.Property<DateTime?>("LastModificationTime");
+                    b.Property<DateTime?>("DeletionTime");
 
-                b.Property<long?>("LastModifierUserId");
+                    b.Property<int?>("EditionId");
 
-                b.Property<int>("Level");
+                    b.Property<bool>("IsActive");
 
-                b.Property<string>("PayWay");
+                    b.Property<bool>("IsDeleted");
 
-                b.Property<string>("Remark");
+                    b.Property<DateTime?>("LastModificationTime");
 
-                b.Property<Guid>("SaleUserInfoId");
+                    b.Property<long?>("LastModifierUserId");
 
-                b.Property<string>("TaxCode");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                b.Property<Guid>("UnionInfoId");
+                    b.Property<string>("TenancyName")
+                        .IsRequired()
+                        .HasMaxLength(64);
 
-                b.Property<int>("UseStateType");
+                    b.HasKey("Id");
 
-                b.HasKey("Id");
+                    b.HasIndex("CreatorUserId");
 
-                b.HasIndex("UnionInfoId");
+                    b.HasIndex("DeleterUserId");
 
-                b.ToTable("Customers");
-            });
+                    b.HasIndex("EditionId");
 
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Department", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
+                    b.HasIndex("LastModifierUserId");
 
-                b.Property<DateTime>("CreationTime");
+                    b.HasIndex("TenancyName");
 
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("DepartmenCode")
-                    .IsRequired();
-
-                b.Property<string>("DepartmentName")
-                    .IsRequired();
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("Remark");
-
-                b.HasKey("Id");
-
-                b.ToTable("Departments");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Enterprise", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Area");
-
-                b.Property<string>("Contact");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("Email");
-
-                b.Property<string>("EnterpriseAddr");
-
-                b.Property<string>("EnterpriseName")
-                    .IsRequired();
-
-                b.Property<DateTime>("ExpireTime");
-
-                b.Property<string>("Fax");
-
-                b.Property<string>("Industry");
-
-                b.Property<string>("Introduction");
-
-                b.Property<string>("InvoiceHead");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("PostCodes");
-
-                b.Property<string>("QQ");
-
-                b.Property<string>("RegistPhone");
-
-                b.Property<DateTime>("RegistTime");
-
-                b.Property<string>("Remark");
-
-                b.Property<string>("Taxcode");
-
-                b.Property<string>("Wishes");
-
-                b.HasKey("Id");
-
-                b.ToTable("Enterprises");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Financial.Receivables", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Abstract");
-
-                b.Property<DateTime>("AccountDate");
-
-                b.Property<decimal>("Amount");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<decimal>("CurrentAmount");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("FinanceAccountId");
-
-                b.Property<string>("FinanceAccountName");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<int>("IsPaidUp");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MakerId");
-
-                b.Property<string>("MakerName")
-                    .IsRequired();
-
-                b.Property<DateTime>("MakerTime");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<Guid>("OrderId");
-
-                b.Property<int>("OrderType");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<int>("PrintTims");
-
-                b.Property<string>("Remark");
-
-                b.Property<Guid>("SalerId");
-
-                b.Property<string>("SalerName");
-
-                b.Property<string>("TaxNumber");
-
-                b.Property<string>("TaxTitle");
-
-                b.Property<Guid>("UnionId");
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.HasKey("Id");
-
-                b.ToTable("Receivables");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Financial.ReceivedOrder", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Abstract");
-
-                b.Property<Guid>("BankInfoID");
-
-                b.Property<string>("BankInfoName");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<decimal>("DiscountsAmount");
-
-                b.Property<Guid>("HandId");
-
-                b.Property<string>("HandName");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MakerId");
-
-                b.Property<string>("MakerName")
-                    .IsRequired();
-
-                b.Property<string>("MakerRemark");
-
-                b.Property<DateTime>("MakerTime");
-
-                b.Property<decimal>("OrderAmount");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<DateTime>("OrderDate");
-
-                b.Property<int>("OrderState");
-
-                b.Property<decimal>("OrderTotalAmount");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName")
-                    .IsRequired();
-
-                b.Property<Guid>("PayWayId");
-
-                b.Property<string>("PayWayName");
-
-                b.Property<decimal>("Poundage");
-
-                b.Property<Guid>("RedRushOrderId");
-
-                b.Property<Guid>("SalerId");
-
-                b.Property<string>("SalerName");
-
-                b.Property<string>("SerialNumber");
-
-                b.Property<decimal>("TotalTransporeCost");
-
-                b.Property<Guid>("UnionId");
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.Property<Guid>("VerifierId");
-
-                b.Property<string>("VerifierName");
-
-                b.Property<string>("VerifierRemark");
-
-                b.Property<DateTime>("VerifierTime");
-
-                b.HasKey("Id");
-
-                b.ToTable("ReceivedOrder");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Financial.ReceivedOrderDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("AccountDate");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<Guid>("OrderId");
-
-                b.Property<int>("OrderType");
-
-                b.Property<Guid>("ReceivablesId");
-
-                b.Property<decimal>("ReceivedAmount");
-
-                b.Property<Guid>("ReceivedOrderId");
-
-                b.Property<Guid>("SalerId");
-
-                b.Property<string>("SalerName");
-
-                b.Property<decimal>("TransporeCost");
-
-                b.Property<Guid>("UnionId");
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.HasKey("Id");
-
-                b.ToTable("ReceivedOrderDetail");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsImage", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<string>("GoodsImgUrl")
-                    .IsRequired();
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.HasKey("Id");
-
-                b.HasIndex("GoodsId");
-
-                b.ToTable("GoodsImages");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AuxiliaryUnit");
-
-                b.Property<int>("Classification");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("FatherGoodsId");
-
-                b.Property<string>("GoodsArticleNumber");
-
-                b.Property<string>("GoodsBarcode");
-
-                b.Property<string>("GoodsCode")
-                    .IsRequired();
-
-                b.Property<string>("GoodsModel");
-
-                b.Property<string>("GoodsName")
-                    .IsRequired();
-
-                b.Property<string>("GoodsRemark");
-
-                b.Property<string>("GoodsSpecification");
-
-                b.Property<int>("GoodsState");
-
-                b.Property<string>("GoodsUnit");
-
-                b.Property<int>("IntoState");
-
-                b.Property<decimal>("IntoTaxRate");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("ProductionPlace");
-
-                b.Property<int>("SaleState");
-
-                b.Property<decimal>("SaleTaxRate");
-
-                b.HasKey("Id");
-
-                b.ToTable("GoodsInfos");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsPrice", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaRelationId");
-
-                b.Property<decimal>("BasicCostPrice");
-
-                b.Property<decimal>("BasicSalePrice");
-
-                b.Property<int?>("CityId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<decimal>("Integral");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal?>("LevelEightPrice");
-
-                b.Property<decimal?>("LevelFivePrice");
-
-                b.Property<decimal?>("LevelFourPrice");
-
-                b.Property<decimal?>("LevelOnePrice");
-
-                b.Property<decimal?>("LevelSevenPrice");
-
-                b.Property<decimal?>("LevelSixPrice");
-
-                b.Property<decimal?>("LevelThreePrice");
-
-                b.Property<decimal?>("LevelTwoPrice");
-
-                b.Property<int?>("ProvinceId");
-
-                b.Property<int?>("RegionId");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("GoodsId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.ToTable("GoodsPrices");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsRegionalPrice", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaRelationId");
-
-                b.Property<decimal>("BasicCostPrice");
-
-                b.Property<decimal>("BasicSalePrice");
-
-                b.Property<int?>("CityId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<int>("IsCostPrice");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal>("LevelEightPrice");
-
-                b.Property<decimal>("LevelFivePrice");
-
-                b.Property<decimal>("LevelFourPrice");
-
-                b.Property<decimal>("LevelOnePrice");
-
-                b.Property<decimal>("LevelSevenPrice");
-
-                b.Property<decimal>("LevelSixPrice");
-
-                b.Property<decimal>("LevelThreePrice");
-
-                b.Property<decimal>("LevelTwoPrice");
-
-                b.Property<int?>("ProvinceId");
-
-                b.Property<int?>("RegionId");
-
-                b.Property<decimal>("Score");
-
-                b.HasKey("Id");
-
-                b.ToTable("GoodsRegionalPrice");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Inventory.WarehouseInventory", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<decimal>("AvgPrice");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<int?>("HighAlarm");
-
-                b.Property<decimal>("InventoryCost");
-
-                b.Property<decimal>("InventoryCostNoTax");
-
-                b.Property<decimal>("InventoryQuantity");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<decimal?>("LastInPrice");
-
-                b.Property<decimal?>("LastInPriceNoTax");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal?>("LockAmount");
-
-                b.Property<int?>("LowAlarm");
-
-                b.Property<Guid>("WarehouseId");
-
-                b.HasKey("Id");
-
-                b.ToTable("WarehouseInventory");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Inventory.WarehouseInventoryDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<decimal?>("InPrice");
-
-                b.Property<decimal?>("InPriceNoTax");
-
-                b.Property<decimal?>("InQuantity");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal?>("LockQuantityChange");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<Guid>("OrderId");
-
-                b.Property<int>("OrderType");
-
-                b.Property<decimal?>("OutPrice");
-
-                b.Property<decimal?>("OutPriceNoTax");
-
-                b.Property<decimal?>("OutQuantity");
-
-                b.Property<decimal>("QuantityChange");
-
-                b.Property<Guid>("WarehouseId");
-
-                b.Property<Guid>("WarehouseInventoryId");
-
-                b.HasKey("Id");
-
-                b.ToTable("WarehouseInventoryDetail");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Organization", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Address");
-
-                b.Property<string>("CellPhone");
-
-                b.Property<string>("Contact");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("EnterpriseId");
-
-                b.Property<string>("InvoiceHead");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("Manager");
-
-                b.Property<string>("OrganizationCode")
-                    .IsRequired();
-
-                b.Property<string>("OrganizationName")
-                    .IsRequired();
-
-                b.Property<string>("Remark");
-
-                b.Property<string>("Taxcode");
-
-                b.Property<Guid?>("WarehouseId");
-
-                b.Property<string>("WarehouseName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("EnterpriseId");
-
-                b.ToTable("Organizations");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.SaleOrder", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<int?>("AccountDate");
-
-                b.Property<string>("AuxiliaryQuantity");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<decimal>("DiscountTotalAmount");
-
-                b.Property<DateTime>("ExpirationDate");
-
-                b.Property<decimal>("GiveQuantity");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MakerId");
-
-                b.Property<string>("MakerName")
-                    .IsRequired();
-
-                b.Property<string>("MakerRemark");
-
-                b.Property<DateTime>("MakerTime");
-
-                b.Property<decimal>("NoTaxRateTotalAmount");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<DateTime>("OrderDate");
-
-                b.Property<DateTime>("OrderDeliveryDate");
-
-                b.Property<int>("OrderState");
-
-                b.Property<int>("OrderType");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<decimal>("OutedGiveQuantity");
-
-                b.Property<decimal>("OutedQuantity");
-
-                b.Property<string>("PayWay");
-
-                b.Property<decimal>("RealOutQuantity");
-
-                b.Property<decimal>("ReturnQuantity");
-
-                b.Property<decimal>("SaleQuantity");
-
-                b.Property<Guid>("SalerId");
-
-                b.Property<string>("SalerName")
-                    .IsRequired();
-
-                b.Property<decimal>("TotalAmount");
-
-                b.Property<Guid>("UnionId");
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.Property<DateTime>("VerifiedTime");
-
-                b.Property<Guid>("VerifierId");
-
-                b.Property<string>("VerifierName");
-
-                b.Property<string>("VerifierRemark");
-
-                b.HasKey("Id");
-
-                b.ToTable("SaleOrder");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.SaleOrderDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<decimal>("AmountNoTaxRate");
-
-                b.Property<string>("AuxiliaryQuantity");
-
-                b.Property<string>("AuxiliaryUnit");
-
-                b.Property<DateTime>("ConfirmedDate");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<decimal>("DiscountAmount");
-
-                b.Property<decimal>("DiscountPrice");
-
-                b.Property<decimal>("DiscountRate");
-
-                b.Property<decimal>("GiveQuantity");
-
-                b.Property<decimal>("GoodsAmount");
-
-                b.Property<string>("GoodsArticleNumber");
-
-                b.Property<string>("GoodsBarcode");
-
-                b.Property<string>("GoodsCode")
-                    .IsRequired();
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<string>("GoodsName")
-                    .IsRequired();
-
-                b.Property<decimal>("GoodsPrice");
-
-                b.Property<decimal>("GoodsQuantity");
-
-                b.Property<string>("GoodsSpecification");
-
-                b.Property<string>("GoodsUnit");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal>("OutedGiveQuantity");
-
-                b.Property<decimal>("OutedQuantity");
-
-                b.Property<decimal>("PriceNoTaxRate");
-
-                b.Property<decimal>("RealOutQuantity");
-
-                b.Property<string>("Remark");
-
-                b.Property<DateTime>("RequiredDate");
-
-                b.Property<decimal>("ReturnQuantity");
-
-                b.Property<Guid>("SaleOrderId");
-
-                b.Property<int>("SortColumn");
-
-                b.Property<int>("TaxRate");
-
-                b.Property<Guid>("WarehouseId");
-
-                b.Property<string>("WarehouseName");
-
-                b.HasKey("Id");
-
-                b.ToTable("SaleOrderDetail");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.SaleOutOrder", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<int?>("AccountDate");
-
-                b.Property<string>("AuxiliaryQuantity");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("Deliver");
-
-                b.Property<string>("DeliverContact");
-
-                b.Property<decimal>("DelivryCost");
-
-                b.Property<decimal>("DiscountTotalAmount");
-
-                b.Property<decimal>("DistributQuantity");
-
-                b.Property<string>("Distributer");
-
-                b.Property<decimal>("GiveQuantity");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MakerId");
-
-                b.Property<string>("MakerName")
-                    .IsRequired();
-
-                b.Property<string>("MakerRemark");
-
-                b.Property<DateTime>("MakerTime");
-
-                b.Property<decimal>("NoTaxRateTotalAmount");
-
-                b.Property<string>("OrderCode")
-                    .IsRequired();
-
-                b.Property<decimal>("OrderCost");
-
-                b.Property<DateTime>("OrderDate");
-
-                b.Property<int>("OrderState");
-
-                b.Property<int>("OrderType");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<DateTime>("OutOrderDate");
-
-                b.Property<decimal>("OutQuantity");
-
-                b.Property<string>("PayWay");
-
-                b.Property<string>("PlateNumber");
-
-                b.Property<decimal>("ReturnQuantity");
-
-                b.Property<Guid>("SaleOrderId");
-
-                b.Property<Guid>("SalerId");
-
-                b.Property<string>("SalerName")
-                    .IsRequired();
-
-                b.Property<Guid>("TallyId");
-
-                b.Property<string>("TallyName");
-
-                b.Property<string>("TallyRemark");
-
-                b.Property<DateTime>("TallyTime");
-
-                b.Property<decimal>("TotalAmount");
-
-                b.Property<Guid>("UnionId");
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.Property<DateTime>("VerifiedTime");
-
-                b.Property<Guid>("VerifierId");
-
-                b.Property<string>("VerifierName");
-
-                b.Property<string>("VerifierRemark");
-
-                b.Property<string>("summary");
-
-                b.HasKey("Id");
-
-                b.ToTable("SaleOutOrder");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.SaleOutOrderDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<decimal>("AmountNoTaxRate");
-
-                b.Property<string>("AuxiliaryQuantity");
-
-                b.Property<string>("AuxiliaryUnit");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<decimal>("DiscountAmount");
-
-                b.Property<decimal>("DiscountPrice");
-
-                b.Property<decimal>("DiscountRate");
-
-                b.Property<decimal>("GiveQuantity");
-
-                b.Property<decimal>("GoodsAmount");
-
-                b.Property<string>("GoodsArticleNumber");
-
-                b.Property<string>("GoodsBarcode");
-
-                b.Property<string>("GoodsCode")
-                    .IsRequired();
-
-                b.Property<decimal?>("GoodsCost");
-
-                b.Property<Guid>("GoodsId");
-
-                b.Property<string>("GoodsName")
-                    .IsRequired();
-
-                b.Property<decimal>("GoodsPrice");
-
-                b.Property<decimal>("GoodsQuantity");
-
-                b.Property<string>("GoodsSpecification");
-
-                b.Property<string>("GoodsUnit");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal>("PriceNoTaxRate");
-
-                b.Property<string>("Remark");
-
-                b.Property<decimal>("ReturnQuantity");
-
-                b.Property<Guid?>("SaleOrderDetailId");
-
-                b.Property<Guid>("SaleOutOrderId");
-
-                b.Property<int>("SortColumn");
-
-                b.Property<int>("TaxRate");
-
-                b.Property<Guid>("WarehouseId");
-
-                b.Property<string>("WarehouseName");
-
-                b.HasKey("Id");
-
-                b.ToTable("SaleOutOrderDetail");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.SerialNumber", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<string>("DaySerialNumber")
-                    .IsRequired();
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("OrderName")
-                    .IsRequired();
-
-                b.Property<string>("SerialNumberDate")
-                    .IsRequired();
-
-                b.HasKey("Id");
-
-                b.ToTable("SerialNumber");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Supplier", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Account");
-
-                b.Property<int>("AccountDate");
-
-                b.Property<string>("Address");
-
-                b.Property<string>("Bank");
-
-                b.Property<string>("Contact");
-
-                b.Property<string>("ContactNumber");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("InvoiceHead");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<int>("PayWay");
-
-                b.Property<string>("Remark");
-
-                b.Property<string>("SupplierCode")
-                    .IsRequired();
-
-                b.Property<string>("SupplierName")
-                    .IsRequired();
-
-                b.Property<int>("TaxBill");
-
-                b.Property<string>("TaxCode");
-
-                b.Property<Guid>("UnionInfoId");
-
-                b.Property<int>("UseStateType");
-
-                b.HasKey("Id");
-
-                b.HasIndex("UnionInfoId");
-
-                b.ToTable("Suppliers");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.UnionInfo", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Address");
-
-                b.Property<string>("ContactName")
-                    .IsRequired();
-
-                b.Property<string>("ContactNumber")
-                    .IsRequired();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("HelpCode");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<int>("IsSupplierAndCustomer");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<int>("Nature");
-
-                b.Property<string>("UnionCode")
-                    .IsRequired();
-
-                b.Property<string>("UnionName")
-                    .IsRequired();
-
-                b.HasKey("Id");
-
-                b.ToTable("UnionInfos");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Warehouse", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Address");
-
-                b.Property<string>("Admin");
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<int>("CityId");
-
-                b.Property<string>("Contacts");
-
-                b.Property<decimal>("CostHighAlarm");
-
-                b.Property<decimal>("CostLowAlarm");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("Geohash");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<double>("Lat");
-
-                b.Property<double>("Lon");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("Phone");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<string>("Remark");
-
-                b.Property<string>("WarehouseCode")
-                    .IsRequired();
-
-                b.Property<string>("WarehouseName")
-                    .IsRequired();
-
-                b.HasKey("Id");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.ToTable("Warehouses");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.Car", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Capacity");
-
-                b.Property<string>("CarInfoMode");
-
-                b.Property<string>("CarNo")
-                    .IsRequired();
-
-                b.Property<int>("CarType");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("PlateNumber")
-                    .IsRequired();
-
-                b.Property<string>("Remark");
-
-                b.Property<Guid?>("UserInfoId");
-
-                b.Property<string>("UserInfoUserName");
-
-                b.Property<string>("Weight");
-
-                b.HasKey("Id");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("Cars");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.CarLine", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<Guid>("CarId");
-
-                b.Property<string>("CarNo");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsActive");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CarId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("CarLines");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DeliveryBill", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<string>("BillCode");
-
-                b.Property<int>("CityId");
-
-                b.Property<int>("ClassificationType");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<int>("DeliveryRefer");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MemberId");
-
-                b.Property<string>("MemberNickName");
-
-                b.Property<string>("MemberNo");
-
-                b.Property<string>("MemberPhone");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<decimal>("SumScore");
-
-                b.Property<decimal>("SumWeight");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.Property<string>("UserInfoName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("MemberId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("DeliveryBills");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DeliveryBillDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("DeliveryBillId");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<string>("GoodsInfoName");
-
-                b.Property<string>("GoodsInfoNo");
-
-                b.Property<string>("GoodsInfoUnit");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal>("Score");
-
-                b.Property<decimal>("ScoreRatio");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<decimal>("Weight");
-
-                b.HasKey("Id");
-
-                b.HasIndex("DeliveryBillId");
-
-                b.HasIndex("GoodsInfoId");
-
-                b.ToTable("DeliveryBillDetails");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DetruckBill", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<string>("BillCode");
-
-                b.Property<Guid>("CarId");
-
-                b.Property<Guid>("CarLineId");
-
-                b.Property<string>("CarNo");
-
-                b.Property<int>("CityId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsAudited");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MarkerId");
-
-                b.Property<string>("MarkerName");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid?>("VerifierId");
-
-                b.Property<string>("VerifierName");
-
-                b.Property<DateTime?>("VerifierTime");
-
-                b.Property<Guid>("WarehouseId");
-
-                b.Property<string>("WarehouseName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CarId");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("MarkerId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.ToTable("DetruckBills");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DetruckBillDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<Guid>("CarLineId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("DetruckBillCode");
-
-                b.Property<Guid>("DetruckBillId");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<decimal>("GoodsInfoIntoTaxRate");
-
-                b.Property<string>("GoodsInfoName");
-
-                b.Property<string>("GoodsInfoNo");
-
-                b.Property<string>("GoodsInfoUnit");
-
-                b.Property<Guid>("GoodsPackId");
-
-                b.Property<string>("GoodsPackNo");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal?>("RealWeight");
-
-                b.Property<string>("ServiceAreaAreaIdRealation");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<decimal>("Weight");
-
-                b.HasKey("Id");
-
-                b.HasIndex("DetruckBillId");
-
-                b.HasIndex("GoodsInfoId");
-
-                b.HasIndex("GoodsPackId");
-
-                b.ToTable("DetruckBillDetails");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.EntruckBill", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<string>("BillCode");
-
-                b.Property<Guid>("CarId");
-
-                b.Property<Guid>("CarLineId");
-
-                b.Property<string>("CarNo");
-
-                b.Property<int>("CityId");
-
-                b.Property<int>("ClassificationType");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid?>("DetruckBillId");
-
-                b.Property<int>("EntruckStatus");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.Property<string>("UserInfoName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CarId");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("DetruckBillId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("EntruckBills");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.EntruckBillDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<Guid>("CarLineId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("EntruckBillCode");
-
-                b.Property<Guid>("EntruckBillId");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<decimal>("GoodsInfoIntoTaxRate");
-
-                b.Property<string>("GoodsInfoName");
-
-                b.Property<string>("GoodsInfoNo");
-
-                b.Property<string>("GoodsInfoUnit");
-
-                b.Property<Guid>("GoodsPackId");
-
-                b.Property<string>("GoodsPackNo");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("ServiceAreaAreaIdRealation");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<decimal>("Weight");
-
-                b.HasKey("Id");
-
-                b.HasIndex("EntruckBillId");
-
-                b.HasIndex("GoodsInfoId");
-
-                b.HasIndex("GoodsPackId");
-
-                b.ToTable("EntruckBillDetails");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.GoodsPack", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<Guid?>("CarLineId");
-
-                b.Property<int>("CityId");
-
-                b.Property<int>("ClassificationType");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<decimal>("GoodsInfoIntoTaxRate");
-
-                b.Property<string>("GoodsInfoName");
-
-                b.Property<string>("GoodsInfoNo");
-
-                b.Property<string>("GoodsInfoUnit");
-
-                b.Property<int>("GoodsPackStatus");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("No");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.Property<string>("UserInfoName");
-
-                b.Property<decimal>("Weight");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("GoodsInfoId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("GoodsPacks");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.Member", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Address");
-
-                b.Property<string>("Address_Building");
-
-                b.Property<string>("Address_Layer");
-
-                b.Property<string>("Address_Room");
-
-                b.Property<string>("Address_Unit");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("FaceImage");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("MemberNo");
-
-                b.Property<Guid>("MemberScoreId");
-
-                b.Property<int>("MemberStatus");
-
-                b.Property<string>("NickName");
-
-                b.Property<string>("OpenIdForMP");
-
-                b.Property<string>("OpenIdForMicroAPP");
-
-                b.Property<string>("Phone");
-
-                b.Property<string>("RealName");
-
-                b.Property<DateTime>("RegisterTime");
-
-                b.Property<Guid?>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<int>("Sex");
-
-                b.Property<string>("UnionId");
-
-                b.HasKey("Id");
-
-                b.HasIndex("MemberScoreId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.ToTable("Members");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.MemberMPOpenId", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("MPOpenId");
-
-                b.Property<string>("UnionId");
-
-                b.HasKey("Id");
-
-                b.ToTable("MemberMPOpenIds");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.MemberPayPassword", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MemberId");
-
-                b.Property<string>("PayPassword");
-
-                b.HasKey("Id");
-
-                b.HasIndex("MemberId");
-
-                b.ToTable("MemberPayPasswords");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.MemberScore", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("MemberNo");
-
-                b.Property<string>("Phone");
-
-                b.Property<decimal>("Score");
-
-                b.Property<decimal>("SumScore");
-
-                b.HasKey("Id");
-
-                b.ToTable("MemberScores");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreChangeLog", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<decimal>("AfterScore");
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<decimal>("BeforeScore");
-
-                b.Property<string>("BillCode");
-
-                b.Property<Guid>("BillNo");
-
-                b.Property<int>("CityId");
-
-                b.Property<string>("Content");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MemberId");
-
-                b.Property<string>("MemberNickName");
-
-                b.Property<string>("MemberNo");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<string>("OrganizationName");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<decimal>("Score");
-
-                b.Property<int>("ScoreChangeBillType");
-
-                b.Property<int>("ScoreChangeNumberType");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<string>("Title");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("MemberId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("ScoreChangeLogs");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreConsumeBill", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<string>("BillCode");
-
-                b.Property<int>("CityId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("MemberId");
-
-                b.Property<string>("MemberName");
-
-                b.Property<string>("MemberNo");
-
-                b.Property<string>("MemberPhone");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<string>("ServiceAreaName");
-
-                b.Property<decimal>("SumScore");
-
-                b.Property<Guid>("UserInfoId");
-
-                b.Property<string>("UserInfoName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("MemberId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ServiceAreaId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("ScoreConsumeBills");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreConsumeBillDetail", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<int>("CityId");
-
-                b.Property<int>("Count");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<Guid>("OrganizationId");
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<Guid>("ScoreConsumeBillId");
-
-                b.Property<string>("ScoreGoodsCode");
-
-                b.Property<Guid>("ScoreGoodsId");
-
-                b.Property<string>("ScoreGoodsName");
-
-                b.Property<decimal>("ScorePrice");
-
-                b.Property<decimal>("SumScore");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("OrganizationId");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("ScoreConsumeBillId");
-
-                b.ToTable("ScoreConsumeBillDetails");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreGoods", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("GoodsCode");
-
-                b.Property<string>("GoodsName");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<decimal>("ScorePrice");
-
-                b.HasKey("Id");
-
-                b.ToTable("ScoreGoods");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ServiceArea", b =>
-            {
-                b.Property<Guid>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("Address");
-
-                b.Property<string>("AreaIdRealation");
-
-                b.Property<string>("AreaNameRealation");
-
-                b.Property<int>("CityId");
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<string>("Geohash");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<double>("Lat");
-
-                b.Property<double>("Lon");
-
-                b.Property<string>("Name")
-                    .IsRequired();
-
-                b.Property<int>("ProvinceId");
-
-                b.Property<int>("RegionId");
-
-                b.Property<string>("Remark");
-
-                b.Property<string>("ServiceAreaNo")
-                    .IsRequired();
-
-                b.Property<int>("ServiceAreaType");
-
-                b.Property<string>("ShortName")
-                    .IsRequired();
-
-                b.Property<Guid?>("UserInfoId");
-
-                b.Property<string>("UserInfoName");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CityId");
-
-                b.HasIndex("Geohash");
-
-                b.HasIndex("ProvinceId");
-
-                b.HasIndex("RegionId");
-
-                b.HasIndex("UserInfoId");
-
-                b.ToTable("ServiceAreas");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ServiceAreaGoodsCost", b =>
-            {
-                b.Property<Guid>("ServiceAreaId");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<DateTime>("BatchTime");
-
-                b.Property<decimal>("DayCost");
-
-                b.Property<decimal>("DayCostScore");
-
-                b.Property<decimal>("ScoreToMoneyRatio");
-
-                b.HasKey("ServiceAreaId", "GoodsInfoId");
-
-                b.ToTable("ServiceAreaGoodsCosts");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ServiceAreaGoodsCostLog", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<DateTime>("ChangeTime");
-
-                b.Property<decimal>("DayCost");
-
-                b.Property<decimal>("DayCostScore");
-
-                b.Property<Guid>("GoodsInfoId");
-
-                b.Property<decimal>("ScoreToMoneyRatio");
-
-                b.Property<Guid>("ServiceAreaId");
-
-                b.HasKey("Id");
-
-                b.ToTable("ServiceAreaGoodsCostLogs");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.MultiTenancy.Tenant", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd();
-
-                b.Property<string>("ConnectionString")
-                    .HasMaxLength(1024);
-
-                b.Property<DateTime>("CreationTime");
-
-                b.Property<long?>("CreatorUserId");
-
-                b.Property<long?>("DeleterUserId");
-
-                b.Property<DateTime?>("DeletionTime");
-
-                b.Property<int?>("EditionId");
-
-                b.Property<bool>("IsActive");
-
-                b.Property<bool>("IsDeleted");
-
-                b.Property<DateTime?>("LastModificationTime");
-
-                b.Property<long?>("LastModifierUserId");
-
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(128);
-
-                b.Property<string>("TenancyName")
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                b.HasKey("Id");
-
-                b.HasIndex("CreatorUserId");
-
-                b.HasIndex("DeleterUserId");
-
-                b.HasIndex("EditionId");
-
-                b.HasIndex("LastModifierUserId");
-
-                b.HasIndex("TenancyName");
-
-                b.ToTable("tb_Tenants");
-            });
+                    b.ToTable("AbpTenants");
+                });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
-            {
-                b.HasBaseType("Abp.Application.Features.FeatureSetting");
+                {
+                    b.HasBaseType("Abp.Application.Features.FeatureSetting");
 
-                b.Property<int>("EditionId");
+                    b.Property<int>("EditionId");
 
-                b.HasIndex("EditionId", "Name");
+                    b.HasIndex("EditionId", "Name");
 
-                b.ToTable("tb_Features");
+                    b.ToTable("AbpFeatures");
 
-                b.HasDiscriminator().HasValue("EditionFeatureSetting");
-            });
+                    b.HasDiscriminator().HasValue("EditionFeatureSetting");
+                });
 
             modelBuilder.Entity("Abp.MultiTenancy.TenantFeatureSetting", b =>
-            {
-                b.HasBaseType("Abp.Application.Features.FeatureSetting");
+                {
+                    b.HasBaseType("Abp.Application.Features.FeatureSetting");
 
-                b.HasIndex("TenantId", "Name");
+                    b.HasIndex("TenantId", "Name");
 
-                b.ToTable("tb_Features");
+                    b.ToTable("AbpFeatures");
 
-                b.HasDiscriminator().HasValue("TenantFeatureSetting");
-            });
+                    b.HasDiscriminator().HasValue("TenantFeatureSetting");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
-            {
-                b.HasBaseType("Abp.Authorization.PermissionSetting");
+                {
+                    b.HasBaseType("Abp.Authorization.PermissionSetting");
 
-                b.Property<int>("RoleId");
+                    b.Property<int>("RoleId");
 
-                b.HasIndex("RoleId");
+                    b.HasIndex("RoleId");
 
-                b.ToTable("tb_Permissions");
+                    b.ToTable("AbpPermissions");
 
-                b.HasDiscriminator().HasValue("RolePermissionSetting");
-            });
+                    b.HasDiscriminator().HasValue("RolePermissionSetting");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserPermissionSetting", b =>
-            {
-                b.HasBaseType("Abp.Authorization.PermissionSetting");
+                {
+                    b.HasBaseType("Abp.Authorization.PermissionSetting");
 
-                b.Property<long>("UserId");
+                    b.Property<long>("UserId");
 
-                b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                b.ToTable("tb_Permissions");
+                    b.ToTable("AbpPermissions");
 
-                b.HasDiscriminator().HasValue("UserPermissionSetting");
-            });
+                    b.HasDiscriminator().HasValue("UserPermissionSetting");
+                });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RoleClaim", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Roles.Role")
-                    .WithMany("Claims")
-                    .HasForeignKey("RoleId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Roles.Role")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserClaim", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Claims")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserLogin", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Logins")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserRole", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Roles")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserToken", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Tokens")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Configuration.Setting", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Settings")
-                    .HasForeignKey("UserId");
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Settings")
+                        .HasForeignKey("UserId");
+                });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityChange", b =>
-            {
-                b.HasOne("Abp.EntityHistory.EntityChangeSet")
-                    .WithMany("EntityChanges")
-                    .HasForeignKey("EntityChangeSetId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("Abp.EntityHistory.EntityChangeSet")
+                        .WithMany("EntityChanges")
+                        .HasForeignKey("EntityChangeSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.EntityHistory.EntityPropertyChange", b =>
-            {
-                b.HasOne("Abp.EntityHistory.EntityChange")
-                    .WithMany("PropertyChanges")
-                    .HasForeignKey("EntityChangeId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("Abp.EntityHistory.EntityChange")
+                        .WithMany("PropertyChanges")
+                        .HasForeignKey("EntityChangeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Organizations.OrganizationUnit", b =>
-            {
-                b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
-                    .WithMany("Children")
-                    .HasForeignKey("ParentId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Authorization.Roles.Role", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "CreatorUser")
-                    .WithMany()
-                    .HasForeignKey("CreatorUserId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "DeleterUser")
-                    .WithMany()
-                    .HasForeignKey("DeleterUserId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "LastModifierUser")
-                    .WithMany()
-                    .HasForeignKey("LastModifierUserId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Authorization.Users.User", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "CreatorUser")
-                    .WithMany()
-                    .HasForeignKey("CreatorUserId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "DeleterUser")
-                    .WithMany()
-                    .HasForeignKey("DeleterUserId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "LastModifierUser")
-                    .WithMany()
-                    .HasForeignKey("LastModifierUserId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "User")
-                    .WithMany()
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Customer", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.UnionInfo", "UnionInfo")
-                    .WithMany()
-                    .HasForeignKey("UnionInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsImage", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.GoodsPrice", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityAreaInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId");
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceAreaInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId");
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionAreaInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Organization", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.Enterprise", "Enterprise")
-                    .WithMany()
-                    .HasForeignKey("EnterpriseId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Supplier", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.UnionInfo", "UnionInfo")
-                    .WithMany()
-                    .HasForeignKey("UnionInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Erp.Warehouse", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.Car", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.CarLine", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Car", "Car")
-                    .WithMany()
-                    .HasForeignKey("CarId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DeliveryBill", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Member", "Member")
-                    .WithMany()
-                    .HasForeignKey("MemberId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DeliveryBillDetail", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.DeliveryBill", "DeliveryBill")
-                    .WithMany()
-                    .HasForeignKey("DeliveryBillId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DetruckBill", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Car", "Car")
-                    .WithMany()
-                    .HasForeignKey("CarId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "MarkerInfo")
-                    .WithMany()
-                    .HasForeignKey("MarkerId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.DetruckBillDetail", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.DetruckBill", "DetruckBill")
-                    .WithMany()
-                    .HasForeignKey("DetruckBillId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.GoodsPack", "GoodsPack")
-                    .WithMany()
-                    .HasForeignKey("GoodsPackId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.EntruckBill", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Car", "Car")
-                    .WithMany()
-                    .HasForeignKey("CarId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.DetruckBill", "DetruckBll")
-                    .WithMany()
-                    .HasForeignKey("DetruckBillId");
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.EntruckBillDetail", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.EntruckBill", "EntruckBill")
-                    .WithMany()
-                    .HasForeignKey("EntruckBillId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.GoodsPack", "GoodsPack")
-                    .WithMany()
-                    .HasForeignKey("GoodsPackId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.GoodsPack", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.GoodsInfo", "GoodsInfo")
-                    .WithMany()
-                    .HasForeignKey("GoodsInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.Member", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.MemberScore", "MemberScore")
-                    .WithMany()
-                    .HasForeignKey("MemberScoreId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.MemberPayPassword", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Member", "Member")
-                    .WithMany()
-                    .HasForeignKey("MemberId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreChangeLog", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Member", "Member")
-                    .WithMany()
-                    .HasForeignKey("MemberId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreConsumeBill", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.Member", "Member")
-                    .WithMany()
-                    .HasForeignKey("MemberId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ServiceArea", "ServiceArea")
-                    .WithMany()
-                    .HasForeignKey("ServiceAreaId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ScoreConsumeBillDetail", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.Organization", "Organization")
-                    .WithMany()
-                    .HasForeignKey("OrganizationId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Recovery.ScoreConsumeBill", "ScoreConsumeBill")
-                    .WithMany()
-                    .HasForeignKey("ScoreConsumeBillId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.Domain.Recovery.ServiceArea", b =>
-            {
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "CityInfo")
-                    .WithMany()
-                    .HasForeignKey("CityId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "ProvinceInfo")
-                    .WithMany()
-                    .HasForeignKey("ProvinceId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.AreaInfo", "RegionInfo")
-                    .WithMany()
-                    .HasForeignKey("RegionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne("AfarErpRecycling.Domain.Erp.BasicInfo.UserInfo", "UserInfo")
-                    .WithMany()
-                    .HasForeignKey("UserInfoId");
-            });
-
-            modelBuilder.Entity("AfarErpRecycling.MultiTenancy.Tenant", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "CreatorUser")
-                    .WithMany()
-                    .HasForeignKey("CreatorUserId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "DeleterUser")
-                    .WithMany()
-                    .HasForeignKey("DeleterUserId");
-
-                b.HasOne("Abp.Application.Editions.Edition", "Edition")
-                    .WithMany()
-                    .HasForeignKey("EditionId");
-
-                b.HasOne("AfarErpRecycling.Authorization.Users.User", "LastModifierUser")
-                    .WithMany()
-                    .HasForeignKey("LastModifierUserId");
-            });
+                {
+                    b.HasOne("Abp.Organizations.OrganizationUnit", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Roles.Role", b =>
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "CreatorUser")
+                        .WithMany()
+                        .HasForeignKey("CreatorUserId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "DeleterUser")
+                        .WithMany()
+                        .HasForeignKey("DeleterUserId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "LastModifierUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.Authorization.Users.User", b =>
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "CreatorUser")
+                        .WithMany()
+                        .HasForeignKey("CreatorUserId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "DeleterUser")
+                        .WithMany()
+                        .HasForeignKey("DeleterUserId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "LastModifierUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("AfarsoftResourcePlan.MultiTenancy.Tenant", b =>
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "CreatorUser")
+                        .WithMany()
+                        .HasForeignKey("CreatorUserId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "DeleterUser")
+                        .WithMany()
+                        .HasForeignKey("DeleterUserId");
+
+                    b.HasOne("Abp.Application.Editions.Edition", "Edition")
+                        .WithMany()
+                        .HasForeignKey("EditionId");
+
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User", "LastModifierUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifierUserId");
+                });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
-            {
-                b.HasOne("Abp.Application.Editions.Edition", "Edition")
-                    .WithMany()
-                    .HasForeignKey("EditionId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("Abp.Application.Editions.Edition", "Edition")
+                        .WithMany()
+                        .HasForeignKey("EditionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Roles.RolePermissionSetting", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Roles.Role")
-                    .WithMany("Permissions")
-                    .HasForeignKey("RoleId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Roles.Role")
+                        .WithMany("Permissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
             modelBuilder.Entity("Abp.Authorization.Users.UserPermissionSetting", b =>
-            {
-                b.HasOne("AfarErpRecycling.Authorization.Users.User")
-                    .WithMany("Permissions")
-                    .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+                {
+                    b.HasOne("AfarsoftResourcePlan.Authorization.Users.User")
+                        .WithMany("Permissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 #pragma warning restore 612, 618
         }
     }
