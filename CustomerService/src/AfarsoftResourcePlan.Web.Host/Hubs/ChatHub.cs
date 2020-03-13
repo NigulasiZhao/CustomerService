@@ -23,8 +23,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         private readonly IChatRecordsService _ChatRecordsService;
 
 
-        public ChatHub(
-           ChatRecordsService ChatRecordsService)
+        public ChatHub(ChatRecordsService ChatRecordsService)
         {
             _ChatRecordsService = ChatRecordsService;
         }
