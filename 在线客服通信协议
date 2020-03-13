@@ -47,6 +47,7 @@ return
 	data:{
 		servicerTerminalId:"",
 		userTerminalId:"",
+		fromTerminal:"server"
 		content:{
 			servicerId:"",
 			deviceId:"",
@@ -62,6 +63,7 @@ return
 	data:{
 		userTerminalId:"",
 		servicerTerminalId:"",
+		fromTerminal:"server"
 		content:{
 			nickName:"",
 			faceImg:"",
@@ -133,5 +135,16 @@ return
 		userTerminalId:"",
 		servicerTerminalId:"",
 		fromTerminal:"user"
+	}
+}
+
+没分配到有效客服
+{
+	command:"noServicerMessage",
+	time:"",
+	data:{
+		userTerminalId:"",
+		servicerTerminalId:"",
+		fromTerminal:"server"
 	}
 }
