@@ -22,5 +22,9 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto
         /// 客服昵称
         /// </summary>
         public string ServiceNickName { get; set; }
+        /// <summary>
+        /// 客服头像
+        /// </summary>
+        public string ServiceFaceImg { get; set; }
     }
 }

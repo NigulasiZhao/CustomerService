@@ -106,7 +106,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 terminalId = Model.data.servicerId,
             };
-            //入库操作
+            //
             _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
             {
                 DeviceId = Model.data.deviceId,
@@ -196,6 +196,17 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 terminalId = terminalId,
             };
+            _CustomerConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMCustomerConnect.Dto.AddCustomerConnectRecordsDto
+            {
+                DeviceId = Model.data.deviceId,
+                CustomerId = Guid.NewGuid(),
+                OpenId = "",
+                UnionId = "",
+                CustomerCode = "",
+                CustomerNickName = Model.data.nickName,
+                CustomerFaceImg = Model.data.faceImg,
+                ServiceId = string.IsNullOrEmpty(CustomerServiceModel.servicerId) ? Guid.Empty : Guid.Parse(CustomerServiceModel.servicerId),
+            });
             return CommandResultModel;
         }
         /// <summary>

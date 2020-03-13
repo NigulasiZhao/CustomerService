@@ -25,6 +25,10 @@ namespace AfarsoftResourcePlan.CustomerService
         /// </summary>
         public string ServiceNickName { get; set; }
         /// <summary>
+        /// 客服头像
+        /// </summary>
+        public string ServiceFaceImg { get; set; }
+        /// <summary>
         /// 服务人数
         /// </summary>
         public int ServiceCount { get; set; }

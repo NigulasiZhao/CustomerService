@@ -30,6 +30,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect
                     ServiceId = addServiceConnectRecordsDto.ServiceId,
                     ServiceCode = addServiceConnectRecordsDto.ServiceCode,
                     ServiceNickName = addServiceConnectRecordsDto.ServiceNickName,
+                    ServiceFaceImg = addServiceConnectRecordsDto.ServiceFaceImg,
                     ServiceCount = 0,
                     ServiceState = OrderInfo.LoginState.Online,
                 });

@@ -34,5 +34,9 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect.Dto
         /// 客户头像
         /// </summary>
         public string CustomerFaceImg { get; set; }
+        /// <summary>
+        /// 客服ID
+        /// </summary>
+        public Guid? ServiceId { get; set; }
     }
 }
