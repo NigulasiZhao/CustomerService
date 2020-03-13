@@ -70,10 +70,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CommandResultModel = GoodsCardMessage(paras);
             }
-            else if (command.ToLower() == "disConnectionMessage".ToLower())
-            {
-                CommandResultModel = DisConnectionMessage(paras);
-            }
             return JsonConvert.SerializeObject(CommandResultModel);
         }
         /// <summary>
@@ -110,6 +106,13 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 terminalId = Model.data.servicerId,
             };
+            _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            {
+                DeviceId = Model.data.deviceId,
+                ServiceId = Guid.NewGuid(),
+                ServiceCode = "",
+                ServiceNickName = "",
+            });
             return CommandResultModel;
         }
         /// <summary>
@@ -263,29 +266,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             var Model = JsonConvert.DeserializeObject<Command<CommandGoodsCardMessage>>(paras);
             Clients.Client(CustomerList.Where(e => e.deviceId == Model.data.userTerminalId).FirstOrDefault().ConnectionId).SendAsync("ReceiveMessage", Model.data.content);
             Clients.Client(CustomerServiceList.Where(e => e.deviceId == Model.data.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("ReceiveMessage", Model.data.content);
-            CommandResult CommandResultModel = new CommandResult();
-            CommandResultModel.code = 0;
-            CommandResultModel.msg = "";
-            return CommandResultModel;
-        }
-        /// <summary>
-        /// 断连
-        /// </summary>
-        /// <param name="Model"></param>
-        /// <returns></returns>
-        public CommandResult DisConnectionMessage(string paras)
-        {
-            var Model = JsonConvert.DeserializeObject<Command<CommandDisConnectionMessage>>(paras);
-            if (Model.data.fromTerminal == TerminalRefer.servicer)
-            {
-                var LogoutModel = CustomerServiceList.Where(e => e.servicerId == Model.data.servicerTerminalId).FirstOrDefault();
-                CustomerServiceList.Remove(LogoutModel);
-            }
-            if (Model.data.fromTerminal == TerminalRefer.user)
-            {
-                var LogoutModel = CustomerList.Where(e => e.deviceId == Model.data.userTerminalId).FirstOrDefault();
-                CustomerList.Remove(LogoutModel);
-            }
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;
             CommandResultModel.msg = "";
