@@ -14,7 +14,5 @@ namespace AfarsoftResourcePlan.CommonCustomerService
         public string ConnectionId { get; set; }
 
         public int ConnectionCount { get; set; }
-
-        public int ServiceRecordId { get; set; }
     }
 }

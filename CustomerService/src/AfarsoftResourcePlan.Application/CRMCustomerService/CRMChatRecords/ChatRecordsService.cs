@@ -8,6 +8,7 @@ using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Linq;
 using AfarsoftResourcePlan.Helper;
+using AfarsoftResourcePlan.Common;
 
 namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
 {
@@ -45,11 +46,9 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         /// 添加聊天记录
         /// </summary>
         /// <param name="addChatRecordsDto"></param>
-        public void AddChatRecords(AddChatRecordsDto addChatRecordsDto)
+        public BaseOutput AddChatRecords(AddChatRecordsDto addChatRecordsDto)
         {
-            //ServiceRecords ServiceRecordsModel = _serviceRecords.GetAll()
-            //    .Where(e => e.CustomerDeviceId == addChatRecordsDto.CustomerDeviceId && e.ServiceId == Guid.Parse(addChatRecordsDto.ServicerId))
-            //    .OrderByDescending(e => e.CustomerContentDate).FirstOrDefault();
+            BaseOutput output = new BaseOutput();
             ServiceRecords ServiceRecordsModel = _serviceRecords.FirstOrDefault(e => e.Id == addChatRecordsDto.ServiceRecordId);
             ChatRecords ChatRecordsModel = new ChatRecords();
             ChatRecordsModel = EntityHelper.CopyValue(ServiceRecordsModel, ChatRecordsModel);
@@ -59,6 +58,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
             ChatRecordsModel.SendContent = addChatRecordsDto.SendContent;
             ChatRecordsModel.ReceiveState = OrderInfo.ReceiveState.Received;
             _chatRecords.Insert(ChatRecordsModel);
+            return output;
         }
         /// <summary>
         /// 用户断连处理

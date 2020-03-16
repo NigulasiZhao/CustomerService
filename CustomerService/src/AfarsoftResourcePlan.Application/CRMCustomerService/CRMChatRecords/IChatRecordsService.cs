@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords.Dto;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         /// 添加聊天记录
         /// </summary>
         /// <param name="addChatRecordsDto"></param>
-        void AddChatRecords(AddChatRecordsDto addChatRecordsDto);
+        BaseOutput AddChatRecords(AddChatRecordsDto addChatRecordsDto);
         /// <summary>
         /// 用户断连处理
         /// </summary>

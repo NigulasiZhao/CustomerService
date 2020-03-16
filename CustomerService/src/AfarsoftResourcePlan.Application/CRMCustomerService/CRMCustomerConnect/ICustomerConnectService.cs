@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect.Dto;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,6 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
         /// 添加客户,并建立连接
         /// </summary>
         /// <param name="addCustomerConnectRecordsDto"></param>
-        void AddServiceConnectRecords(AddCustomerConnectRecordsDto addCustomerConnectRecordsDto);
+        BaseDataOutput<int> AddServiceConnectRecords(AddCustomerConnectRecordsDto addCustomerConnectRecordsDto);
     }
 }

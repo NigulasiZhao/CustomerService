@@ -8,6 +8,7 @@ namespace AfarsoftResourcePlan.CommonCustomerService
     {
         public string command { get; set; }
 
+        public DateTime time { get; set; }
         public T data { get; set; }
     }
 }
