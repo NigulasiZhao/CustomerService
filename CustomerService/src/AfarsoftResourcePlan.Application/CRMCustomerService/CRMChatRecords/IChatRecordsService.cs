@@ -13,5 +13,13 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         /// </summary>
         /// <param name="addChatRecordsDto"></param>
         void AddChatRecords(AddChatRecordsDto addChatRecordsDto);
+        /// <summary>
+        /// 用户断连处理
+        /// </summary>
+        void CustomerOnDisconnected(CustomerOnDisconnectedDto customerOnDisconnectedDto);
+        /// <summary>
+        /// 客服断连处理
+        /// </summary>
+        void ServicerOnDisconnected(ServicerOnDisconnectedDto servicerOnDisconnectedDto);
     }
 }

@@ -80,6 +80,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         public CommandResult ServicerConnection(string paras)
         {
             var Model = JsonConvert.DeserializeObject<Command<CommandServicerConnection>>(paras);
+            #region 处理在线客服信息
             var SameModel = CustomerServiceList.Where(e => e.servicerId == Model.data.servicerId).FirstOrDefault();
             if (SameModel == null)
             {
@@ -99,6 +100,17 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 SameModel.ConnectionId = Context.ConnectionId;
                 CustomerServiceList.Add(SameModel);
             }
+            
+            #endregion
+            #region 数据库操作
+            _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            {
+                DeviceId = Model.data.deviceId,
+                ServiceId = Guid.Parse(Model.data.servicerId),
+                ServiceCode = "",
+                ServiceNickName = Model.data.nickName,
+            });
+            #endregion
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;
             CommandResultModel.msg = "";
@@ -106,14 +118,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 terminalId = Model.data.servicerId,
             };
-            //
-            _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
-            {
-                DeviceId = Model.data.deviceId,
-                ServiceId = Guid.NewGuid(),
-                ServiceCode = "",
-                ServiceNickName = "",
-            });
             return CommandResultModel;
         }
         /// <summary>
@@ -312,6 +316,11 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                         fromTerminal = "user",
                     }
                 });
+                _ChatRecordsService.CustomerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.CustomerOnDisconnectedDto
+                {
+                    DeviceId = CustomerLogoutModel.deviceId,
+                    ServiceRecordId = CustomerLogoutModel.ServiceRecordId
+                });
                 CustomerList.Remove(CustomerLogoutModel);
             }
             //客服断连
@@ -330,6 +339,12 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                         }
                     });
                 }
+                int[] ServiceRecordIds = list.Select(e => e.ServiceRecordId).ToArray();
+                _ChatRecordsService.ServicerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.ServicerOnDisconnectedDto
+                {
+                    ServiceId = Guid.Parse(CustomerServiceLogoutModel.servicerId),
+                    ServiceRecordIds = ServiceRecordIds
+                });
                 CustomerServiceList.RemoveAll(e => e.servicerId == CustomerServiceLogoutModel.servicerId);
             }
         }
