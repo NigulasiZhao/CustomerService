@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Domain.Repositories;
+using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto;
 using AfarsoftResourcePlan.CustomerService;
 using System;
@@ -19,8 +20,9 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect
         /// 客服表添加记录
         /// </summary>
         /// <param name="addServiceConnectRecordsDto"></param>
-        public void AddServiceConnectRecords(AddServiceConnectRecordsDto addServiceConnectRecordsDto)
+        public BaseOutput AddServiceConnectRecords(AddServiceConnectRecordsDto addServiceConnectRecordsDto)
         {
+            BaseOutput output = new BaseOutput();
             ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == addServiceConnectRecordsDto.ServiceId);
             if (ServiceConnectRecordsModel == null)
             {
@@ -40,6 +42,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect
                 ServiceConnectRecordsModel.ServiceState = OrderInfo.LoginState.Online;
                 _ServiceConnectRecords.Update(ServiceConnectRecordsModel);
             }
+            return output;
         }
     }
 }

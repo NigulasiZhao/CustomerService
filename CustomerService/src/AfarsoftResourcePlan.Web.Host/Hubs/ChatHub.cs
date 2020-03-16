@@ -5,6 +5,7 @@ using Abp.MultiTenancy;
 using Abp.Notifications;
 using AfarsoftResourcePlan.Authorization;
 using AfarsoftResourcePlan.Authorization.Users;
+using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.CommonCustomerService;
 using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords;
 using AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect;
@@ -80,39 +81,47 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         public CommandResult ServicerConnection(string paras)
         {
             var Model = JsonConvert.DeserializeObject<Command<CommandServicerConnection>>(paras);
-            #region 处理在线客服信息
-            var SameModel = CustomerServiceList.Where(e => e.servicerId == Model.data.servicerId).FirstOrDefault();
-            if (SameModel == null)
-            {
-                CustomerServiceList.Add(new OnlineCustomerService
-                {
-                    nickName = Model.data.nickName,
-                    faceImg = Model.data.faceimg,
-                    servicerId = Model.data.servicerId,
-                    deviceId = Model.data.deviceId,
-                    ConnectionId = Context.ConnectionId,
-                    ConnectionCount = 0,
-                });
-            }
-            else
-            {
-                CustomerServiceList.Remove(SameModel);
-                SameModel.ConnectionId = Context.ConnectionId;
-                CustomerServiceList.Add(SameModel);
-            }
-            
-            #endregion
+            CommandResult CommandResultModel = new CommandResult();
             #region 数据库操作
-            _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
             {
                 DeviceId = Model.data.deviceId,
                 ServiceId = Guid.Parse(Model.data.servicerId),
                 ServiceCode = "",
                 ServiceNickName = Model.data.nickName,
+                ServiceFaceImg = Model.data.faceimg
             });
             #endregion
-            CommandResult CommandResultModel = new CommandResult();
-            CommandResultModel.code = 0;
+            if (Output.Code == 0)
+            {
+                #region 处理在线客服信息
+                var SameModel = CustomerServiceList.Where(e => e.servicerId == Model.data.servicerId).FirstOrDefault();
+                if (SameModel == null)
+                {
+                    CustomerServiceList.Add(new OnlineCustomerService
+                    {
+                        nickName = Model.data.nickName,
+                        faceImg = Model.data.faceimg,
+                        servicerId = Model.data.servicerId,
+                        deviceId = Model.data.deviceId,
+                        ConnectionId = Context.ConnectionId,
+                        ConnectionCount = 0,
+                    });
+                }
+                else
+                {
+                    CustomerServiceList.Remove(SameModel);
+                    SameModel.ConnectionId = Context.ConnectionId;
+                    CustomerServiceList.Add(SameModel);
+                }
+
+                #endregion
+                CommandResultModel.code = 0;
+            }
+            else
+            {
+                CommandResultModel.code = 1;
+            }
             CommandResultModel.msg = "";
             CommandResultModel.data = new
             {
