@@ -245,7 +245,15 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                     }
                 });
             }
-
+            _ChatRecordsService.AddChatRecords(new CRMCustomerService.CRMChatRecords.Dto.AddChatRecordsDto
+            {
+                CustomerDeviceId = Model.data.userTerminalId,
+                ServicerId = Model.data.servicerTerminalId,
+                ServiceRecordId = 0,
+                SendInfoType = SendInfoType.TextInfo,
+                SendContent = Model.data.content,
+                SendSource = Model.data.fromTerminal
+            });
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;
             CommandResultModel.msg = "";
@@ -288,14 +296,12 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            Debug.WriteLine(Context.ConnectionId + "离线");
             //根据ConnectionId匹配
             var CustomerLogoutModel = CustomerList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
             var CustomerServiceLogoutModel = CustomerServiceList.Where(e => e.ConnectionId == Context.ConnectionId).FirstOrDefault();
             //客户断连
             if (CustomerLogoutModel != null)
             {
-                Debug.WriteLine(Context.ConnectionId + "离线，通知客服");
                 await Clients.Client(CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("command", new
                 {
                     command = "disConnectionMessage",
@@ -314,7 +320,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 List<OnlineCustomer> list = CustomerList.Where(e => e.servicerTerminalId == CustomerServiceLogoutModel.servicerId).ToList();
                 foreach (var item in list)
                 {
-                    Debug.WriteLine(Context.ConnectionId + "离线，通知用户");
                     await Clients.Client(item.ConnectionId).SendAsync("command", new
                     {
                         command = "disConnectionMessage",

@@ -74,7 +74,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             ChatRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ChatRecordsModel);
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsId;
             ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
-            ChatRecordsModel.SendSource = OrderInfo.InfoSource.System;
+            ChatRecordsModel.SendSource = OrderInfo.TerminalRefer.system;
             ChatRecordsModel.SendContent = "开始服务";
             ChatRecordsModel.SendDateTime = DateTime.Now;
             _ChatRecords.Insert(ChatRecordsModel);

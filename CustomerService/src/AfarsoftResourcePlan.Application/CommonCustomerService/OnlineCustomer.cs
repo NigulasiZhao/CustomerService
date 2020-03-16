@@ -14,5 +14,7 @@ namespace AfarsoftResourcePlan.CommonCustomerService
         public string ConnectionId { get; set; }
 
         public string servicerTerminalId { get; set; }
+
+        public int ServiceRecordId { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace AfarsoftResourcePlan.CustomerService
         /// <summary>
         /// 发送来源(系统、客服、客户)
         /// </summary>
-        public InfoSource SendSource { get; set; }
+        public TerminalRefer SendSource { get; set; }
         /// <summary>
         /// 接收状态(已接收、未接收)
         /// </summary>
