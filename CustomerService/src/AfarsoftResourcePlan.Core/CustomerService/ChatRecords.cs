@@ -16,7 +16,7 @@ namespace AfarsoftResourcePlan.CustomerService
         /// <summary>
         /// 客户ID
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
         /// <summary>
         /// 客户设备ID
         /// </summary>
@@ -36,7 +36,7 @@ namespace AfarsoftResourcePlan.CustomerService
         /// <summary>
         /// 客服ID
         /// </summary>
-        public Guid ServiceId { get; set; }
+        public string ServiceId { get; set; }
         /// <summary>
         /// 客服编码
         /// </summary>

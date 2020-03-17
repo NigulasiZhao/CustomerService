@@ -15,7 +15,7 @@ namespace AfarsoftResourcePlan.CustomerService
         /// <summary>
         /// 客户ID
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
         /// <summary>
         /// 客户OpenId
         /// </summary>

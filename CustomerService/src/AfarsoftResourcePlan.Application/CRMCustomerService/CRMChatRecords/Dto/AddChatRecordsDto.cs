@@ -10,7 +10,6 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords.Dto
         public string CustomerDeviceId { get; set; }
 
         public string ServicerId { get; set; }
-        public int ServiceRecordId { get; set; }
         /// <summary>
         /// 发送消息类型
         /// </summary>

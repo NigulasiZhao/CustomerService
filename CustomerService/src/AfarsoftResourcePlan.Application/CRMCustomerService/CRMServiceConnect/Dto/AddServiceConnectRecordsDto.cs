@@ -13,7 +13,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto
         /// <summary>
         /// 客服ID
         /// </summary>
-        public Guid ServiceId { get; set; }
+        public string ServiceId { get; set; }
         /// <summary>
         /// 客服编码
         /// </summary>

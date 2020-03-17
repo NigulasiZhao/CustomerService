@@ -61,19 +61,19 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             //连接记录表-如果匹配到客服，则处理客服信息
             if (addCustomerConnectRecordsDto.ServiceId != null)
             {
-                ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == addCustomerConnectRecordsDto.ServiceId.Value);
+                ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == addCustomerConnectRecordsDto.ServiceId);
                 if (ServiceConnectRecordsModel != null)
                 {
                     //连接记录表-处理客服信息
                     ServiceRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ServiceRecordsModel);
                     ServiceRecordsModel.Id = 0;
                     ServiceRecordsModel.ServiceConnectRecordsId = ServiceConnectRecordsModel.Id;
-                    ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId.Value;
+                    ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
                     ServiceRecordsModel.ServiceContentDate = DateTime.Now;
                     ServiceRecordsModel.ServiceState = OrderInfo.LoginState.Online;
                     //聊天记录表-处理客服信息
                     ChatRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ChatRecordsModel);
-                    ChatRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId.Value;
+                    ChatRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
                 }
             }
             ServiceRecordsId = _ServiceRecords.InsertAndGetId(ServiceRecordsModel);
