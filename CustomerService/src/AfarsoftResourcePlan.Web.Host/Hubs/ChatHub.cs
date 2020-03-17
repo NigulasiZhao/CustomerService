@@ -442,17 +442,21 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             //客户断连
             if (CustomerLogoutModel != null)
             {
-                await Clients.Client(CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("command", new
+                var ConnectionModel = CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault();
+                if (ConnectionModel != null)
                 {
-                    command = "disConnectionMessage",
-                    time = DateTime.Now,
-                    data = new
+                    await Clients.Client(ConnectionModel.ConnectionId).SendAsync("command", new
                     {
-                        userTerminalId = CustomerLogoutModel.deviceId,
-                        servicerTerminalId = CustomerLogoutModel.servicerTerminalId,
-                        fromTerminal = "user",
-                    }
-                });
+                        command = "disConnectionMessage",
+                        time = DateTime.Now,
+                        data = new
+                        {
+                            userTerminalId = CustomerLogoutModel.deviceId,
+                            servicerTerminalId = CustomerLogoutModel.servicerTerminalId,
+                            fromTerminal = "user",
+                        }
+                    });
+                }
                 _ChatRecordsService.CustomerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.CustomerOnDisconnectedDto
                 {
                     DeviceId = CustomerLogoutModel.deviceId,
@@ -481,7 +485,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 _ChatRecordsService.ServicerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.ServicerOnDisconnectedDto
                 {
                     ServiceId = CustomerServiceLogoutModel.servicerId,
-                    ServiceRecordIds = ServiceRecordIds
                 });
                 CustomerServiceList.RemoveAll(e => e.servicerId == CustomerServiceLogoutModel.servicerId);
             }

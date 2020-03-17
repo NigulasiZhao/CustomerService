@@ -7,7 +7,5 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords.Dto
     public class ServicerOnDisconnectedDto
     {
         public string ServiceId { get; set; }
-
-        public int[] ServiceRecordIds { get; set; }
     }
 }

@@ -72,6 +72,8 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
                     ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
                     ServiceRecordsModel.ServiceContentDate = DateTime.Now;
                     ServiceRecordsModel.ServiceState = OrderInfo.LoginState.Online;
+                    ServiceConnectRecordsModel.ServiceCount += 1;
+                    _ServiceConnectRecords.Update(ServiceConnectRecordsModel);
                     //聊天记录表-处理客服信息
                     ChatRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ChatRecordsModel);
                     ChatRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
@@ -81,12 +83,14 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             //聊天记录表-处理客户信息
             ChatRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ChatRecordsModel);
             ChatRecordsModel.Id = 0;
+            ChatRecordsModel.CustomerDeviceId = addCustomerConnectRecordsDto.DeviceId;
             //聊天记录表-处理聊天信息
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsId;
             ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
             ChatRecordsModel.SendSource = OrderInfo.TerminalRefer.system;
-            ChatRecordsModel.SendContent = "开始服务";
+            ChatRecordsModel.SendContent = "客服["+ ChatRecordsModel.ServiceNickName+ "]为您服务";
             ChatRecordsModel.SendDateTime = DateTime.Now;
+            ChatRecordsModel.ReceiveState = OrderInfo.ReceiveState.Received;
             _ChatRecords.Insert(ChatRecordsModel);
             output.Data = ServiceRecordsId;
             return output;
