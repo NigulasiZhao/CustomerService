@@ -64,7 +64,7 @@
 
 <script>
 import * as signalR from "@microsoft/signalr";
-let hubUrl = "https://localhost:44307/chatHub"; //服务器Hub的Url地址
+let hubUrl = "http://localhost:21021/chatHub"; //服务器Hub的Url地址
 const signalrServicerConnection = new signalR.HubConnectionBuilder()
   .withUrl(hubUrl)
   .build();
@@ -204,7 +204,7 @@ export default {
           nickName: name,
           faceImg: "",
           deviceId: Date.parse(new Date()),
-          servicerId: Date.parse(new Date())
+          servicerId: this.guid()
         };
         localStorage.setItem("servicer", JSON.stringify(servicerJson));
       }

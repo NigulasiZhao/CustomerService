@@ -212,7 +212,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 else
                 {
                     //没分配到有效客服
-                    await Clients.Client(CustomerServiceModel.ConnectionId).SendAsync("command", new
+                    await Clients.Client(Context.ConnectionId).SendAsync("command", new
                     {
                         command = "noServicerMessage",
                         time = DateTime.Now,

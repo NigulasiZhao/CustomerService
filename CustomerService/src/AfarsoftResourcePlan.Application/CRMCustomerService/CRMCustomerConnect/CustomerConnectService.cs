@@ -66,6 +66,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
                 {
                     //连接记录表-处理客服信息
                     ServiceRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ServiceRecordsModel);
+                    ServiceRecordsModel.Id = 0;
                     ServiceRecordsModel.ServiceConnectRecordsId = ServiceConnectRecordsModel.Id;
                     ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId.Value;
                     ServiceRecordsModel.ServiceContentDate = DateTime.Now;
@@ -78,6 +79,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             ServiceRecordsId = _ServiceRecords.InsertAndGetId(ServiceRecordsModel);
             //聊天记录表-处理客户信息
             ChatRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ChatRecordsModel);
+            ChatRecordsModel.Id = 0;
             //聊天记录表-处理聊天信息
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsId;
             ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
