@@ -54,6 +54,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             //处理连接记录表
             ServiceRecords ServiceRecordsModel = new ServiceRecords();
             ServiceRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ServiceRecordsModel);
+            ServiceRecordsModel.CustomerDeviceId = addCustomerConnectRecordsDto.DeviceId;
             //连接记录表-处理客户信息
             ServiceRecordsModel.CustomerConnectRecordsId = CustomerConnectRecordsId;
             ServiceRecordsModel.CustomerContentDate = DateTime.Now;

@@ -49,9 +49,11 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         public BaseOutput AddChatRecords(AddChatRecordsDto addChatRecordsDto)
         {
             BaseOutput output = new BaseOutput();
-            ServiceRecords ServiceRecordsModel = _serviceRecords.FirstOrDefault(e => e.ServiceId == addChatRecordsDto.ServicerId);
+            ServiceRecords ServiceRecordsModel = _serviceRecords.GetAllList(e => e.ServiceId == addChatRecordsDto.ServicerId && e.CustomerDeviceId == addChatRecordsDto.CustomerDeviceId)
+                .OrderByDescending(e => e.CustomerContentDate).FirstOrDefault();
             ChatRecords ChatRecordsModel = new ChatRecords();
             ChatRecordsModel = EntityHelper.CopyValue(ServiceRecordsModel, ChatRecordsModel);
+            ChatRecordsModel.Id = 0;
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsModel.Id;
             ChatRecordsModel.SendSource = addChatRecordsDto.SendSource;
             ChatRecordsModel.SendDateTime = DateTime.Now;

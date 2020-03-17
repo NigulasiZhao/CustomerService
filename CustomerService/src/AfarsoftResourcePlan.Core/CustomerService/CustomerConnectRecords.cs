@@ -43,6 +43,6 @@ namespace AfarsoftResourcePlan.CustomerService
         /// <summary>
         /// 上次接待客服Id
         /// </summary>
-        public Guid? ServiceId { get; set; }
+        public string ServiceId { get; set; }
     }
 }
