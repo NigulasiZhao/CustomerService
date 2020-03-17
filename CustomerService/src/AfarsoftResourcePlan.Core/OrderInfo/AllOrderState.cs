@@ -86,27 +86,6 @@ namespace AfarsoftResourcePlan.OrderInfo
         CardInfo = 2,
     }
     /// <summary>
-    /// 消息来源
-    /// </summary>
-    public enum InfoSource
-    {
-        /// <summary>
-        /// 系统
-        /// </summary>
-        [Description("系统")]
-        System = 0,
-        /// <summary>
-        /// 客服
-        /// </summary>
-        [Description("客服")]
-        CustomerService = 1,
-        /// <summary>
-        /// 客户
-        /// </summary>
-        [Description("客户")]
-        Customer = 2,
-    }
-    /// <summary>
     /// 接收状态
     /// </summary>
     public enum ReceiveState
@@ -121,5 +100,23 @@ namespace AfarsoftResourcePlan.OrderInfo
         /// </summary>
         [Description("已接收")]
         Received = 1,
+    }
+    public enum TerminalRefer
+    {
+        /// <summary>
+        /// 客户
+        /// </summary>
+        [Description("客户")]
+        user,
+        /// <summary>
+        /// 客服
+        /// </summary>
+        [Description("客服")]
+        servicer,
+        /// <summary>
+        /// 系统
+        /// </summary>
+        [Description("系统")]
+        system
     }
 }

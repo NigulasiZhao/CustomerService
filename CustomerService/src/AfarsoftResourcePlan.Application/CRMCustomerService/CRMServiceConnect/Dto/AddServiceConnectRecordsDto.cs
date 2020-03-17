@@ -1,17 +1,15 @@
-﻿using Abp.Domain.Entities;
-using AfarsoftResourcePlan.OrderInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AfarsoftResourcePlan.CustomerService
+namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto
 {
-    public class ServiceConnectRecords : Entity<int>
+    public class AddServiceConnectRecordsDto
     {
         /// <summary>
         /// 设备ID
         /// </summary>
-        public string DeviceId { get; set; }
+        public string DeviceId {get;set;}
         /// <summary>
         /// 客服ID
         /// </summary>
@@ -28,14 +26,5 @@ namespace AfarsoftResourcePlan.CustomerService
         /// 客服头像
         /// </summary>
         public string ServiceFaceImg { get; set; }
-        /// <summary>
-        /// 服务人数
-        /// </summary>
-        public int ServiceCount { get; set; }
-        /// <summary>
-        /// 客服状态(在线，离线)
-        /// </summary>
-        public LoginState ServiceState { get; set; }
-
     }
 }
