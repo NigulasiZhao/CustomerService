@@ -92,7 +92,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
             {
                 DeviceId = Model.data.deviceId,
-                ServiceId = Guid.Parse(Model.data.servicerId),
+                ServiceId = Model.data.servicerId,
                 ServiceCode = "",
                 ServiceNickName = Model.data.nickName,
                 ServiceFaceImg = Model.data.faceimg
@@ -148,13 +148,13 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             BaseDataOutput<int> Output = _CustomerConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMCustomerConnect.Dto.AddCustomerConnectRecordsDto
             {
                 DeviceId = Model.data.deviceId,
-                CustomerId = Guid.NewGuid(),
+                CustomerId = Guid.NewGuid().ToString(),
                 OpenId = "",
                 UnionId = "",
                 CustomerCode = "",
                 CustomerNickName = Model.data.nickName,
                 CustomerFaceImg = Model.data.faceImg,
-                ServiceId = string.IsNullOrEmpty(CustomerServiceModel.servicerId) ? Guid.Empty : Guid.Parse(CustomerServiceModel.servicerId),
+                ServiceId = string.IsNullOrEmpty(CustomerServiceModel.servicerId) ? string.Empty : CustomerServiceModel.servicerId,
             });
             #endregion
             if (Output.Code == 0)
@@ -264,7 +264,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CustomerDeviceId = Model.data.userTerminalId,
                 ServicerId = Model.data.servicerTerminalId,
-                ServiceRecordId = 0,
                 SendInfoType = SendInfoType.TextInfo,
                 SendContent = Model.data.content,
                 SendSource = Model.data.fromTerminal
@@ -324,7 +323,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CustomerDeviceId = Model.data.userTerminalId,
                 ServicerId = Model.data.servicerTerminalId,
-                ServiceRecordId = 0,
                 SendInfoType = SendInfoType.PictureInfo,
                 SendContent = Model.data.content,
                 SendSource = Model.data.fromTerminal
@@ -382,7 +380,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CustomerDeviceId = Model.data.userTerminalId,
                 ServicerId = Model.data.servicerTerminalId,
-                ServiceRecordId = 0,
                 SendInfoType = SendInfoType.CardInfo,
                 SendContent = JsonConvert.SerializeObject(Model.data.content),
                 SendSource = Model.data.fromTerminal
@@ -445,17 +442,21 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             //客户断连
             if (CustomerLogoutModel != null)
             {
-                await Clients.Client(CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault().ConnectionId).SendAsync("command", new
+                var ConnectionModel = CustomerServiceList.Where(e => e.servicerId == CustomerLogoutModel.servicerTerminalId).FirstOrDefault();
+                if (ConnectionModel != null)
                 {
-                    command = "disConnectionMessage",
-                    time = DateTime.Now,
-                    data = new
+                    await Clients.Client(ConnectionModel.ConnectionId).SendAsync("command", new
                     {
-                        userTerminalId = CustomerLogoutModel.deviceId,
-                        servicerTerminalId = CustomerLogoutModel.servicerTerminalId,
-                        fromTerminal = "user",
-                    }
-                });
+                        command = "disConnectionMessage",
+                        time = DateTime.Now,
+                        data = new
+                        {
+                            userTerminalId = CustomerLogoutModel.deviceId,
+                            servicerTerminalId = CustomerLogoutModel.servicerTerminalId,
+                            fromTerminal = "user",
+                        }
+                    });
+                }
                 _ChatRecordsService.CustomerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.CustomerOnDisconnectedDto
                 {
                     DeviceId = CustomerLogoutModel.deviceId,
@@ -483,8 +484,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 int[] ServiceRecordIds = list.Select(e => e.ServiceRecordId).ToArray();
                 _ChatRecordsService.ServicerOnDisconnected(new CRMCustomerService.CRMChatRecords.Dto.ServicerOnDisconnectedDto
                 {
-                    ServiceId = Guid.Parse(CustomerServiceLogoutModel.servicerId),
-                    ServiceRecordIds = ServiceRecordIds
+                    ServiceId = CustomerServiceLogoutModel.servicerId,
                 });
                 CustomerServiceList.RemoveAll(e => e.servicerId == CustomerServiceLogoutModel.servicerId);
             }

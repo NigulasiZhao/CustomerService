@@ -54,6 +54,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             //处理连接记录表
             ServiceRecords ServiceRecordsModel = new ServiceRecords();
             ServiceRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ServiceRecordsModel);
+            ServiceRecordsModel.CustomerDeviceId = addCustomerConnectRecordsDto.DeviceId;
             //连接记录表-处理客户信息
             ServiceRecordsModel.CustomerConnectRecordsId = CustomerConnectRecordsId;
             ServiceRecordsModel.CustomerContentDate = DateTime.Now;
@@ -61,31 +62,35 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect
             //连接记录表-如果匹配到客服，则处理客服信息
             if (addCustomerConnectRecordsDto.ServiceId != null)
             {
-                ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == addCustomerConnectRecordsDto.ServiceId.Value);
+                ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == addCustomerConnectRecordsDto.ServiceId);
                 if (ServiceConnectRecordsModel != null)
                 {
                     //连接记录表-处理客服信息
                     ServiceRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ServiceRecordsModel);
                     ServiceRecordsModel.Id = 0;
                     ServiceRecordsModel.ServiceConnectRecordsId = ServiceConnectRecordsModel.Id;
-                    ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId.Value;
+                    ServiceRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
                     ServiceRecordsModel.ServiceContentDate = DateTime.Now;
                     ServiceRecordsModel.ServiceState = OrderInfo.LoginState.Online;
+                    ServiceConnectRecordsModel.ServiceCount += 1;
+                    _ServiceConnectRecords.Update(ServiceConnectRecordsModel);
                     //聊天记录表-处理客服信息
                     ChatRecordsModel = EntityHelper.CopyValue(ServiceConnectRecordsModel, ChatRecordsModel);
-                    ChatRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId.Value;
+                    ChatRecordsModel.ServiceId = addCustomerConnectRecordsDto.ServiceId;
                 }
             }
             ServiceRecordsId = _ServiceRecords.InsertAndGetId(ServiceRecordsModel);
             //聊天记录表-处理客户信息
             ChatRecordsModel = EntityHelper.CopyValue(addCustomerConnectRecordsDto, ChatRecordsModel);
             ChatRecordsModel.Id = 0;
+            ChatRecordsModel.CustomerDeviceId = addCustomerConnectRecordsDto.DeviceId;
             //聊天记录表-处理聊天信息
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsId;
             ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
             ChatRecordsModel.SendSource = OrderInfo.TerminalRefer.system;
-            ChatRecordsModel.SendContent = "开始服务";
+            ChatRecordsModel.SendContent = "客服["+ ChatRecordsModel.ServiceNickName+ "]为您服务";
             ChatRecordsModel.SendDateTime = DateTime.Now;
+            ChatRecordsModel.ReceiveState = OrderInfo.ReceiveState.Received;
             _ChatRecords.Insert(ChatRecordsModel);
             output.Data = ServiceRecordsId;
             return output;

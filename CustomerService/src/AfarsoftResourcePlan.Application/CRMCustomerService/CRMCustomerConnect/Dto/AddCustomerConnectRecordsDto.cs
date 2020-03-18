@@ -13,7 +13,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect.Dto
         /// <summary>
         /// 客户ID
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
         /// <summary>
         /// OpenId
         /// </summary>
@@ -37,6 +37,6 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect.Dto
         /// <summary>
         /// 客服ID
         /// </summary>
-        public Guid? ServiceId { get; set; }
+        public string ServiceId { get; set; }
     }
 }

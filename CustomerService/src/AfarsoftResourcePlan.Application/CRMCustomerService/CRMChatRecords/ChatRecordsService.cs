@@ -49,9 +49,11 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         public BaseOutput AddChatRecords(AddChatRecordsDto addChatRecordsDto)
         {
             BaseOutput output = new BaseOutput();
-            ServiceRecords ServiceRecordsModel = _serviceRecords.FirstOrDefault(e => e.Id == addChatRecordsDto.ServiceRecordId);
+            ServiceRecords ServiceRecordsModel = _serviceRecords.GetAllList(e => e.ServiceId == addChatRecordsDto.ServicerId && e.CustomerDeviceId == addChatRecordsDto.CustomerDeviceId)
+                .OrderByDescending(e => e.CustomerContentDate).FirstOrDefault();
             ChatRecords ChatRecordsModel = new ChatRecords();
             ChatRecordsModel = EntityHelper.CopyValue(ServiceRecordsModel, ChatRecordsModel);
+            ChatRecordsModel.Id = 0;
             ChatRecordsModel.ServiceRecordsId = ServiceRecordsModel.Id;
             ChatRecordsModel.SendSource = addChatRecordsDto.SendSource;
             ChatRecordsModel.SendDateTime = DateTime.Now;
@@ -67,6 +69,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         {
             ServiceRecords ServiceRecordsModel = _serviceRecords.FirstOrDefault(e => e.Id == customerOnDisconnectedDto.ServiceRecordId);
             ServiceRecordsModel.CustomerUnContentDate = DateTime.Now;
+            ServiceRecordsModel.CustomerState = OrderInfo.LoginState.OffLine;
             _serviceRecords.Update(ServiceRecordsModel);
 
             CustomerConnectRecords CustomerConnectRecordsModel = _customerConnectRecords.FirstOrDefault(e => e.DeviceId == customerOnDisconnectedDto.DeviceId);
@@ -75,11 +78,13 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
 
             ChatRecords ChatRecordsModel = new ChatRecords();
             ChatRecordsModel = EntityHelper.CopyValue(ServiceRecordsModel, ChatRecordsModel);
+            ChatRecordsModel.Id = 0;
             ChatRecordsModel.ServiceRecordsId = customerOnDisconnectedDto.ServiceRecordId;
             ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
             ChatRecordsModel.SendSource = OrderInfo.TerminalRefer.system;
             ChatRecordsModel.SendContent = "用户下线";
             ChatRecordsModel.SendDateTime = DateTime.Now;
+            ChatRecordsModel.ReceiveState = OrderInfo.ReceiveState.Received;
             _chatRecords.Insert(ChatRecordsModel);
         }
         /// <summary>
@@ -90,19 +95,23 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
             ServiceConnectRecords ServiceConnectRecordsModel = _serviceConnectRecords.FirstOrDefault(e => e.ServiceId == servicerOnDisconnectedDto.ServiceId);
             ServiceConnectRecordsModel.ServiceState = OrderInfo.LoginState.OffLine;
             _serviceConnectRecords.Update(ServiceConnectRecordsModel);
-            foreach (var item in servicerOnDisconnectedDto.ServiceRecordIds)
+
+            List<ServiceRecords> ServiceRecordsList = _serviceRecords.GetAllList(e => e.ServiceId == servicerOnDisconnectedDto.ServiceId && e.ServiceState == OrderInfo.LoginState.Online);
+            foreach (var item in ServiceRecordsList)
             {
-                ServiceRecords ServiceRecordsModel = _serviceRecords.FirstOrDefault(e => e.Id == item);
-                ServiceRecordsModel.ServiceUnContentDate = DateTime.Now;
-                _serviceRecords.Update(ServiceRecordsModel);
+                item.ServiceUnContentDate = DateTime.Now;
+                item.ServiceState = OrderInfo.LoginState.OffLine;
+                _serviceRecords.Update(item);
 
                 ChatRecords ChatRecordsModel = new ChatRecords();
-                ChatRecordsModel = EntityHelper.CopyValue(ServiceRecordsModel, ChatRecordsModel);
-                ChatRecordsModel.ServiceRecordsId = item;
+                ChatRecordsModel = EntityHelper.CopyValue(item, ChatRecordsModel);
+                ChatRecordsModel.Id = 0;
+                ChatRecordsModel.ServiceRecordsId = item.Id;
                 ChatRecordsModel.SendInfoType = OrderInfo.SendInfoType.TextInfo;
                 ChatRecordsModel.SendSource = OrderInfo.TerminalRefer.system;
                 ChatRecordsModel.SendContent = "客服下线";
                 ChatRecordsModel.SendDateTime = DateTime.Now;
+                ChatRecordsModel.ReceiveState = OrderInfo.ReceiveState.Received;
                 _chatRecords.Insert(ChatRecordsModel);
             }
         }
