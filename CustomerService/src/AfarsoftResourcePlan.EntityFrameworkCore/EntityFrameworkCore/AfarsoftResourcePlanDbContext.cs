@@ -4,6 +4,7 @@ using AfarsoftResourcePlan.Authorization.Roles;
 using AfarsoftResourcePlan.Authorization.Users;
 using AfarsoftResourcePlan.MultiTenancy;
 using AfarsoftResourcePlan.CustomerService;
+using AfarsoftResourcePlan.OauthLogin;
 
 namespace AfarsoftResourcePlan.EntityFrameworkCore
 {
@@ -14,6 +15,7 @@ namespace AfarsoftResourcePlan.EntityFrameworkCore
         public DbSet<ChatRecords> ChatRecords { get; set; }
         public DbSet<CustomerConnectRecords> CustomerConnectRecords { get; set; }
         public DbSet<ServiceRecords> ServiceRecords { get; set; }
+        public DbSet<OauthSetting> OauthSetting { get; set; }
         public AfarsoftResourcePlanDbContext(DbContextOptions<AfarsoftResourcePlanDbContext> options)
             : base(options)
         {
