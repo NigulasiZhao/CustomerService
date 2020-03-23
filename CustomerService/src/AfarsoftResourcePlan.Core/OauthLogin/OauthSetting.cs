@@ -20,9 +20,9 @@ namespace AfarsoftResourcePlan.OauthLogin
         /// </summary>
         public string GetCodeUrl { get; set; }
         /// <summary>
-        /// 回调地址
+        /// 第三方授权登录地址
         /// </summary>
-        public string RedirectUrl { get; set; }
+        public string AuthorizationUrl { get; set; }
 
         public string AppId { get; set; }
 
