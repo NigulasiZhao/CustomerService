@@ -2,6 +2,8 @@
 using Abp.Domain.Repositories;
 using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.OauthLogin;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,23 +19,29 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
     {
         private readonly IRepository<OauthSetting, int> _oauthSetting;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OAuthAccountService(IRepository<OauthSetting, int> oauthSetting, IHttpClientFactory httpClientFactory)
+        public OAuthAccountService(IRepository<OauthSetting, int> oauthSetting, IHttpClientFactory httpClientFactory
+            , IHttpContextAccessor httpContextAccessor)
         {
             _oauthSetting = oauthSetting;
             _httpClientFactory = httpClientFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<BaseDataOutput<string>> GetOauthLoginUrl(string ThirdPlatCode)
+        public async Task<BaseDataOutput<string>> GetOauthLoginUrl(string ThirdPlatCode = "CRM")
         {
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
             BaseDataOutput<string> ThirdOutput = new BaseDataOutput<string>();
+            //var SourceRequest = _httpContextAccessor.HttpContext.Connection.LocalIpAddress.ToString();
+            var SourceRequest = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Host].ToString();
             OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == ThirdPlatCode);
             if (OauthSettingModel != null)
             {
                 var GetCodeObj = new
                 {
                     AppId = OauthSettingModel.AppId,
-                    Secret = OauthSettingModel.Secret
+                    Secret = OauthSettingModel.Secret,
+                    Domain = SourceRequest
                 };
                 var CodeResult = await _httpClientFactory.CreateClient().PostAsync(OauthSettingModel.GetCodeUrl, new StringContent(JsonConvert.SerializeObject(GetCodeObj), Encoding.UTF8, "application/json"));
                 var ResultStr = await CodeResult.Content.ReadAsStringAsync();
