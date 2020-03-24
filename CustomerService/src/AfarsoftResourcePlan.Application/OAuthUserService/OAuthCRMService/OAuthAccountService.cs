@@ -2,6 +2,7 @@
 using Abp.Domain.Repositories;
 using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.OauthLogin;
+using AfarsoftResourcePlan.OAuthUserService.OAuthCRMService.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -28,13 +29,21 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<BaseDataOutput<string>> GetOauthLoginUrl(string ThirdPlatCode = "CRM")
+        /// <summary>
+        /// 获取授权登录地址
+        /// </summary>
+        /// <param name="authorizationLoginUrlInput"></param>
+        /// <returns></returns>
+        public async Task<BaseDataOutput<string>> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput)
         {
+            if (string.IsNullOrEmpty(authorizationLoginUrlInput.ThirdPlatCode))
+            {
+                authorizationLoginUrlInput.ThirdPlatCode = "CRM";
+            }
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
             BaseDataOutput<string> ThirdOutput = new BaseDataOutput<string>();
-            //var SourceRequest = _httpContextAccessor.HttpContext.Connection.LocalIpAddress.ToString();
             var SourceRequest = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Host].ToString();
-            OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == ThirdPlatCode);
+            OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == authorizationLoginUrlInput.ThirdPlatCode);
             if (OauthSettingModel != null)
             {
                 var GetCodeObj = new
@@ -47,7 +56,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
                 var ResultStr = await CodeResult.Content.ReadAsStringAsync();
                 ThirdOutput = JsonConvert.DeserializeObject<BaseDataOutput<string>>(ResultStr);
             }
-            Output.Data = OauthSettingModel.AuthorizationUrl + "?Code=" + ThirdOutput.Data;
+            Output.Data = OauthSettingModel.AuthorizationUrl + "?AuthorizationCode=" + ThirdOutput.Data;
             return Output;
         }
     }
