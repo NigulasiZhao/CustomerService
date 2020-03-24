@@ -65,7 +65,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
                 var ResultStr = await CodeResult.Content.ReadAsStringAsync();
                 ThirdOutput = JsonConvert.DeserializeObject<BaseDataOutput<string>>(ResultStr);
             }
-            Output.Data = OauthSettingModel.AuthorizationUrl + "?AuthorizationCode=" + ThirdOutput.Data;
+            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AuthorizationCode=" + ThirdOutput.Data;
             return Output;
         }
         /// <summary>
