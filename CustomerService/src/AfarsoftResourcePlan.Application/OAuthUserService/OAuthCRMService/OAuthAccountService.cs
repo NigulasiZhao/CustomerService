@@ -43,29 +43,16 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
         /// </summary>
         /// <param name="authorizationLoginUrlInput"></param>
         /// <returns></returns>
-        public async Task<BaseDataOutput<string>> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput)
+        public BaseDataOutput<string> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput)
         {
             if (string.IsNullOrEmpty(authorizationLoginUrlInput.ThirdPlatCode))
             {
                 authorizationLoginUrlInput.ThirdPlatCode = "CRM";
             }
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
-            BaseDataOutput<string> ThirdOutput = new BaseDataOutput<string>();
-            var SourceRequest = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Host].ToString();
             OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == authorizationLoginUrlInput.ThirdPlatCode);
-            if (OauthSettingModel != null)
-            {
-                var GetCodeObj = new
-                {
-                    AppId = OauthSettingModel.AppId,
-                    Secret = OauthSettingModel.Secret,
-                    Domain = SourceRequest
-                };
-                var CodeResult = await _httpClientFactory.CreateClient().PostAsync(OauthSettingModel.GetCodeUrl, new StringContent(JsonConvert.SerializeObject(GetCodeObj), Encoding.UTF8, "application/json"));
-                var ResultStr = await CodeResult.Content.ReadAsStringAsync();
-                ThirdOutput = JsonConvert.DeserializeObject<BaseDataOutput<string>>(ResultStr);
-            }
-            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AuthorizationCode=" + ThirdOutput.Data;
+            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AppId=" + OauthSettingModel.AppId + "&redirect_uri=http://localhost:8080/#/signalServer"
+                + "&Type=OAuth2";
             return Output;
         }
         /// <summary>
@@ -76,71 +63,87 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
         public async Task<BaseDataOutput<string>> AuthorizationAccessToken(AuthorizationAccessTokenlInput authorizationAccessTokenlInput)
         {
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
-            if (!string.IsNullOrEmpty(authorizationAccessTokenlInput.AccessToken) && !string.IsNullOrEmpty(authorizationAccessTokenlInput.ThirdPlatCode))
+            if (!string.IsNullOrEmpty(authorizationAccessTokenlInput.OAuthCode) && !string.IsNullOrEmpty(authorizationAccessTokenlInput.ThirdPlatCode))
             {
+                BaseDataOutput<string> AccessTokenOutput = new BaseDataOutput<string>();
                 BaseDataOutput<AuthorizationUserInfoDto> ThirdOutput = new BaseDataOutput<AuthorizationUserInfoDto>();
-                var SourceRequest = _httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Host].ToString();
                 OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == authorizationAccessTokenlInput.ThirdPlatCode);
                 if (OauthSettingModel != null)
                 {
-                    var GetCodeObj = new
+                    var GetAccessTokenObj = new
                     {
-                        Domain = SourceRequest,
-                        AccessToken = authorizationAccessTokenlInput.AccessToken
+                        OAuthCode = authorizationAccessTokenlInput.OAuthCode
                     };
-                    var CodeResult = await _httpClientFactory.CreateClient().PostAsync(OauthSettingModel.AuthorizationUrl, new StringContent(JsonConvert.SerializeObject(GetCodeObj), Encoding.UTF8, "application/json"));
+                    var CodeResult = await _httpClientFactory.CreateClient().PostAsync(OauthSettingModel.GetAccessTokenUrl, new StringContent(JsonConvert.SerializeObject(GetAccessTokenObj), Encoding.UTF8, "application/json"));
                     var ResultStr = await CodeResult.Content.ReadAsStringAsync();
-                    ThirdOutput = JsonConvert.DeserializeObject<BaseDataOutput<AuthorizationUserInfoDto>>(ResultStr);
-                    if (ThirdOutput.Code == 0)
+                    AccessTokenOutput = JsonConvert.DeserializeObject<BaseDataOutput<string>>(ResultStr);
+                    if (AccessTokenOutput.Code == 0)
                     {
-                        if (ThirdOutput.Data.UserType == OrderInfo.TerminalRefer.servicer)
+                        #region 根据AccessToken获取用户信息
+                        var GetUserInfoObj = new
                         {
-                            ServiceConnectRecords ServiceConnectRecordsModel = _serviceConnectRecords.FirstOrDefault(e => e.ServiceId == ThirdOutput.Data.UserId);
-                            if (ServiceConnectRecordsModel == null)
+                            AccessToken = AccessTokenOutput.Data
+                        };
+                        var UserInfoResult = await _httpClientFactory.CreateClient().PostAsync(OauthSettingModel.AuthorizationUrl, new StringContent(JsonConvert.SerializeObject(GetUserInfoObj), Encoding.UTF8, "application/json"));
+                        var UserInfoResultStr = await UserInfoResult.Content.ReadAsStringAsync();
+                        ThirdOutput = JsonConvert.DeserializeObject<BaseDataOutput<AuthorizationUserInfoDto>>(UserInfoResultStr);
+                        if (ThirdOutput.Code == 0)
+                        {
+                            if (ThirdOutput.Data.UserType == OrderInfo.TerminalRefer.servicer)
                             {
-                                int UserId = _serviceConnectRecords.InsertAndGetId(new ServiceConnectRecords
+                                ServiceConnectRecords ServiceConnectRecordsModel = _serviceConnectRecords.FirstOrDefault(e => e.ServiceId == ThirdOutput.Data.UserId);
+                                if (ServiceConnectRecordsModel == null)
                                 {
-                                    ServiceId = ThirdOutput.Data.UserId,
-                                    ServiceCode = ThirdOutput.Data.UserCode,
-                                    ServiceNickName = ThirdOutput.Data.UserNickName,
-                                    ServiceCount = 0,
-                                    ServiceFaceImg = ThirdOutput.Data.UserFaceImg,
-                                    ServiceState = OrderInfo.LoginState.OffLine,
-                                    DeviceId = authorizationAccessTokenlInput.DeviceId
-                                });
-                                Output.Data = UserId.ToString();
+                                    int UserId = _serviceConnectRecords.InsertAndGetId(new ServiceConnectRecords
+                                    {
+                                        ServiceId = ThirdOutput.Data.UserId,
+                                        ServiceCode = ThirdOutput.Data.UserCode,
+                                        ServiceNickName = ThirdOutput.Data.UserNickName,
+                                        ServiceCount = 0,
+                                        ServiceFaceImg = ThirdOutput.Data.UserFaceImg,
+                                        ServiceState = OrderInfo.LoginState.OffLine,
+                                        DeviceId = authorizationAccessTokenlInput.DeviceId
+                                    });
+                                    Output.Data = UserId.ToString();
+                                }
+                                else
+                                {
+                                    Output.Data = ServiceConnectRecordsModel.Id.ToString();
+                                }
                             }
-                            else
+                            if (ThirdOutput.Data.UserType == OrderInfo.TerminalRefer.user)
                             {
-                                Output.Data = ServiceConnectRecordsModel.Id.ToString();
+                                CustomerConnectRecords CustomerConnectRecordsModel = _customerConnectRecords.FirstOrDefault(e => e.CustomerId == ThirdOutput.Data.UserId);
+                                if (CustomerConnectRecordsModel == null)
+                                {
+                                    int CustomerId = _customerConnectRecords.InsertAndGetId(new CustomerConnectRecords
+                                    {
+                                        CustomerId = ThirdOutput.Data.UserId,
+                                        CustomerCode = ThirdOutput.Data.UserCode,
+                                        CustomerNickName = ThirdOutput.Data.UserNickName,
+                                        CustomerFaceImg = ThirdOutput.Data.UserFaceImg,
+                                        CustomerState = OrderInfo.LoginState.OffLine,
+                                        DeviceId = authorizationAccessTokenlInput.DeviceId
+                                    });
+                                    Output.Data = CustomerId.ToString();
+                                }
+                                else
+                                {
+                                    Output.Data = CustomerConnectRecordsModel.Id.ToString();
+                                }
                             }
                         }
-                        if (ThirdOutput.Data.UserType == OrderInfo.TerminalRefer.user)
+                        else
                         {
-                            CustomerConnectRecords CustomerConnectRecordsModel = _customerConnectRecords.FirstOrDefault(e => e.CustomerId == ThirdOutput.Data.UserId);
-                            if (CustomerConnectRecordsModel == null)
-                            {
-                                int CustomerId = _customerConnectRecords.InsertAndGetId(new CustomerConnectRecords
-                                {
-                                    CustomerId = ThirdOutput.Data.UserId,
-                                    CustomerCode = ThirdOutput.Data.UserCode,
-                                    CustomerNickName = ThirdOutput.Data.UserNickName,
-                                    CustomerFaceImg = ThirdOutput.Data.UserFaceImg,
-                                    CustomerState =  OrderInfo.LoginState.OffLine,
-                                    DeviceId = authorizationAccessTokenlInput.DeviceId
-                                });
-                                Output.Data = CustomerId.ToString();
-                            }
-                            else
-                            {
-                                Output.Data = CustomerConnectRecordsModel.Id.ToString();
-                            }
+                            Output.Code = 1;
+                            Output.Message = ThirdOutput.Message;
                         }
+                        #endregion
                     }
                     else
                     {
                         Output.Code = 1;
-                        Output.Message = ThirdOutput.Message;
+                        Output.Message = "获取AccessToken失败:" + AccessTokenOutput.Message;
                     }
                 }
                 else

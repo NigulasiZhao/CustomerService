@@ -18,7 +18,7 @@ namespace AfarsoftResourcePlan.OauthLogin
         /// <summary>
         /// 获取第三方平台授权码
         /// </summary>
-        public string GetCodeUrl { get; set; }
+        public string GetAccessTokenUrl { get; set; }
         /// <summary>
         /// 第三方登录地址
         /// </summary>

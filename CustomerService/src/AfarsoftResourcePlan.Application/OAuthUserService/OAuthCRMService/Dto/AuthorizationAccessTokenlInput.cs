@@ -6,7 +6,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService.Dto
 {
     public class AuthorizationAccessTokenlInput
     {
-        public string AccessToken { get; set; }
+        public string OAuthCode { get; set; }
 
         public string ThirdPlatCode { get; set; }
 

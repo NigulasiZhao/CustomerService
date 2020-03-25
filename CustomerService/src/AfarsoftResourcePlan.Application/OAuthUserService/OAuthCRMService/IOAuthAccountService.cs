@@ -15,7 +15,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
         /// </summary>
         /// <param name="authorizationLoginUrlInput"></param>
         /// <returns></returns>
-        Task<BaseDataOutput<string>> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput);
+        BaseDataOutput<string> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput);
         /// <summary>
         /// 根据AccessToken获取用户信息
         /// </summary>
