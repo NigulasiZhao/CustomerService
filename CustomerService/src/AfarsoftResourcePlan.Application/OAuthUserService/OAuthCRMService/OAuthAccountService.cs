@@ -73,7 +73,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
         /// </summary>
         /// <param name="authorizationAccessTokenlInput"></param>
         /// <returns></returns>
-        public async Task<BaseDataOutput<string>> AuthorizationAccessTokenl(AuthorizationAccessTokenlInput authorizationAccessTokenlInput)
+        public async Task<BaseDataOutput<string>> AuthorizationAccessToken(AuthorizationAccessTokenlInput authorizationAccessTokenlInput)
         {
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
             if (!string.IsNullOrEmpty(authorizationAccessTokenlInput.AccessToken) && !string.IsNullOrEmpty(authorizationAccessTokenlInput.ThirdPlatCode))

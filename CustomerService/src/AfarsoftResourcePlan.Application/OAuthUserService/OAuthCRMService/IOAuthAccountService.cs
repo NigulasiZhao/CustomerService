@@ -13,8 +13,14 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
         /// <summary>
         /// 获取授权登录地址
         /// </summary>
-        /// <param name="ThirdPlatCode"></param>
+        /// <param name="authorizationLoginUrlInput"></param>
         /// <returns></returns>
         Task<BaseDataOutput<string>> AuthorizationLoginUrl(AuthorizationLoginUrlInput authorizationLoginUrlInput);
+        /// <summary>
+        /// 根据AccessToken获取用户信息
+        /// </summary>
+        /// <param name="authorizationAccessTokenlInput"></param>
+        /// <returns></returns>
+        Task<BaseDataOutput<string>> AuthorizationAccessToken(AuthorizationAccessTokenlInput authorizationAccessTokenlInput);
     }
 }
