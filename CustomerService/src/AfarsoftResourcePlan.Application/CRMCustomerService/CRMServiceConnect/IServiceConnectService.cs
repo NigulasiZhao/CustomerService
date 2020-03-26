@@ -14,5 +14,6 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect
         /// </summary>
         /// <param name="addServiceConnectRecordsDto"></param>
         BaseOutput AddServiceConnectRecords(AddServiceConnectRecordsDto addServiceConnectRecordsDto);
+        BaseDataOutput<ServiceConnectRecordsInfoOutput> ServiceConnectRecordsInfo(ServiceConnectRecordsInfoInput serviceConnectRecordsInfoInput);
     }
 }

@@ -44,5 +44,22 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect
             }
             return output;
         }
+
+        public BaseDataOutput<ServiceConnectRecordsInfoOutput> ServiceConnectRecordsInfo(ServiceConnectRecordsInfoInput serviceConnectRecordsInfoInput)
+        {
+            BaseDataOutput<ServiceConnectRecordsInfoOutput> output = new BaseDataOutput<ServiceConnectRecordsInfoOutput>();
+            ServiceConnectRecordsInfoOutput Model = new ServiceConnectRecordsInfoOutput();
+            ServiceConnectRecords ServiceConnectRecordsModel = _ServiceConnectRecords.FirstOrDefault(e => e.ServiceId == serviceConnectRecordsInfoInput.ServicerId);
+            if (ServiceConnectRecordsModel != null)
+            {
+                Model.DeviceId = ServiceConnectRecordsModel.DeviceId;
+                Model.ServiceId = ServiceConnectRecordsModel.ServiceId;
+                Model.ServiceCode = ServiceConnectRecordsModel.ServiceCode;
+                Model.ServiceNickName = ServiceConnectRecordsModel.ServiceNickName;
+                Model.ServiceFaceImg = ServiceConnectRecordsModel.ServiceFaceImg;
+            }
+            output.Data = Model;
+            return output;
+        }
     }
 }

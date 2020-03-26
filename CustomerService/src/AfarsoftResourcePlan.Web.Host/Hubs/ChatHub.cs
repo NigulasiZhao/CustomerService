@@ -10,6 +10,7 @@ using AfarsoftResourcePlan.CommonCustomerService;
 using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords;
 using AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect;
 using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect;
+using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto;
 using AfarsoftResourcePlan.Identity;
 using AfarsoftResourcePlan.MultiTenancy;
 using AfarsoftResourcePlan.OAuthUserService.OAuthCRMService;
@@ -100,13 +101,17 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 terminalId = Model.data.servicerId,
             };
             #region 数据库操作
-            BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            //BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            //{
+            //    DeviceId = Model.data.deviceId,
+            //    ServiceId = Model.data.servicerId,
+            //    ServiceCode = "",
+            //    ServiceNickName = Model.data.nickName,
+            //    ServiceFaceImg = Model.data.faceimg
+            //});
+            BaseDataOutput<ServiceConnectRecordsInfoOutput> Output = _ServiceConnectService.ServiceConnectRecordsInfo(new CRMCustomerService.CRMServiceConnect.Dto.ServiceConnectRecordsInfoInput
             {
-                DeviceId = Model.data.deviceId,
-                ServiceId = Model.data.servicerId,
-                ServiceCode = "",
-                ServiceNickName = Model.data.nickName,
-                ServiceFaceImg = Model.data.faceimg
+                ServicerId = Model.data.servicerId
             });
             #endregion
             if (Output.Code == 0)
@@ -117,10 +122,10 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 {
                     CustomerServiceList.Add(new OnlineCustomerService
                     {
-                        nickName = Model.data.nickName,
-                        faceImg = Model.data.faceimg,
+                        nickName = Output.Data.ServiceNickName,
+                        faceImg = Output.Data.ServiceFaceImg,
                         servicerId = Model.data.servicerId,
-                        deviceId = Model.data.deviceId,
+                        deviceId = Output.Data.DeviceId,
                         ConnectionId = Context.ConnectionId,
                         ConnectionCount = 0,
                     });
@@ -131,7 +136,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                     SameModel.ConnectionId = Context.ConnectionId;
                     CustomerServiceList.Add(SameModel);
                 }
-
                 #endregion
                 CommandResultModel.code = 0;
             }
