@@ -51,7 +51,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
             }
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
             OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == authorizationLoginUrlInput.ThirdPlatCode);
-            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AppId=" + OauthSettingModel.AppId + "&Type=OAuth2" + "&redirect_uri=http://localhost:8081/#/signalServer"
+            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AppId=" + OauthSettingModel.AppId + "&Type=OAuth2" + "&redirect_uri=http://localhost:8080/#/signalServer"
                 ;
             return Output;
         }
@@ -104,11 +104,11 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
                                         ServiceState = OrderInfo.LoginState.OffLine,
                                         DeviceId = authorizationAccessTokenlInput.DeviceId
                                     });
-                                    Output.Data = UserId.ToString();
+                                    Output.Data = ThirdOutput.Data.UserId;
                                 }
                                 else
                                 {
-                                    Output.Data = ServiceConnectRecordsModel.Id.ToString();
+                                    Output.Data = ServiceConnectRecordsModel.ServiceId.ToString();
                                 }
                             }
                             if (ThirdOutput.Data.UserType == OrderInfo.TerminalRefer.user)
@@ -125,11 +125,11 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
                                         CustomerState = OrderInfo.LoginState.OffLine,
                                         DeviceId = authorizationAccessTokenlInput.DeviceId
                                     });
-                                    Output.Data = CustomerId.ToString();
+                                    Output.Data = ThirdOutput.Data.UserId;
                                 }
                                 else
                                 {
-                                    Output.Data = CustomerConnectRecordsModel.Id.ToString();
+                                    Output.Data = CustomerConnectRecordsModel.CustomerId.ToString();
                                 }
                             }
                         }
