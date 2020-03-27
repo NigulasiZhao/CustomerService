@@ -10,8 +10,10 @@ using AfarsoftResourcePlan.CommonCustomerService;
 using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords;
 using AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect;
 using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect;
+using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto;
 using AfarsoftResourcePlan.Identity;
 using AfarsoftResourcePlan.MultiTenancy;
+using AfarsoftResourcePlan.OAuthUserService.OAuthCRMService;
 using AfarsoftResourcePlan.OrderInfo;
 using AfarsoftResourcePlan.Sessions;
 using Microsoft.AspNetCore.SignalR;
@@ -29,14 +31,16 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         private readonly IChatRecordsService _ChatRecordsService;
         private readonly ICustomerConnectService _CustomerConnectService;
         private readonly IServiceConnectService _ServiceConnectService;
-
+        private readonly IOAuthAccountService _OAuthAccountService;
         public ChatHub(ChatRecordsService ChatRecordsService,
             CustomerConnectService CustomerConnectService,
-            ServiceConnectService ServiceConnectService)
+            ServiceConnectService ServiceConnectService,
+            IOAuthAccountService OAuthAccountService)
         {
             _ChatRecordsService = ChatRecordsService;
             _CustomerConnectService = CustomerConnectService;
             _ServiceConnectService = ServiceConnectService;
+            _OAuthAccountService = OAuthAccountService;
         }
         //客户列表
         public static List<OnlineCustomer> CustomerList = new List<OnlineCustomer>();
@@ -71,6 +75,14 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CommandResultModel = await GoodsCardMessage(paras);
             }
+            else if (command.ToLower() == "authorizationlogin".ToLower())
+            {
+                CommandResultModel = AuthorizationLogin(paras);
+            }
+            else if (command.ToLower() == "userinfoaccesstoken".ToLower())
+            {
+                CommandResultModel = await AuthorizationAccessToken(paras);
+            }
             return JsonConvert.SerializeObject(CommandResultModel);
         }
         /// <summary>
@@ -89,13 +101,17 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 terminalId = Model.data.servicerId,
             };
             #region 数据库操作
-            BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            //BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
+            //{
+            //    DeviceId = Model.data.deviceId,
+            //    ServiceId = Model.data.servicerId,
+            //    ServiceCode = "",
+            //    ServiceNickName = Model.data.nickName,
+            //    ServiceFaceImg = Model.data.faceimg
+            //});
+            BaseDataOutput<ServiceConnectRecordsInfoOutput> Output = _ServiceConnectService.ServiceConnectRecordsInfo(new CRMCustomerService.CRMServiceConnect.Dto.ServiceConnectRecordsInfoInput
             {
-                DeviceId = Model.data.deviceId,
-                ServiceId = Model.data.servicerId,
-                ServiceCode = "",
-                ServiceNickName = Model.data.nickName,
-                ServiceFaceImg = Model.data.faceimg
+                ServicerId = Model.data.servicerId
             });
             #endregion
             if (Output.Code == 0)
@@ -106,10 +122,10 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 {
                     CustomerServiceList.Add(new OnlineCustomerService
                     {
-                        nickName = Model.data.nickName,
-                        faceImg = Model.data.faceimg,
+                        nickName = Output.Data.ServiceNickName,
+                        faceImg = Output.Data.ServiceFaceImg,
                         servicerId = Model.data.servicerId,
-                        deviceId = Model.data.deviceId,
+                        deviceId = Output.Data.DeviceId,
                         ConnectionId = Context.ConnectionId,
                         ConnectionCount = 0,
                     });
@@ -120,7 +136,6 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                     SameModel.ConnectionId = Context.ConnectionId;
                     CustomerServiceList.Add(SameModel);
                 }
-
                 #endregion
                 CommandResultModel.code = 0;
             }
@@ -488,6 +503,60 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 });
                 CustomerServiceList.RemoveAll(e => e.servicerId == CustomerServiceLogoutModel.servicerId);
             }
+        }
+
+        /// <summary>
+        /// 获取第三方登录地址
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        public CommandResult AuthorizationLogin(string paras)
+        {
+            var Model = JsonConvert.DeserializeObject<Command<CommandAuthorizationLogin>>(paras);
+            BaseDataOutput<string> output = _OAuthAccountService.AuthorizationLoginUrl(new OAuthUserService.OAuthCRMService.Dto.AuthorizationLoginUrlInput
+            {
+                ThirdPlatCode = Model.data.ThirdPlatCode
+            });
+            CommandResult CommandResultModel = new CommandResult();
+            CommandResultModel.code = 0;
+            CommandResultModel.msg = "";
+            CommandResultModel.data = new
+            {
+                AuthorizationLoginUrl = output.Data,
+            };
+            return CommandResultModel;
+        }
+
+        /// <summary>
+        /// 根据AccessToken获取用户信息
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        public async Task<CommandResult> AuthorizationAccessToken(string paras)
+        {
+            var Model = JsonConvert.DeserializeObject<Command<CommandAuthorizationAccessToken>>(paras);
+            CommandResult CommandResultModel = new CommandResult();
+            CommandResultModel.code = 1;
+            CommandResultModel.msg = "";
+            BaseDataOutput<string> Output = await _OAuthAccountService.AuthorizationAccessToken(new OAuthUserService.OAuthCRMService.Dto.AuthorizationAccessTokenlInput
+            {
+                ThirdPlatCode = Model.data.ThirdPlatCode,
+                DeviceId = Model.data.DeviceId,
+                OAuthCode = Model.data.OAuthCode,
+            });
+            if (Output.Code == 0)
+            {
+                CommandResultModel.data = new
+                {
+                    terminalId = Output.Data,
+                };
+                CommandResultModel.code = 0;
+            }
+            else
+            {
+                CommandResultModel.msg = Output.Message;
+            }
+            return CommandResultModel;
         }
     }
 }

@@ -38,7 +38,7 @@
 
 <script>
 import * as signalR from "@microsoft/signalr";
-let hubUrl = "http://localhost:21021/chatHub"; //服务器Hub的Url地址
+let hubUrl = "http://localhost:22022/chatHub"; //服务器Hub的Url地址
 const signalrUserConnection = new signalR.HubConnectionBuilder()
   .withAutomaticReconnect()
   .withUrl(hubUrl)

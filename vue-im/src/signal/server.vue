@@ -64,7 +64,7 @@
 
 <script>
 import * as signalR from "@microsoft/signalr";
-let hubUrl = "http://localhost:21021/chatHub"; //服务器Hub的Url地址
+let hubUrl = "http://localhost:22022/chatHub"; //服务器Hub的Url地址
 const signalrServicerConnection = new signalR.HubConnectionBuilder()
   .withUrl(hubUrl)
   .build();
@@ -101,13 +101,86 @@ export default {
               break;
           }
         });
-        _this.serverConnection();
+        _this.login();
+        // _this.serverConnection();
       });
     } catch (err) {
       console.error("连接客服服务器错误：" + err);
     }
   },
   methods: {
+    GetQueryString(name){
+      var sHref = window.location.href;
+
+      var args = sHref.split("?");
+
+      if (args[0] == sHref) {
+        return "";
+      }
+
+      var arr = args[1].split("&");
+
+      var obj = {};
+
+      for (var i = 0; i < arr.length; i++) {
+        var arg = arr[i].split("=");
+
+        obj[arg[0]] = arg[1];
+      }
+
+      return obj;
+    },
+    login(){
+      let servicerId = localStorage.getItem('servicerId');
+      let code = this.GetQueryString()["code"];
+      if(!servicerId&&!code){
+        var json = {
+          command: "authorizationlogin",
+          data: {
+            ThirdPlatCode:"CRM"
+          }
+        };
+        try {
+          signalrServicerConnection.invoke(
+            "command",
+            json.command,
+            JSON.stringify(json)
+          ).then(e => {
+            var json = eval("(" + e + ")");
+            location.href = json.data.AuthorizationLoginUrl;
+          });;
+        } catch (err) {
+          console.error("发送文本消息错误：" + err);
+        }
+      }else if(code&&!servicerId){
+        var json = {
+          command: "userinfoaccesstoken",
+          data: {
+            OAuthCode:code,
+            ThirdPlatCode:"CRM",
+            DeviceId:this.guid()
+          }
+        };
+        try {
+          signalrServicerConnection.invoke(
+            "command",
+            json.command,
+            JSON.stringify(json)
+          ).then(e => {
+            var json = eval("(" + e + ")");
+            localStorage.setItem("servicerId",json.data.terminalId)
+            this.servicer.servicerId = json.data.terminalId;
+            this.serverConnection(this.servicer.servicerId);
+          });;
+        } catch (err) {
+          console.error("发送文本消息错误：" + err);
+        }
+      }else if(servicerId){
+        this.servicer.servicerId = servicerId;
+        this.serverConnection(servicerId);
+      }
+      
+    },
     guid() {
       return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
         c
@@ -196,15 +269,15 @@ export default {
         console.error("发送文本消息错误：" + err);
       }
     },
-    initServicer() {
+    initServicer(id) {
       var servicerJson = JSON.parse(localStorage.getItem("servicer"));
       if (!servicerJson) {
-        var name = prompt("输入客服名称", "");
+        // var name = prompt("输入客服名称", "");
         servicerJson = {
-          nickName: name,
+          nickName: "",
           faceImg: "",
           deviceId: Date.parse(new Date()),
-          servicerId: this.guid()
+          servicerId: id?id:this.guid()
         };
         localStorage.setItem("servicer", JSON.stringify(servicerJson));
       }

@@ -15,12 +15,15 @@
     <Compile Remove="Migrations\20200312082643_zl031201.Designer.cs" />
     <Compile Remove="Migrations\20200312083251_zl031201.cs" />
     <Compile Remove="Migrations\20200312083251_zl031201.Designer.cs" />
+    <Compile Remove="Migrations\20200324090953_zl032303.cs" />
+    <Compile Remove="Migrations\20200324090953_zl032303.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
