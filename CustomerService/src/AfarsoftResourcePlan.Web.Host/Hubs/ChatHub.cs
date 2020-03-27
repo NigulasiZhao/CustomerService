@@ -138,6 +138,13 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 }
                 #endregion
                 CommandResultModel.code = 0;
+                CommandResultModel.data = new
+                {
+                    terminalId = Model.data.servicerId,
+                    nickName = Output.Data.ServiceNickName,
+                    faceImg = Output.Data.ServiceFaceImg,
+                    Code = Output.Data.ServiceCode
+                };
             }
             return CommandResultModel;
         }
@@ -515,7 +522,8 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             var Model = JsonConvert.DeserializeObject<Command<CommandAuthorizationLogin>>(paras);
             BaseDataOutput<string> output = _OAuthAccountService.AuthorizationLoginUrl(new OAuthUserService.OAuthCRMService.Dto.AuthorizationLoginUrlInput
             {
-                ThirdPlatCode = Model.data.ThirdPlatCode
+                ThirdPlatCode = Model.data.ThirdPlatCode,
+                RedirectUri = Model.data.RedirectUri
             });
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;

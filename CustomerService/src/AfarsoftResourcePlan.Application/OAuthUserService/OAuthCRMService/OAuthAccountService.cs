@@ -51,8 +51,7 @@ namespace AfarsoftResourcePlan.OAuthUserService.OAuthCRMService
             }
             BaseDataOutput<string> Output = new BaseDataOutput<string>();
             OauthSetting OauthSettingModel = _oauthSetting.FirstOrDefault(e => e.ThirdPlatCode == authorizationLoginUrlInput.ThirdPlatCode);
-            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AppId=" + OauthSettingModel.AppId + "&Type=OAuth2" + "&redirect_uri=http://localhost:8080/#/signalServer"
-                ;
+            Output.Data = OauthSettingModel.AuthorizationLoginUrl + "?AppId=" + OauthSettingModel.AppId + "&Type=OAuth2" + "&redirect_uri=" + authorizationLoginUrlInput.RedirectUri;
             return Output;
         }
         /// <summary>

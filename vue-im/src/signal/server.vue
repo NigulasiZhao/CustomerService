@@ -137,7 +137,8 @@ export default {
         var json = {
           command: "authorizationlogin",
           data: {
-            ThirdPlatCode:"CRM"
+            ThirdPlatCode:"CRM",
+            RedirectUri :"http://localhost:8080/#/signalServer"
           }
         };
         try {
@@ -170,7 +171,7 @@ export default {
             var json = eval("(" + e + ")");
             localStorage.setItem("servicerId",json.data.terminalId)
             this.servicer.servicerId = json.data.terminalId;
-            this.serverConnection(this.servicer.servicerId);
+            this.serverConnection();
           });;
         } catch (err) {
           console.error("发送文本消息错误：" + err);
@@ -207,6 +208,7 @@ export default {
           .then(e => {
             var json = eval("(" + e + ")");
             this.servicer.terminalId = json.data.terminalId;
+            document.title = "客服：" + json.data.nickName;
           });
       } catch (err) {
         console.error("发送上线消息错误：" + err);
