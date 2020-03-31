@@ -62,6 +62,12 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
             _chatRecords.Insert(ChatRecordsModel);
             return output;
         }
+
+        public BaseDataOutput<HistoryChatRecordsOutput> HistoryChatRecords(HistoryChatRecordsInput historyChatRecordsInput)
+        {
+            BaseDataOutput<HistoryChatRecordsOutput> output = new BaseDataOutput<HistoryChatRecordsOutput>();
+            return output;
+        }
         /// <summary>
         /// 用户断连处理
         /// </summary>
