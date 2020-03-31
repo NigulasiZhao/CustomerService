@@ -15,6 +15,12 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         /// <param name="addChatRecordsDto"></param>
         BaseOutput AddChatRecords(AddChatRecordsDto addChatRecordsDto);
         /// <summary>
+        /// 获取聊天记录
+        /// </summary>
+        /// <param name="historyChatRecordsInput"></param>
+        /// <returns></returns>
+        BaseDataOutput<List<HistoryChatRecordsOutput>> HistoryChatRecords(HistoryChatRecordsInput historyChatRecordsInput);
+        /// <summary>
         /// 用户断连处理
         /// </summary>
         void CustomerOnDisconnected(CustomerOnDisconnectedDto customerOnDisconnectedDto);

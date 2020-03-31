@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using AfarsoftResourcePlan.Helper;
 using AfarsoftResourcePlan.Common;
+using Abp.Linq.Extensions;
 
 namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
 {
@@ -62,10 +63,36 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
             _chatRecords.Insert(ChatRecordsModel);
             return output;
         }
-
-        public BaseDataOutput<HistoryChatRecordsOutput> HistoryChatRecords(HistoryChatRecordsInput historyChatRecordsInput)
+        /// <summary>
+        /// 获取聊天记录
+        /// </summary>
+        /// <param name="historyChatRecordsInput"></param>
+        /// <returns></returns>
+        public BaseDataOutput<List<HistoryChatRecordsOutput>> HistoryChatRecords(HistoryChatRecordsInput historyChatRecordsInput)
         {
-            BaseDataOutput<HistoryChatRecordsOutput> output = new BaseDataOutput<HistoryChatRecordsOutput>();
+            BaseDataOutput<List<HistoryChatRecordsOutput>> output = new BaseDataOutput<List<HistoryChatRecordsOutput>>();
+            List<HistoryChatRecordsOutput> list = _chatRecords.GetAll().WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.CustomerId), e => e.CustomerId == historyChatRecordsInput.CustomerId)
+                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.CustomerDeviceId), e => e.CustomerDeviceId == historyChatRecordsInput.CustomerDeviceId)
+                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.ServiceId), e => e.ServiceId == historyChatRecordsInput.ServiceId).
+                OrderBy(historyChatRecordsInput.sort + historyChatRecordsInput.order)
+                .Skip(historyChatRecordsInput.SkipCount).Take(historyChatRecordsInput.rows)
+                .Select(e => new HistoryChatRecordsOutput
+                {
+                    CustomerId = e.CustomerId,
+                    CustomerDeviceId = e.CustomerDeviceId,
+                    CustomerCode = e.CustomerCode,
+                    CustomerNickName = e.CustomerNickName,
+                    CustomerFaceImg = e.CustomerFaceImg,
+                    ServiceId = e.ServiceId,
+                    ServiceCode = e.ServiceCode,
+                    ServiceNickName = e.ServiceNickName,
+                    ServiceFaceImg = e.ServiceFaceImg,
+                    SendDateTime = e.SendDateTime,
+                    SendInfoType = e.SendInfoType,
+                    SendContent = e.SendContent,
+                    SendSource = e.SendSource
+                }).ToList();
+            output.Data = list;
             return output;
         }
         /// <summary>
