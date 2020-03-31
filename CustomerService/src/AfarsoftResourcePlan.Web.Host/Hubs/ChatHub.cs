@@ -8,6 +8,7 @@ using AfarsoftResourcePlan.Authorization.Users;
 using AfarsoftResourcePlan.Common;
 using AfarsoftResourcePlan.CommonCustomerService;
 using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords;
+using AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords.Dto;
 using AfarsoftResourcePlan.CRMCustomerService.CRMCustomerConnect;
 using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect;
 using AfarsoftResourcePlan.CRMCustomerService.CRMServiceConnect.Dto;
@@ -83,6 +84,10 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CommandResultModel = await AuthorizationAccessToken(paras);
             }
+            else if (command.ToLower() == "historychatrecords".ToLower())
+            {
+                CommandResultModel = HistoryChatRecords(paras);
+            }
             return JsonConvert.SerializeObject(CommandResultModel);
         }
         /// <summary>
@@ -138,6 +143,13 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 }
                 #endregion
                 CommandResultModel.code = 0;
+                CommandResultModel.data = new
+                {
+                    terminalId = Model.data.servicerId,
+                    nickName = Output.Data.ServiceNickName,
+                    faceImg = Output.Data.ServiceFaceImg,
+                    Code = Output.Data.ServiceCode
+                };
             }
             return CommandResultModel;
         }
@@ -515,7 +527,8 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             var Model = JsonConvert.DeserializeObject<Command<CommandAuthorizationLogin>>(paras);
             BaseDataOutput<string> output = _OAuthAccountService.AuthorizationLoginUrl(new OAuthUserService.OAuthCRMService.Dto.AuthorizationLoginUrlInput
             {
-                ThirdPlatCode = Model.data.ThirdPlatCode
+                ThirdPlatCode = Model.data.ThirdPlatCode,
+                RedirectUri = Model.data.RedirectUri
             });
             CommandResult CommandResultModel = new CommandResult();
             CommandResultModel.code = 0;
@@ -550,6 +563,38 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 {
                     terminalId = Output.Data,
                 };
+                CommandResultModel.code = 0;
+            }
+            else
+            {
+                CommandResultModel.msg = Output.Message;
+            }
+            return CommandResultModel;
+        }
+        /// <summary>
+        /// 获取历史聊天记录
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        public CommandResult HistoryChatRecords(string paras)
+        {
+            var Model = JsonConvert.DeserializeObject<Command<CommandHistoryChatRecords>>(paras);
+            CommandResult CommandResultModel = new CommandResult();
+            CommandResultModel.code = 1;
+            CommandResultModel.msg = "";
+            BaseDataOutput<List<HistoryChatRecordsOutput>> Output = _ChatRecordsService.HistoryChatRecords(new HistoryChatRecordsInput
+            {
+                CustomerDeviceId = Model.data.CustomerDeviceId,
+                CustomerId = Model.data.CustomerId,
+                ServiceId = Model.data.ServiceId,
+                page = Model.data.Page,
+                rows = Model.data.Rows,
+                sort = "SendDateTime",
+                order = "desc"
+            });
+            if (Output.Code == 0)
+            {
+                CommandResultModel.data = Output.Data;
                 CommandResultModel.code = 0;
             }
             else
