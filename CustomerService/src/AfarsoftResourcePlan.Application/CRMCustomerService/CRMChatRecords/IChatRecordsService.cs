@@ -21,7 +21,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         /// <returns></returns>
         BaseDataOutput<List<HistoryChatRecordsOutput>> HistoryChatRecords(HistoryChatRecordsInput historyChatRecordsInput);
         /// <summary>
-        /// 获取聊天记录列表
+        /// 获取聊天人列表
         /// </summary>
         /// <param name="historyChatRecordsInput"></param>
         /// <returns></returns>

@@ -97,7 +97,7 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         }
 
         /// <summary>
-        /// 获取聊天记录列表
+        /// 获取聊天人列表
         /// </summary>
         /// <param name="historyChatRecordsInput"></param>
         /// <returns></returns>

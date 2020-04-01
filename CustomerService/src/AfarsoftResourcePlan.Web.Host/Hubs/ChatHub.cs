@@ -88,6 +88,10 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CommandResultModel = HistoryChatRecords(paras);
             }
+            else if (command.ToLower() == "historychatrecordslist".ToLower())
+            {
+                CommandResultModel = HistoryChatRecordsList(paras);
+            }
             return JsonConvert.SerializeObject(CommandResultModel);
         }
         /// <summary>
@@ -590,6 +594,36 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 page = Model.data.Page,
                 rows = Model.data.Rows,
                 sort = "SendDateTime",
+                order = "desc"
+            });
+            if (Output.Code == 0)
+            {
+                CommandResultModel.data = Output.Data;
+                CommandResultModel.code = 0;
+            }
+            else
+            {
+                CommandResultModel.msg = Output.Message;
+            }
+            return CommandResultModel;
+        }
+        /// <summary>
+        /// 获取历史聊天记录
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        public CommandResult HistoryChatRecordsList(string paras)
+        {
+            var Model = JsonConvert.DeserializeObject<Command<CommandHistoryChatRecordsList>>(paras);
+            CommandResult CommandResultModel = new CommandResult();
+            CommandResultModel.code = 1;
+            CommandResultModel.msg = "";
+            BaseDataOutput<List<HistoryChatRecordsListOutput>> Output = _ChatRecordsService.HistoryChatRecordsList(new HistoryChatRecordsListInput
+            {
+                ServiceId = Model.data.ServiceId,
+                page = Model.data.Page,
+                rows = Model.data.Rows,
+                sort = "CustomerContentDate",
                 order = "desc"
             });
             if (Output.Code == 0)
