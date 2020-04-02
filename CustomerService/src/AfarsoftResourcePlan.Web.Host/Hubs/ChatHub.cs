@@ -18,6 +18,7 @@ using AfarsoftResourcePlan.OAuthUserService.OAuthCRMService;
 using AfarsoftResourcePlan.OrderInfo;
 using AfarsoftResourcePlan.Sessions;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,14 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         private readonly ICustomerConnectService _CustomerConnectService;
         private readonly IServiceConnectService _ServiceConnectService;
         private readonly IOAuthAccountService _OAuthAccountService;
+        private readonly IConfigurationRoot _appConfiguration;
         public ChatHub(ChatRecordsService ChatRecordsService,
             CustomerConnectService CustomerConnectService,
             ServiceConnectService ServiceConnectService,
-            IOAuthAccountService OAuthAccountService)
+            IOAuthAccountService OAuthAccountService,
+            IConfigurationRoot appConfiguration)
         {
+            _appConfiguration = appConfiguration;
             _ChatRecordsService = ChatRecordsService;
             _CustomerConnectService = CustomerConnectService;
             _ServiceConnectService = ServiceConnectService;
@@ -88,6 +92,10 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             {
                 CommandResultModel = HistoryChatRecords(paras);
             }
+            else if (command.ToLower() == "historychatrecordslist".ToLower())
+            {
+                CommandResultModel = HistoryChatRecordsList(paras);
+            }
             return JsonConvert.SerializeObject(CommandResultModel);
         }
         /// <summary>
@@ -104,6 +112,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             CommandResultModel.data = new
             {
                 terminalId = Model.data.servicerId,
+                imgService = _appConfiguration["CustomerSewrvice:ImgService"]
             };
             #region 数据库操作
             //BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
@@ -148,7 +157,8 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                     terminalId = Model.data.servicerId,
                     nickName = Output.Data.ServiceNickName,
                     faceImg = Output.Data.ServiceFaceImg,
-                    Code = Output.Data.ServiceCode
+                    Code = Output.Data.ServiceCode,
+                    imgService = _appConfiguration["CustomerSewrvice:ImgService"]
                 };
             }
             return CommandResultModel;
@@ -170,6 +180,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             CommandResultModel.data = new
             {
                 terminalId = terminalId,
+                imgService = _appConfiguration["CustomerSewrvice:ImgService"]
             };
             #region 数据库处理
             BaseDataOutput<int> Output = _CustomerConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMCustomerConnect.Dto.AddCustomerConnectRecordsDto
@@ -590,6 +601,36 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                 page = Model.data.Page,
                 rows = Model.data.Rows,
                 sort = "SendDateTime",
+                order = "desc"
+            });
+            if (Output.Code == 0)
+            {
+                CommandResultModel.data = Output.Data;
+                CommandResultModel.code = 0;
+            }
+            else
+            {
+                CommandResultModel.msg = Output.Message;
+            }
+            return CommandResultModel;
+        }
+        /// <summary>
+        /// 获取历史聊天记录
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
+        public CommandResult HistoryChatRecordsList(string paras)
+        {
+            var Model = JsonConvert.DeserializeObject<Command<CommandHistoryChatRecordsList>>(paras);
+            CommandResult CommandResultModel = new CommandResult();
+            CommandResultModel.code = 1;
+            CommandResultModel.msg = "";
+            BaseDataOutput<List<HistoryChatRecordsListOutput>> Output = _ChatRecordsService.HistoryChatRecordsList(new HistoryChatRecordsListInput
+            {
+                ServiceId = Model.data.ServiceId,
+                page = Model.data.Page,
+                rows = Model.data.Rows,
+                sort = "CustomerContentDate",
                 order = "desc"
             });
             if (Output.Code == 0)

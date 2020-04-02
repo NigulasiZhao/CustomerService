@@ -95,6 +95,56 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
             output.Data = list;
             return output;
         }
+
+        /// <summary>
+        /// 获取聊天人列表
+        /// </summary>
+        /// <param name="historyChatRecordsInput"></param>
+        /// <returns></returns>
+        public BaseDataOutput<List<HistoryChatRecordsListOutput>> HistoryChatRecordsList(HistoryChatRecordsListInput historyChatRecordsInput)
+        {
+            BaseDataOutput<List<HistoryChatRecordsListOutput>> output = new BaseDataOutput<List<HistoryChatRecordsListOutput>>();
+            var list = _serviceRecords.GetAll()
+                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.ServiceId), e => e.ServiceId == historyChatRecordsInput.ServiceId);
+
+            var CustomerList = _customerConnectRecords.GetAll();
+            var AllotQuery = from item in (
+                             from ServiceRecordsResult in list
+                             join CustomerInfo in CustomerList on ServiceRecordsResult.CustomerDeviceId equals CustomerInfo.DeviceId
+                             select new
+                             {
+                                 ServiceRecordsResult.CustomerDeviceId,
+                                 CustomerInfo.CustomerId,
+                                 CustomerInfo.CustomerNickName,
+                                 CustomerInfo.CustomerFaceImg,
+                                 CustomerInfo.CustomerCode,
+                                 ServiceRecordsResult.CustomerContentDate
+                             }
+                             )
+                             group item by new
+                             {
+                                 item.CustomerDeviceId,
+                                 item.CustomerId,
+                                 item.CustomerNickName,
+                                 item.CustomerFaceImg,
+                                 item.CustomerCode,
+                             } into groupChild
+                             select new HistoryChatRecordsListOutput()
+                             {
+                                 CustomerDeviceId = groupChild.Key.CustomerDeviceId,
+                                 CustomerId = groupChild.Key.CustomerId,
+                                 CustomerNickName = groupChild.Key.CustomerNickName,
+                                 CustomerFaceImg = groupChild.Key.CustomerFaceImg,
+                                 CustomerCode = groupChild.Key.CustomerCode,
+                                 CustomerContentDate = groupChild.Max(e => e.CustomerContentDate)
+                             };
+
+            var Result = AllotQuery.OrderBy(historyChatRecordsInput.sort + historyChatRecordsInput.order)
+            .Skip(historyChatRecordsInput.SkipCount).Take(historyChatRecordsInput.rows)
+           .ToList();
+            output.Data = Result;
+            return output;
+        }
         /// <summary>
         /// 用户断连处理
         /// </summary>

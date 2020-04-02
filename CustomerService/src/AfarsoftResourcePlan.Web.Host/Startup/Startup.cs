@@ -25,13 +25,15 @@ namespace AfarsoftResourcePlan.Web.Host.Startup
 {
     public class Startup
     {
-        private const string _defaultCorsPolicyName = "localhost";
+        private const string _defaultCorsPolicyName = "http://192.168.0.130:6699/";
 
         private readonly IConfigurationRoot _appConfiguration;
+        private readonly IHostingEnvironment _env;
 
         public Startup(IHostingEnvironment env)
         {
             _appConfiguration = env.GetAppConfiguration();
+            _env = env;
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
