@@ -18,6 +18,7 @@ using AfarsoftResourcePlan.OAuthUserService.OAuthCRMService;
 using AfarsoftResourcePlan.OrderInfo;
 using AfarsoftResourcePlan.Sessions;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,14 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
         private readonly ICustomerConnectService _CustomerConnectService;
         private readonly IServiceConnectService _ServiceConnectService;
         private readonly IOAuthAccountService _OAuthAccountService;
+        private readonly IConfigurationRoot _appConfiguration;
         public ChatHub(ChatRecordsService ChatRecordsService,
             CustomerConnectService CustomerConnectService,
             ServiceConnectService ServiceConnectService,
-            IOAuthAccountService OAuthAccountService)
+            IOAuthAccountService OAuthAccountService,
+            IConfigurationRoot appConfiguration)
         {
+            _appConfiguration = appConfiguration;
             _ChatRecordsService = ChatRecordsService;
             _CustomerConnectService = CustomerConnectService;
             _ServiceConnectService = ServiceConnectService;
@@ -108,6 +112,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             CommandResultModel.data = new
             {
                 terminalId = Model.data.servicerId,
+                imgService = _appConfiguration["CustomerSewrvice:ImgService"]
             };
             #region 数据库操作
             //BaseOutput Output = _ServiceConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMServiceConnect.Dto.AddServiceConnectRecordsDto
@@ -152,7 +157,8 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
                     terminalId = Model.data.servicerId,
                     nickName = Output.Data.ServiceNickName,
                     faceImg = Output.Data.ServiceFaceImg,
-                    Code = Output.Data.ServiceCode
+                    Code = Output.Data.ServiceCode,
+                    imgService = _appConfiguration["CustomerSewrvice:ImgService"]
                 };
             }
             return CommandResultModel;
@@ -174,6 +180,7 @@ namespace AfarsoftResourcePlan.Web.Host.Hubs
             CommandResultModel.data = new
             {
                 terminalId = terminalId,
+                imgService = _appConfiguration["CustomerSewrvice:ImgService"]
             };
             #region 数据库处理
             BaseDataOutput<int> Output = _CustomerConnectService.AddServiceConnectRecords(new CRMCustomerService.CRMCustomerConnect.Dto.AddCustomerConnectRecordsDto
