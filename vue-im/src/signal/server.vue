@@ -79,7 +79,10 @@
                 <div class="sendCont">
                     <div class="sendContLeft">
                         <div class="sendEmoji">
-                            <common-chat-emoji class="item" ref="qqemoji" @select="qqemoji_selectFace"></common-chat-emoji>
+                            <emotion ref="emoji" @emotion="handleEmotion" :height="200" ></emotion>
+                            <div class="item" @click="emoji()">
+                                <img src="../assets/empjiImg.png" alt="">
+                            </div>
                             <div class="item" @click="fileUpload_click('file')">
                                 <img src="../assets/fileImg.png" alt="">
                             </div>
@@ -87,6 +90,7 @@
                         <div id="common_chat_input" class="contentItable" contenteditable="true"
                              @input="changeText"
                              @keydown="inputContent_keydown"
+                             ref="common_chat_input"
                         ></div>
                     </div>
                     <div class="sendContRight">
@@ -106,7 +110,7 @@
 
 <script>
     import * as signalR from "@microsoft/signalr";
-    import common_chat_emoji from '../components/common/common_chat_emoji';
+    import Emotion from '../components/common/Emotion/index';
     let hubUrl = "http://192.168.0.130:6699/chatHub"; //服务器Hub的Url地址
     const signalrServicerConnection = new signalR.HubConnectionBuilder()
         .withUrl(hubUrl)
@@ -126,6 +130,7 @@
                 nowFaceImg: "",//当前正在聊天的用户头像
                 serverFaceImg: '',//当前客服头像
                 serverNickName: '',//当前客服昵称
+                content:"",
             };
         },
         mounted() {
@@ -255,7 +260,8 @@
                 var commandJson = {
                     command: "servicerConnection",
                     data: this.servicer
-                };
+                }
+
                 try {
                     var resp = signalrServicerConnection
                         .invoke("command", commandJson.command, JSON.stringify(commandJson))
@@ -388,11 +394,27 @@
                 }
             },
 
+            //表情
+            handleEmotion (i) {
+                // this.content += i
+                console.log(i);
+                this.emotion(i);
+            },
+            // 将匹配结果替换表情图片
+            emotion (res) {
+                let word = res.replace(/\#|\;/gi,'')
+                const list = ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷', '冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '糗大了', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '吓', '可怜', '菜刀', '西瓜', '啤酒', '篮球', '乒乓', '咖啡', '饭', '猪头', '玫瑰', '凋谢', '示爱', '爱心', '心碎', '蛋糕', '闪电', '炸弹', '刀', '足球', '瓢虫', '便便', '月亮', '太阳', '礼物', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', '差劲', '爱你', 'NO', 'OK', '爱情', '飞吻', '跳跳', '发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极']
+                let index = list.indexOf(word)
+                // return `<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`
+                console.log(`<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`);
+                this.$refs.common_chat_input.innerHTML+=`<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`;
+            },
+            emoji(){
+                this.$refs.emoji.showEmoji==true?this.$refs.emoji.showEmoji=false:this.$refs.emoji.showEmoji=true;
+            }
 
         },
-        components: {
-            common_chat_emoji
-        },
+        components: {Emotion},
     };
 </script>
 
@@ -748,6 +770,7 @@
         display: flex;
         padding: 10px;
         padding-bottom: 0;
+        position: relative;
     }
 
     .sendEmoji .item img {

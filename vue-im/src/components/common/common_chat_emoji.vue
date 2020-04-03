@@ -27,7 +27,6 @@ export default {
          */
         toggleFaceHidden: function() {
             this.$data.faceHidden = !this.$data.faceHidden;
-            console.log(this.$data);
             if (!this.$data.faceHidden) {
                 document.getElementById('imLog_qqemoji_txt').focus();
             }
