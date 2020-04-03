@@ -15,7 +15,7 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
 }
