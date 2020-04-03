@@ -390,6 +390,7 @@ export default {
          * 文件上传_点击
          */
         fileUpload_click: function(fileType) {
+            console.log(fileType);
             document.getElementById('common_chat_opr_fileUpload').onchange = this.fileUpload_change;
             document.getElementById('common_chat_opr_fileUpload').click();
         },
