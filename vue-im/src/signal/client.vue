@@ -67,6 +67,7 @@ export default {
         })
         .then(e => {
           signalrUserConnection.on("command", function(commandJson) {
+              console.log(commandJson);
             switch (commandJson.command) {
               case "servicerDistributeMessage":
                 _this.servicerDistribute(commandJson);

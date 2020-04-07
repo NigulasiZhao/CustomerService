@@ -43,7 +43,18 @@
                                 </li>
                             </ul>
                         </el-tab-pane>
-                        <el-tab-pane label="历史联系人">历史联系人</el-tab-pane>
+                        <el-tab-pane label="历史联系人">
+                            <ul class="peopleHostoryList" style="">
+                                <li
+                                    v-for="(item, index) in historyUsers.data"
+                                    v-bind:key="index"
+                                    :class="{usersel:currentUser&&currentUser.terminalId ==item.terminalId}"
+                                    v-on:click="userChangeHostory(index,item.CustomerId)"
+                                >
+                                    <div class="HostoryNickName"> <img :src="item.CustomerFaceImg" class="hostoryfaceImg"/>{{item.CustomerNickName}}</div>
+                                </li>
+                            </ul>
+                        </el-tab-pane>
                     </el-tabs>
                 </div>
             </div>
@@ -68,7 +79,9 @@
                              :class="{usertxtmsg:item.data.fromTerminal=='user',servicertxtmsg:item.data.fromTerminal=='servicer'}">
                             {{item.data.content}}
                         </div>
-                        <div v-if="item.command=='imageMessage'" class="servicerImagemsg">{{item.data.content}}</div>
+                        <div v-if="item.command=='imageMessage'"  :class="{usertxtmsg:item.data.fromTerminal=='user',servicertxtmsg:item.data.fromTerminal=='servicer'}">
+                            <img  v-for="(it,int) in item.data.content.split(',')" :src="it" alt="">
+                        </div>
                         <div v-if="item.command=='goodsCardMessage'" class="servicerCardmsg">{{item.data.content}}</div>
                         <div class="nomAlert"
                              v-if="item.command=='disConnectionMessage' && item.data.fromTerminal=='user'"
@@ -101,7 +114,32 @@
                     </div>
                 </div>
             </div>
-            <div v-else class="contRight" style="">
+            <div v-if="nowHistoryNickName!=''" class="contRight" style="">
+                <div class="contRightHeader">
+                    <div class="nowNickName">{{nowHistoryNickName}}</div>
+                    <div class="nowNickNameClose"><img src="../assets/digloClose.png" alt=""></div>
+                </div>
+                <ul class="messageListCont messageHistoryListCont" id="messageHistoryListCont">
+                    <li v-for="(item, index) in historyMsgList.data.reverse()" v-bind:key="index"
+                        :class="{leftMsg:item.SendSource==0,rightMsg:item.SendSource==1,centerMsg:item.SendSource==2}">
+                        <img
+                            v-if="item.SendSource==0||item.SendSource==1"
+                            :src="item.SendSource==0?item.CustomerFaceImg:item.ServiceFaceImg"
+                            alt=""
+                            :class="{HeaderImgLeft:item.SendSource==0,HeaderImgRight:item.SendSource==1}"
+                        >
+                        <div v-if="item.SendInfoType==0"
+                             :class="{usertxtmsg:item.SendSource==0,servicertxtmsg:item.SendSource==1}">
+                            {{item.SendContent}}
+                        </div>
+                        <div v-if="item.SendInfoType==1"  :class="{usertxtmsg:item.SendSource==0,servicertxtmsg:item.SendSource==1}">
+                            <img class="imageMsgStyle" :src=" item.SendContent" alt="">
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <div  v-if="!nullMsgState" class="contRight" style="">
                 <div class="nullMessage"><img src="../assets/null.png" alt=""></div>
             </div>
         </div>
@@ -131,6 +169,11 @@
                 serverFaceImg: '',//当前客服头像
                 serverNickName: '',//当前客服昵称
                 content:"",
+                imgMsg:'',//发送得图片消息
+                historyUsers:[],//历史用户消息
+                nowHistoryNickName:"",//历史消息当前用户
+                nullMsgState:false,//没有联系消息的时候状态
+                historyMsgList:"",//当前历史联系人的历史消息
             };
         },
         mounted() {
@@ -140,6 +183,7 @@
                 console.log("准备start");
                 signalrServicerConnection.start().then(e => {
                     signalrServicerConnection.on("command", function (commandJson) {
+                        console.log(commandJson);
                         switch (commandJson.command) {
                             case "userDistributeMessage":
                                 _this.userDistribute(commandJson);
@@ -157,10 +201,12 @@
                     });
                     _this.login();
                     // _this.serverConnection();
+                    _this.getHistoreUsers();
                 });
             } catch (err) {
                 console.error("连接客服服务器错误：" + err);
             }
+
         },
         methods: {
             GetQueryString(name) {
@@ -224,6 +270,7 @@
                             JSON.stringify(json)
                         ).then(e => {
                             var json = eval("(" + e + ")");
+                            console.log(json);
                             localStorage.setItem("servicerId", json.data.terminalId)
                             this.servicer.servicerId = json.data.terminalId;
                             this.serverConnection();
@@ -254,6 +301,37 @@
                 this.nowNickName = this.users[index].nickName;
                 this.nowFaceImg = this.users[index].faceImg;
                 console.log(this.nowFaceImg);
+                this.nullMsgState=true;
+                this.nowHistoryNickName="";
+            },
+            userChangeHostory(index,CustomerId){//历史联系人
+                let _this=this;
+                this.nowNickName="";
+                this.nowHistoryNickName = this.historyUsers.data[index].CustomerNickName;
+                this.nullMsgState=true;
+                let json = {
+                    command: "HistoryChatRecords",
+                    data: {
+                        CustomerId:CustomerId,
+                        ServiceId:localStorage.getItem('servicerId'),
+                        page: 1,
+                        rows: 100,
+                    }
+                };
+                try {
+                    signalrServicerConnection.invoke(
+                        "command",
+                        json.command,
+                        JSON.stringify(json)
+                    ).then(e=>{
+                        let jsonE = eval("(" + e + ")");
+                        console.log(jsonE);
+                        _this.historyMsgList=jsonE;
+                    });
+                } catch (err) {
+                    console.error("获取HistoryChatRecords消息错误：" + err);
+                }
+
             },
             //客服端上线
             serverConnection() {
@@ -314,11 +392,40 @@
             },
             sendTxtMsg() {
                 console.log(this.txtMsg);
-                if(this.txtMsg==""){
+                console.log(this.imgMsg);
+                if (this.imgMsg.length > 1&&this.imgMsg.substr(0,this.imgMsg.length-1)==',') {
+                    this.imgMsg = this.imgMsg.substr(0, this.imgMsg.length - 1);
+                }
+                if(this.imgMsg.substr(0,1)==','){
+                    this.imgMsg=this.imgMsg.substr(1);
+                }
+                this.imgMsg=this.imgMsg.replace(new RegExp(',+',"gm"),',');
+                console.log(this.imgMsg);
+                if(this.txtMsg==""&&this.imgMsg==""){//为空
                     this.$message.error('不能发送空白信息');
                     return;
-                }else{
-                    var json = {
+                }else if(this.txtMsg==""&&this.imgMsg!=""){//纯图片
+                    let jsonImg={
+                        command:'imageMessage',
+                        data: {
+                            userTerminalId: this.currentUser.terminalId,
+                            servicerTerminalId: this.servicer.terminalId,
+                            fromTerminal: "servicer",
+                            content: this.imgMsg
+                        }
+                    }
+                    this.currentUser.msgs.push(jsonImg);
+                    try {
+                        signalrServicerConnection.invoke(
+                            "command",
+                            jsonImg.command,
+                            JSON.stringify(jsonImg)
+                        );
+                    } catch (err) {
+                        console.error("发送图片消息错误：" + err);
+                    }
+                }else if(this.txtMsg!=""&&this.imgMsg==""){//纯文字
+                    let json = {
                         command: "textMessage",
                         data: {
                             userTerminalId: this.currentUser.terminalId,
@@ -328,7 +435,6 @@
                         }
                     };
                     this.currentUser.msgs.push(json);
-                    document.getElementById('common_chat_input').innerHTML = '';
                     try {
                         signalrServicerConnection.invoke(
                             "command",
@@ -338,9 +444,14 @@
                     } catch (err) {
                         console.error("发送文本消息错误：" + err);
                     }
-                    this.goEnd();//滚动条滚动到底部
-                    this.txtMsg="";
+                }else if(this.txtMsg!=""&&this.imgMsg!=""){
+                   this.sendImgAndTxt("textMessage",this.txtMsg);
+                   this.sendImgAndTxt("imageMessage",this.imgMsg);
+                    console.log(this.txtMsg);
                 }
+                document.getElementById('common_chat_input').innerHTML = '';
+                this.goEnd();//滚动条滚动到底部
+                this.txtMsg="";
             },
             initServicer(id) {
                 var servicerJson = JSON.parse(localStorage.getItem("servicer"));
@@ -358,7 +469,17 @@
                 document.title = "客服：" + servicerJson.nickName;
             },
             changeText(e) {
-                this.txtMsg = e.target.innerHTML;
+                let imgInnerHtml=e.target.childNodes;
+                let imgArray=[];
+                let that=this;
+                console.log(imgInnerHtml);
+                imgInnerHtml.forEach(function(element,i){
+                    console.log(element.src);
+                    imgArray.push(element.src)
+                });
+                that.imgMsg='';//先清空再加入
+                that.imgMsg=imgArray.join(",");//图片string
+                this.txtMsg = e.target.innerText;
             },
             //滚动条滚动到底部
             goEnd() {
@@ -402,16 +523,69 @@
             },
             // 将匹配结果替换表情图片
             emotion (res) {
-                let word = res.replace(/\#|\;/gi,'')
+                let word = res.replace(/\#|\;/gi,'');
                 const list = ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷', '冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '糗大了', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '吓', '可怜', '菜刀', '西瓜', '啤酒', '篮球', '乒乓', '咖啡', '饭', '猪头', '玫瑰', '凋谢', '示爱', '爱心', '心碎', '蛋糕', '闪电', '炸弹', '刀', '足球', '瓢虫', '便便', '月亮', '太阳', '礼物', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', '差劲', '爱你', 'NO', 'OK', '爱情', '飞吻', '跳跳', '发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极']
-                let index = list.indexOf(word)
-                // return `<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`
-                console.log(`<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`);
+                let index = list.indexOf(word);
+                let imgArray=[];
                 this.$refs.common_chat_input.innerHTML+=`<img src="https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif" align="middle">`;
+                this.$refs.common_chat_input.childNodes.forEach(function(element,i){
+                    imgArray.push(element.src);
+                })
+                this.imgMsg='';//先清空再加入
+                this.imgMsg=imgArray.join(",");
+                console.log(this.imgMsg);
             },
             emoji(){
                 this.$refs.emoji.showEmoji==true?this.$refs.emoji.showEmoji=false:this.$refs.emoji.showEmoji=true;
-            }
+            },
+            sendImgAndTxt(command,content){
+                let json = {
+                    command:command,
+                    data: {
+                        userTerminalId: this.currentUser.terminalId,
+                        servicerTerminalId: this.servicer.terminalId,
+                        fromTerminal: "servicer",
+                        content:content
+                    }
+                };
+                console.log(json);
+                this.currentUser.msgs.push(json);
+                console.log( this.currentUser.msgs);
+                try {
+                    signalrServicerConnection.invoke(
+                        "command",
+                        json.command,
+                        JSON.stringify(json)
+                    );
+                } catch (err) {
+                    console.error("发送文本消息错误：" + err);
+                }
+            },//但图片和文字同时发送时候
+            getHistoreUsers(){//获取历史客户list
+                let _this=this;
+                let json = {
+                    command: "HistoryChatRecordsList",
+                    data: {
+                        ServiceId:localStorage.getItem('servicerId'),
+                        page: 1,
+                        rows: 100,
+                    }
+                };
+                try {
+                    signalrServicerConnection.invoke(
+                        "command",
+                        json.command,
+                        JSON.stringify(json)
+                   ).then(e=>{
+                        let jsonE = eval("(" + e + ")");
+                        console.log(jsonE);
+                        _this.historyUsers=jsonE;
+                    });
+                } catch (err) {
+                    console.error("获取HistoryChatRecordsList消息错误：" + err);
+                }
+
+            },
 
         },
         components: {Emotion},
@@ -586,6 +760,8 @@
 
     .tabs {
         margin: 15px 0px;
+        height: 725px;
+        overflow-y: scroll;
     }
 
     .tabs_card {
@@ -828,12 +1004,49 @@
     .messageListCont::-webkit-scrollbar {
         width: 0 !important
     }
+    .tabs::-webkit-scrollbar {
+        width: 0 !important
+    }
 
-    .messageListCont {
+    .messageListCont,.tabs {
         -ms-overflow-style: none;
     }
 
-    .messageListCont {
+    .messageListCont,.tabs {
         overflow: -moz-scrollbars-none;
     }
+    .peopleHostoryList li{
+        height: 48px;
+        line-height: 48px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .hostoryfaceImg{
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        margin-left: 16px;
+        margin-right: 16px;
+        vertical-align: -8px;
+    }
+    .HostoryNickName{
+        color: #fff;
+        font-size: 14px;
+    }
+    .peopleHostoryList li:hover {
+        background: #283847;
+    }
+    .centerMsg{
+        text-align: center;
+        font-size: 14px;
+        color: #666666;
+        margin-top: 12px;
+        margin-bottom: 10px;
+    }
+    .imageMsgStyle{
+        width: 119px;
+    }
+    .messageHistoryListCont{
+        height: 818px;
+    }
+
 </style>
