@@ -54,6 +54,7 @@ export default {
         position: absolute;
         top: -201px;
         width: 300px;
+        background-color: #fff;
     }
   .emotion-box {
     margin: 0 auto;

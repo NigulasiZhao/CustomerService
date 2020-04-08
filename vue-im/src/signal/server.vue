@@ -98,6 +98,9 @@
                             </div>
                             <div class="item" @click="fileUpload_click('file')">
                                 <img src="../assets/fileImg.png" alt="">
+                                <form method="post" enctype="multipart/form-data" class="formFile">
+                                    <input type="file" name="uploadFile" id="common_chat_opr_fileUpload" style="display:none;position:absolute;left:0;top:0;width:0%;height:0%;opacity:0;">
+                                </form>
                             </div>
                         </div>
                         <div id="common_chat_input" class="contentItable" contenteditable="true"
@@ -120,7 +123,7 @@
                     <div class="nowNickNameClose"><img src="../assets/digloClose.png" alt=""></div>
                 </div>
                 <ul class="messageListCont messageHistoryListCont" id="messageHistoryListCont">
-                    <li v-for="(item, index) in historyMsgList.data.reverse()" v-bind:key="index"
+                    <li v-for="(item, index) in historyMsgList" v-bind:key="index"
                         :class="{leftMsg:item.SendSource==0,rightMsg:item.SendSource==1,centerMsg:item.SendSource==2}">
                         <img
                             v-if="item.SendSource==0||item.SendSource==1"
@@ -149,6 +152,7 @@
 <script>
     import * as signalR from "@microsoft/signalr";
     import Emotion from '../components/common/Emotion/index';
+    import $ from "jquery";
     let hubUrl = "http://192.168.0.130:6699/chatHub"; //服务器Hub的Url地址
     const signalrServicerConnection = new signalR.HubConnectionBuilder()
         .withUrl(hubUrl)
@@ -326,7 +330,7 @@
                     ).then(e=>{
                         let jsonE = eval("(" + e + ")");
                         console.log(jsonE);
-                        _this.historyMsgList=jsonE;
+                        _this.historyMsgList=jsonE.data.reverse();
                     });
                 } catch (err) {
                     console.error("获取HistoryChatRecords消息错误：" + err);
@@ -392,7 +396,11 @@
             },
             sendTxtMsg() {
                 console.log(this.txtMsg);
-                console.log(this.imgMsg);
+                console.log(this.$refs.common_chat_input.innerHTML);
+                if(this.$refs.common_chat_input.innerHTML==""){
+                    this.$message.error('不能发送空白信息');
+                    return;
+                }
                 if (this.imgMsg.length > 1&&this.imgMsg.substr(0,this.imgMsg.length-1)==',') {
                     this.imgMsg = this.imgMsg.substr(0, this.imgMsg.length - 1);
                 }
@@ -401,10 +409,11 @@
                 }
                 this.imgMsg=this.imgMsg.replace(new RegExp(',+',"gm"),',');
                 console.log(this.imgMsg);
-                if(this.txtMsg==""&&this.imgMsg==""){//为空
-                    this.$message.error('不能发送空白信息');
-                    return;
-                }else if(this.txtMsg==""&&this.imgMsg!=""){//纯图片
+                // if(this.txtMsg==""&&this.imgMsg==""){//为空
+                //     this.$message.error('不能发送空白信息');
+                //     return;
+                // } else
+                    if(this.txtMsg==""&&this.imgMsg!=""){//纯图片
                     let jsonImg={
                         command:'imageMessage',
                         data: {
@@ -586,6 +595,69 @@
                 }
 
             },
+            //文件点击上传
+            fileUpload_click: function(fileType) {
+                console.log(fileType);
+                document.getElementById('common_chat_opr_fileUpload').onchange = this.fileUpload_change;
+                document.getElementById('common_chat_opr_fileUpload').click();
+            },
+            /**
+             * 文件上传_选中文件
+             */
+            fileUpload_change: function(e) {
+                let _this=this;
+                let fileNameIndex = document.getElementById('common_chat_opr_fileUpload').value.lastIndexOf('\\') + 1;
+                let fileName = document.getElementById('common_chat_opr_fileUpload').value.substr(fileNameIndex);
+                let extend = fileName.substring(fileName.lastIndexOf('.') + 1);
+                // 1.判断有效
+                // 1)大小
+                if (document.getElementById('common_chat_opr_fileUpload').files[0].size >= 204800) {
+                    this.$message.error('文件大小超过限制', 'error');
+                    document.getElementById('common_chat_opr_fileUpload').value = '';
+                    return false;
+                }
+
+                // 2.文件上传
+                let formData = new FormData();
+                formData.append('uploadFile', document.getElementById('common_chat_opr_fileUpload').files[0]);
+                $.ajax({
+                    url: "http://xdxbhimg.afarsoft.com/upload/image",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        console.log(data);
+                        if (data) {
+                            let oData = JSON.parse(data);
+                            console.log(oData.url);
+                            let jsonImg={
+                                command:'imageMessage',
+                                data: {
+                                    userTerminalId: _this.currentUser.terminalId,
+                                    servicerTerminalId: _this.servicer.terminalId,
+                                    fromTerminal: "servicer",
+                                    content: oData.url
+                                }
+                            }
+                            _this.currentUser.msgs.push(jsonImg);
+                            try {
+                                signalrServicerConnection.invoke(
+                                    "command",
+                                    jsonImg.command,
+                                    JSON.stringify(jsonImg)
+                                );
+                            } catch (err) {
+                                console.error("发送图片消息错误：" + err);
+                            }
+                            _this.goEnd();
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+            },
 
         },
         components: {Emotion},
@@ -629,7 +701,9 @@
         text-align: left;
         line-height: 20px;
     }
-
+    .servicertxtmsg img{
+        width: 100%;
+    }
     .servicertxtmsg:before {
         position: absolute;
         top: 10px;
@@ -1048,5 +1122,11 @@
     .messageHistoryListCont{
         height: 818px;
     }
-
+    .formFile{
+        width: 23px;
+        height: 17px;
+        position: absolute;
+        top: 14px;
+        cursor: pointer;
+    }
 </style>
