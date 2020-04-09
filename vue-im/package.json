@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@microsoft/signalr": "^3.1.2",
+        "jquery": "^3.4.1",
         "karma-chai": "^0.1.0",
         "vue": "^2.5.2",
         "vue-router": "^3.0.1"

@@ -76,7 +76,7 @@ var http = {
      */
     uploadFile: function(opts) {
         axiosInstance
-            .post('/upload', opts.params, {
+            .post('/upload/image', opts.params, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

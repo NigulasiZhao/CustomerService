@@ -15,7 +15,10 @@ return
 	code:0,
 	msg:"",
 	data:{
-		terminalId:""
+		terminalId:"",
+		serverConfig:{
+			imageServer:""
+		}
 	}
 }
 
@@ -36,7 +39,10 @@ return
 	code:0,
 	msg:"",
 	data:{
-		terminalId:""
+		terminalId:"",
+		serverServer:{
+			imageServer:""
+		}
 	}
 }
 
@@ -72,6 +78,9 @@ return
 		}
 	}
 }
+[
+{},{}
+]
 
 {
 	command:"textMessage",
