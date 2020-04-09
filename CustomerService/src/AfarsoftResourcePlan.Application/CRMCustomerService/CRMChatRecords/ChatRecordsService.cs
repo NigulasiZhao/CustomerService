@@ -105,7 +105,9 @@ namespace AfarsoftResourcePlan.CRMCustomerService.CRMChatRecords
         {
             BaseDataOutput<List<HistoryChatRecordsListOutput>> output = new BaseDataOutput<List<HistoryChatRecordsListOutput>>();
             var list = _serviceRecords.GetAll()
-                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.ServiceId), e => e.ServiceId == historyChatRecordsInput.ServiceId);
+                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.ServiceId), e => e.ServiceId == historyChatRecordsInput.ServiceId)
+                .WhereIf(!string.IsNullOrEmpty(historyChatRecordsInput.SearchText), e => e.CustomerNickName.Contains(historyChatRecordsInput.SearchText))
+                .WhereIf(historyChatRecordsInput.LoginState != null, e => e.CustomerState == historyChatRecordsInput.LoginState);
 
             var CustomerList = _customerConnectRecords.GetAll();
             var AllotQuery = from item in (
